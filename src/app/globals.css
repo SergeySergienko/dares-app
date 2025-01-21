@@ -14,8 +14,38 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    @apply bg-slate-100 min-h-screen flex flex-col justify-between;
+  }
+  header {
+    @apply bg-white shadow-md;
+  }
+  nav {
+    @apply p-3 max-w-screen-lg mx-auto flex items-center justify-between *:space-x-6 *:flex *:items-center;
+  }
+  main {
+    @apply grow flex flex-col justify-center items-center;
+  }
+  footer {
+    @apply w-full mx-auto bg-slate-800 text-slate-300 text-xs py-6 px-16 flex items-center justify-center *:space-x-6 *:flex *:items-center;
+  }
+}
+
+@layer components {
+  .report {
+    @apply flex flex-col gap-y-2 p-3 max-w-screen-lg mx-auto;
+  }
+  .field {
+    @apply flex justify-between border-b-[1px];
+  }
+  .field-value {
+    @apply font-semibold italic;
+  }
+  .title {
+    @apply mb-4 text-center text-3xl font-bold leading-9 text-slate-800;
+  }
+  .title-2 {
+    @apply mb-1 text-center text-lg font-semibold leading-7 bg-gray-800 text-yellow-200;
+  }
 }
