@@ -13,7 +13,6 @@ export default function Navigation() {
       />
       <div className='flex flex-col'>
         <div className='text-2xl font-bold'>DARES</div>
-        <p>Trust the Professionals</p>
       </div>
       <div>
         <NavLink label='Home' href='/' />

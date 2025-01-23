@@ -1,24 +1,22 @@
-import NavLink from '@/components/NavLink';
+import { TankTable } from '@/components/TankTable';
 
-export default function HomePage() {
+const API_URL = process.env.API_URL;
+
+export default async function HomePage() {
+  const elevenMonthsAgo = new Date();
+  elevenMonthsAgo.setMonth(new Date().getMonth() - 11);
+  const endLastInspectionDate = elevenMonthsAgo.toISOString();
+
+  const data = await fetch(
+    // `${API_URL}/tanks`
+    `${API_URL}/tanks?endLastInspectionDate=${encodeURIComponent(
+      endLastInspectionDate
+    )}`
+  );
+  const tanks = await data.json();
   return (
     <section>
-      {/* <p className='mb-2 text-lg'>
-        Web application for accounting and maintenance of diving equipment.
-      </p>
-      <p className='text-lg'>Created using NextJS and Tailwind CSS</p> */}
-      <label htmlFor='internalNumber'>Internal tank number</label>
-      <div>
-        <input
-          id='internalNumber'
-          type='number'
-          name='internalNumber'
-          placeholder='Tank number'
-        />
-        <button>
-          <NavLink label='Report' href='/report' />
-        </button>
-      </div>
+      <TankTable data={tanks} />
     </section>
   );
 }
