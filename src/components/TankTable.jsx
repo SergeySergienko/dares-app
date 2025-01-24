@@ -8,47 +8,53 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export const RequiredHydrotestTanks = ({ data }) => {
-  const tanksWithNextDeadline = data.map((tank) => ({
+export const TankTable = ({
+  data,
+  title,
+  lastDateKey,
+  deadlineYears,
+  deadlineLabel,
+}) => {
+  const tanksWithDeadlines = data.map((tank) => ({
     ...tank,
-    nextHydrotestDeadline: new Date(tank.lastHydrotestDate).setFullYear(
-      new Date(tank.lastHydrotestDate).getFullYear() + 5
+    deadline: new Date(tank[lastDateKey]).setFullYear(
+      new Date(tank[lastDateKey]).getFullYear() + deadlineYears
     ),
   }));
 
   return (
     <>
-      <h2 className='title'>List of tanks required for Hydro Testing</h2>
+      <h2 className='title'>{title}</h2>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Internal Number</TableHead>
             <TableHead>Serial Number</TableHead>
-            <TableHead>Last Hydro Test Date</TableHead>
-            <TableHead>Next Hydro Test Deadline</TableHead>
+            <TableHead>{lastDateKey.replace(/([A-Z])/g, ' $1')}</TableHead>
+            <TableHead>{deadlineLabel}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {tanksWithNextDeadline.map(
+          {tanksWithDeadlines.map(
             ({
               id,
               internalNumber,
               serialNumber,
-              lastHydrotestDate,
-              nextHydrotestDeadline,
+              [lastDateKey]: lastDate,
+              deadline,
             }) => (
               <TableRow key={id} className='text-center'>
                 <TableCell>{internalNumber}</TableCell>
                 <TableCell>{serialNumber}</TableCell>
                 <TableCell className='text-right'>
-                  {new Date(lastHydrotestDate).toLocaleDateString('uk')}
+                  {new Date(lastDate).toLocaleDateString('uk')}
                 </TableCell>
                 <TableCell
                   className={`${
-                    nextHydrotestDeadline < Date.now() ? 'text-red-500' : ''
+                    deadline < Date.now() ? 'text-red-500' : ''
                   } text-right`}
                 >
-                  {new Date(nextHydrotestDeadline).toLocaleDateString('uk')}
+                  {new Date(deadline).toLocaleDateString('uk')}
                 </TableCell>
               </TableRow>
             )
