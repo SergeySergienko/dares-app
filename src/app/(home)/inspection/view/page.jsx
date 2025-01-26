@@ -1,6 +1,8 @@
 import { get } from '@/actions/inspection';
 import { InspectionTable } from '@/components/InspectionTable';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ViewInspectionPage() {
   const inspections = await get();
   return (
