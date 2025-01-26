@@ -1,8 +1,13 @@
 'use server';
 
-import { createInspection } from '@/app/api/inspection-api';
+import { createInspection, getInspectionList } from '@/app/api/inspection-api';
 import { fetchTankByInternalNumber } from '@/app/api/tanks-api';
 import { deepSet } from '@/lib/utils';
+import { redirect } from 'next/navigation';
+
+export async function get() {
+  return await getInspectionList();
+}
 
 export async function create(state, formData) {
   const data = {};
@@ -18,13 +23,13 @@ export async function create(state, formData) {
     }
   }
 
-  const tank = await fetchTankByInternalNumber(data.internalNumber);
+  const tank = await fetchTankByInternalNumber(data.tankNumber);
   if (!tank) {
-    throw new Error(
-      `Tank with internal number ${data.internalNumber} not found`
-    );
+    throw new Error(`Tank with internal number ${data.tankNumber} not found`);
   }
-  delete data.internalNumber;
   data.tankId = tank.id;
   const inspection = await createInspection(data);
+  if (inspection?.id) {
+    redirect('/inspection/view');
+  }
 }

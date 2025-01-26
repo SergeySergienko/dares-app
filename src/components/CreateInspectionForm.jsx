@@ -101,11 +101,11 @@ export const CreateInspectionForm = () => {
     <form action={action} className='space-y-4'>
       <div className='grid grid-cols-2 gap-4'>
         <div>
-          <Label htmlFor='internalNumber'>Internal tank number</Label>
+          <Label htmlFor='tankNumber'>Internal tank number</Label>
           <Input
             type='number'
-            id='internalNumber'
-            name='internalNumber'
+            id='tankNumber'
+            name='tankNumber'
             min='1'
             required
           />

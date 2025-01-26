@@ -1,5 +1,4 @@
 import { CreateInspectionForm } from '@/components/CreateInspectionForm';
-import React from 'react';
 
 export default function CreateInspectionPage() {
   return (
