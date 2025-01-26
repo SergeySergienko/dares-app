@@ -1,4 +1,4 @@
-import { fetchTanksByHydrotestDate } from '@/app//api/tanks';
+import { fetchTanksByHydrotestDate } from '@/app/api/tanks-api';
 import { TankTable } from '@/components/TankTable';
 
 export default async function HydrotestSection({ monthsAgo = 57 }) {
@@ -11,6 +11,7 @@ export default async function HydrotestSection({ monthsAgo = 57 }) {
         title='List of tanks required for Hydro Testing'
         lastDateKey='lastHydrotestDate'
         deadlineYears={5}
+        lastDateLabel='Last Hydro Test Date'
         deadlineLabel='Next Hydro Test Deadline'
       />
     </section>

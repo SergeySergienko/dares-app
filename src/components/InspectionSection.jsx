@@ -1,4 +1,4 @@
-import { fetchTanksByInspectionDate } from '@/app/api/tanks';
+import { fetchTanksByInspectionDate } from '@/app/api/tanks-api';
 import { TankTable } from '@/components/TankTable';
 
 export default async function InspectionSection({ monthsAgo = 11 }) {
@@ -11,6 +11,7 @@ export default async function InspectionSection({ monthsAgo = 11 }) {
         title='List of tanks required for Visual Inspection'
         lastDateKey='lastInspectionDate'
         deadlineYears={1}
+        lastDateLabel='Last Inspection Date'
         deadlineLabel='Next Inspection Deadline'
       />
     </section>

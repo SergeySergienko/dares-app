@@ -13,6 +13,7 @@ export const TankTable = ({
   title,
   lastDateKey,
   deadlineYears,
+  lastDateLabel,
   deadlineLabel,
 }) => {
   const tanksWithDeadlines = data.map((tank) => ({
@@ -30,7 +31,7 @@ export const TankTable = ({
           <TableRow>
             <TableHead>Internal Number</TableHead>
             <TableHead>Serial Number</TableHead>
-            <TableHead>{lastDateKey.replace(/([A-Z])/g, ' $1')}</TableHead>
+            <TableHead>{lastDateLabel}</TableHead>
             <TableHead>{deadlineLabel}</TableHead>
           </TableRow>
         </TableHeader>
@@ -46,13 +47,11 @@ export const TankTable = ({
               <TableRow key={id} className='text-center'>
                 <TableCell>{internalNumber}</TableCell>
                 <TableCell>{serialNumber}</TableCell>
-                <TableCell className='text-right'>
+                <TableCell>
                   {new Date(lastDate).toLocaleDateString('uk')}
                 </TableCell>
                 <TableCell
-                  className={`${
-                    deadline < Date.now() ? 'text-red-500' : ''
-                  } text-right`}
+                  className={`${deadline < Date.now() ? 'text-red-500' : ''}`}
                 >
                   {new Date(deadline).toLocaleDateString('uk')}
                 </TableCell>

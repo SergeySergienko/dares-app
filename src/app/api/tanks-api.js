@@ -25,3 +25,12 @@ export const fetchTanksByHydrotestDate = async (monthsAgo, limit = 0) => {
 
   return response.json();
 };
+
+export const fetchTankByInternalNumber = async (internalNumber) => {
+  const response = await fetch(
+    `${API_URL}/tanks?internalNumber=${internalNumber}`
+  );
+  const [tank] = await response.json();
+
+  return tank;
+};
