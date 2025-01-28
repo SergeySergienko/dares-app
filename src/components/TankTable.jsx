@@ -30,9 +30,16 @@ export const TankTable = ({
         <TableHeader>
           <TableRow>
             <TableHead>Internal Number</TableHead>
-            <TableHead>Serial Number</TableHead>
-            <TableHead>{lastDateLabel}</TableHead>
+            <TableHead className='hidden xs:table-cell'>
+              Serial Number
+            </TableHead>
+            <TableHead className='hidden xs:table-cell'>
+              {lastDateLabel}
+            </TableHead>
             <TableHead>{deadlineLabel}</TableHead>
+            <TableHead>Volume</TableHead>
+            <TableHead>Valve</TableHead>
+            <TableHead>Filling Type</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -43,11 +50,16 @@ export const TankTable = ({
               serialNumber,
               [lastDateKey]: lastDate,
               deadline,
+              volume,
+              valve,
+              fillingType,
             }) => (
               <TableRow key={id} className='text-center'>
                 <TableCell>{internalNumber}</TableCell>
-                <TableCell>{serialNumber}</TableCell>
-                <TableCell>
+                <TableCell className='hidden xs:table-cell'>
+                  {serialNumber}
+                </TableCell>
+                <TableCell className='hidden xs:table-cell'>
                   {new Date(lastDate).toLocaleDateString('uk')}
                 </TableCell>
                 <TableCell
@@ -55,13 +67,16 @@ export const TankTable = ({
                 >
                   {new Date(deadline).toLocaleDateString('uk')}
                 </TableCell>
+                <TableCell>{volume}</TableCell>
+                <TableCell>{valve}</TableCell>
+                <TableCell>{fillingType}</TableCell>
               </TableRow>
             )
           )}
         </TableBody>
         <TableFooter>
           <TableRow>
-            <TableCell className='text-right' colSpan={3}>
+            <TableCell className='text-right' colSpan={6}>
               Total:
             </TableCell>
             <TableCell className='text-right'>{data.length}</TableCell>

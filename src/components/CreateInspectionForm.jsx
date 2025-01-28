@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState, useState } from 'react';
-import { create } from '@/actions/inspection';
+import { createInspection } from '@/actions/inspection';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -94,8 +94,20 @@ const valveRadioFields = [
 ];
 
 export const CreateInspectionForm = () => {
-  const [state, action, isPending] = useActionState(create, undefined);
+  const [state, action, isPending] = useActionState(
+    createInspection,
+    undefined
+  );
   const [open, setOpen] = useState('');
+  const [pciNumber, setPciNumber] = useState('35823');
+
+  const handleInspectorChange = (name) => {
+    if (name === 'Deripalov Andrii') {
+      setPciNumber('35823');
+    } else if (name === 'Shai Karny') {
+      setPciNumber('U29418');
+    }
+  };
 
   return (
     <form action={action} className='space-y-4'>
@@ -116,7 +128,7 @@ export const CreateInspectionForm = () => {
             type='date'
             id='date'
             name='date'
-            defaultValue={new Date().toISOString().split('T')[0]}
+            // defaultValue={new Date().toISOString().split('T')[0]}
             required
           />
         </div>
@@ -168,6 +180,26 @@ export const CreateInspectionForm = () => {
           </RadioGroup>
         </div>
       </div>
+      <div>
+        <Label htmlFor='inspector.name'>Inspector's name</Label>
+        <RadioGroup
+          id='inspector.name'
+          name='inspector.name'
+          defaultValue='Deripalov Andrii'
+          className='flex space-x-12'
+          onValueChange={handleInspectorChange}
+        >
+          <div className='flex items-center space-x-2'>
+            <RadioGroupItem value='Deripalov Andrii' id='deripalov' />
+            <Label htmlFor='deripalov'>Deripalov Andrii</Label>
+          </div>
+          <div className='flex items-center space-x-2'>
+            <RadioGroupItem value='Shai Karny' id='shai' />
+            <Label htmlFor='shai'>Shai Karny</Label>
+          </div>
+        </RadioGroup>
+      </div>
+      <Input type='hidden' name='inspector.pciNumber' value={pciNumber} />
 
       <Accordion type='single' value={open} onValueChange={setOpen} collapsible>
         <AccordionItem value='Condemn'>
