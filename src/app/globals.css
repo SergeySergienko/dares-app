@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  * {
+    @apply border-border;
+  }
   body {
-    @apply min-h-screen flex flex-col justify-between;
+    @apply bg-background text-foreground;
   }
   header {
     @apply bg-white shadow-md;
@@ -170,14 +173,5 @@
   }
   .section-title {
     @apply font-bold text-base;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

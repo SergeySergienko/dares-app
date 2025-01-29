@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 
 export default function HomePage() {
   return (
-    <div className='min-h-screen flex flex-col justify-center items-center mx-auto space-y-8'>
+    <div className='h-full flex flex-col justify-center items-center mx-auto pb-16 space-y-8'>
       <div className='w-full flex justify-between items-end gap-4'>
         <Label htmlFor='tankNumber' className='text-2xl xs:text-3xl'>
           Tank Number
