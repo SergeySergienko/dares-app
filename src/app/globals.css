@@ -169,7 +169,7 @@
     @apply my-2 text-center text-lg xs:text-3xl font-bold leading-5 md:leading-9 text-slate-800;
   }
   .title-2 {
-    @apply mb-1 text-center text-lg font-semibold leading-7 bg-gray-800 text-yellow-200;
+    @apply text-center text-lg font-semibold leading-7 bg-gray-800 text-yellow-200;
   }
   .section-title {
     @apply font-bold text-base;

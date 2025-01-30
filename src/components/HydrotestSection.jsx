@@ -1,4 +1,4 @@
-import { fetchTanksByHydrotestDate } from '@/app/api/tanks-api';
+import { fetchTanksByHydrotestDate } from '@/app/api/tank-api';
 import { TankTable } from '@/components/TankTable';
 
 export default async function HydrotestSection({ monthsAgo = 57 }) {

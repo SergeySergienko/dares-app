@@ -1,7 +1,7 @@
 'use server';
 
 import { inspectionApi } from '@/app/api/inspection-api';
-import { fetchTankByInternalNumber } from '@/app/api/tanks-api';
+import { fetchTankByInternalNumber } from '@/app/api/tank-api';
 import { deepSet } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 

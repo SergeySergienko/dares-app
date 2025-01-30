@@ -1,5 +1,12 @@
 const API_URL = process.env.API_URL;
 
+export const tankApi = {
+  getTankList: async (limit = 0) => {
+    const response = await fetch(`${API_URL}/tanks?limit=${limit}`);
+    return response.json();
+  },
+};
+
 export const fetchTanksByInspectionDate = async (monthsAgo, limit = 0) => {
   const date = new Date();
   date.setMonth(date.getMonth() - monthsAgo);

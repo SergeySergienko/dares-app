@@ -9,6 +9,7 @@ export const dynamic = 'force-dynamic';
 export default async function Report({ params }) {
   const { tankNumber } = await params;
   const i = await getInspectionByTankNumber(tankNumber);
+  if (!i.id) throw new Error(i.message);
 
   return (
     <div className='report'>

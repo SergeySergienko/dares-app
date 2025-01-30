@@ -11,6 +11,8 @@ import {
   LogOut,
   User,
   UserPlus,
+  Folders,
+  FileText,
 } from 'lucide-react';
 
 import {
@@ -105,6 +107,7 @@ export function AppSidebar() {
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
         <Collapsible className='group/collapsible'>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
@@ -140,6 +143,35 @@ export function AppSidebar() {
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
+        <Collapsible className='group/collapsible'>
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <span className='flex items-center space-x-2 text-primary'>
+                  <Folders />
+                  <span className='text-lg'>Reports</span>
+                </span>
+                <ChevronDown className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent className='ml-4 font-semibold text-primary'>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <a href='/reports/tanks/required'>
+                        <FileText />
+                        <span>Required for Visual Inspection</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
