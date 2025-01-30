@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
         <SidebarProvider defaultOpen={false}>
           <AppSidebar />
           <main>
-            <SidebarTrigger className='mr-auto items-end pl-2 [&_svg]:size-5' />
+            <SidebarTrigger className='mr-auto items-end pl-2 [&_svg]:size-5 print:hidden' />
             {children}
           </main>
         </SidebarProvider>

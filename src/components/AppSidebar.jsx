@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import {
   ChevronDown,
   ChevronUp,
@@ -30,7 +31,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from './ui/collapsible';
-import Image from 'next/image';
+import logo from '/public/logo.png';
 
 const items = [
   {
@@ -54,13 +55,7 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className='flex flex-row items-center bg-white'>
-        <Image
-          src='/logo.png'
-          alt='logo'
-          width={40}
-          height={40}
-          priority={true}
-        />
+        <Image src={logo} alt='logo' />
         <div className='flex flex-col'>
           <span className='font-bold'>DARES</span>
           <span className='text-xs'>v0.1.0</span>

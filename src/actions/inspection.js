@@ -9,6 +9,10 @@ export async function getInspectionList() {
   return await inspectionApi.getInspectionList();
 }
 
+export async function getInspectionByTankNumber(tankNumber) {
+  return await inspectionApi.getInspectionByTankNumber(tankNumber);
+}
+
 export async function createInspection(state, formData) {
   const data = {};
   for (const [key, value] of formData.entries()) {
@@ -30,6 +34,6 @@ export async function createInspection(state, formData) {
   data.tankId = tank.id;
   const inspection = await inspectionApi.createInspection(data);
   if (inspection?.id) {
-    redirect('/inspection/view');
+    redirect('/inspections');
   }
 }

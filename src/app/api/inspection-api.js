@@ -5,6 +5,12 @@ export const inspectionApi = {
     const response = await fetch(`${API_URL}/inspection?limit=${limit}`);
     return response.json();
   },
+  getInspectionByTankNumber: async (tankNumber) => {
+    const response = await fetch(
+      `${API_URL}/inspection/byTankNumber/${tankNumber}`
+    );
+    return response.json();
+  },
   createInspection: async (inspectionData) => {
     const response = await fetch(`${API_URL}/inspection`, {
       method: 'POST',
