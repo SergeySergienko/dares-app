@@ -1,7 +1,7 @@
 const API_URL = process.env.API_URL;
 
 export const inspectionApi = {
-  getInspectionList: async (limit = 0) => {
+  getInspectionsList: async (limit = 0) => {
     const response = await fetch(`${API_URL}/inspection?limit=${limit}`);
     return response.json();
   },

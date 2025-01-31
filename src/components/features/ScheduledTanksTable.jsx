@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export const TankTable = ({
+export const ScheduledTanksTable = ({
   data,
   title,
   lastDateKey,

@@ -1,4 +1,4 @@
-import { CreateInspectionForm } from '@/components/CreateInspectionForm';
+import { CreateInspectionForm } from '@/components/features/CreateInspectionForm';
 
 export default function CreateInspectionPage() {
   return (

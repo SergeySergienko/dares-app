@@ -6,7 +6,7 @@ const assignValue = (value) => (value ? 'YES' : 'NO');
 
 export const dynamic = 'force-dynamic';
 
-export default async function Report({ params }) {
+export default async function InspectionReport({ params }) {
   const { tankNumber } = await params;
   const i = await getInspectionByTankNumber(tankNumber);
   if (!i.id) throw new Error(i.message);
@@ -198,7 +198,7 @@ export default async function Report({ params }) {
             <div className='field'>
               <span>0-ring replaced:</span>
               <span className='field-value'>
-                {i.valve?.oRingReplaced ? 'NO' : 'YES'}
+                {i.valve?.oRingReplaced === false ? 'NO' : 'YES'}
               </span>
             </div>
             <div className='field'>

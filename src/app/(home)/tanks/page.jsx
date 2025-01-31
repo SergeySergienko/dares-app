@@ -1,9 +1,9 @@
-import { getTankList } from '@/actions/tank';
-import { TankListTable } from '@/components/TankListTable';
+import { getTanksList } from '@/actions/tank';
+import { TanksTable } from '@/components/features/TanksTable';
 import { formatToHeader } from '@/lib/utils';
 
-export default async function TankList() {
-  const tanks = await getTankList();
+export default async function TanksPage() {
+  const tanks = await getTanksList();
 
   const {
     id,
@@ -53,7 +53,7 @@ export default async function TankList() {
 
   return (
     <div className='w-11/12'>
-      <TankListTable headers={headers} rows={rows} title='List of tanks' />
+      <TanksTable headers={headers} rows={rows} title='List of tanks' />
     </div>
   );
 }

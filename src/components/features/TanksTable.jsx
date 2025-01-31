@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export const TankListTable = ({ headers, rows, title }) => {
+export const TanksTable = ({ headers, rows, title }) => {
   return (
     <>
       <h2 className='title'>{title}</h2>

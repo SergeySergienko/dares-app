@@ -5,8 +5,8 @@ import { fetchTankByInternalNumber } from '@/app/api/tank-api';
 import { deepSet } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 
-export async function getInspectionList() {
-  return await inspectionApi.getInspectionList();
+export async function getInspectionsList() {
+  return await inspectionApi.getInspectionsList();
 }
 
 export async function getInspectionByTankNumber(tankNumber) {

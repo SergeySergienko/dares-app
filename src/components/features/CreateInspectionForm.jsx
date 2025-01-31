@@ -12,8 +12,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { RadioField } from './RadioField';
-import { TextareaField } from './TextareaField';
+import { RadioField } from '../composites/RadioField';
+import { TextareaField } from '../composites/TextareaField';
 
 const externalRadioFields = [
   {

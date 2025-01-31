@@ -32,10 +32,10 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './ui/collapsible';
+} from '../ui/collapsible';
 import logo from '/public/logo.png';
 
-const items = [
+const profileItems = [
   {
     title: 'Register',
     url: '#',
@@ -72,6 +72,7 @@ export function AppSidebar() {
           <House />
           <span className='text-lg font-semibold text-primary'>Home</span>
         </a>
+        {/* ------------------------------------------------------------------------------------------------- */}
         <Collapsible className='group/collapsible'>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
@@ -160,9 +161,9 @@ export function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/reports/tanks/required'>
+                      <a href='/reports/tanks/scheduled'>
                         <FileText />
-                        <span>Required for Visual Inspection</span>
+                        <span>Scheduled Tanks</span>
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -189,7 +190,7 @@ export function AppSidebar() {
             <CollapsibleContent className='ml-4 font-semibold text-primary'>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {items.map((item) => (
+                  {profileItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
                         <a href={item.url}>

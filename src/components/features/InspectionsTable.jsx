@@ -8,7 +8,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-export const InspectionTable = ({ data }) => {
+export const InspectionsTable = ({ data }) => {
   return (
     <Table>
       <TableHeader>
