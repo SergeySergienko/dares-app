@@ -33,7 +33,7 @@ export const columns = [
   },
   {
     accessorKey: 'manufacturer',
-    header: sortifyHeader('Manufacturer'),
+    header: 'Manufacturer',
   },
   {
     accessorKey: 'workPressure',
