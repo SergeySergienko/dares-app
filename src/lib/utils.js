@@ -19,10 +19,3 @@ export function deepSet(obj, path, value) {
     current = current[key];
   });
 }
-
-export function formatToHeader(input) {
-  return input
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, (char) => char.toUpperCase())
-    .trim();
-}

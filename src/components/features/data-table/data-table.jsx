@@ -18,16 +18,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { DataTableViewOptions } from './data-table-view-options';
 
 export function DataTable({ columns, data, title }) {
-  const [sorting, setSorting] = useState([]);
+  const [sorting, setSorting] = useState([
+    { id: 'internalNumber', desc: false },
+  ]);
   const [columnVisibility, setColumnVisibility] = useState({});
 
   const table = useReactTable({
@@ -46,51 +42,27 @@ export function DataTable({ columns, data, title }) {
   return (
     <div>
       <h2 className='title'>{title}</h2>
-      <div className='flex items-center pb-4'>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
-              Select columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className='capitalize'
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className='flex justify-end items-center pb-4'>
+        <DataTableViewOptions table={table} />
       </div>
       <div className='rounded-md border'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className='[&_button]:whitespace-normal [&_button]:gap-0 max-w-24 text-center px-0'
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>

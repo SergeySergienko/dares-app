@@ -29,27 +29,27 @@ export const columns = [
   },
   {
     accessorKey: 'serialNumber',
-    header: 'Serial Number',
+    header: sortifyHeader('Serial Number'),
   },
   {
     accessorKey: 'manufacturer',
-    header: 'Manufacturer',
+    header: sortifyHeader('Manufacturer'),
   },
   {
     accessorKey: 'workPressure',
-    header: 'Work Pressure',
+    header: sortifyHeader('Work Pressure'),
   },
   {
     accessorKey: 'volume',
-    header: 'Volume',
+    header: sortifyHeader('Volume'),
   },
   {
     accessorKey: 'material',
-    header: 'Material',
+    header: sortifyHeader('Material'),
   },
   {
     accessorKey: 'color',
-    header: 'Color',
+    header: sortifyHeader('Color'),
   },
   {
     accessorKey: 'status',
@@ -57,7 +57,7 @@ export const columns = [
   },
   {
     accessorKey: 'fillingType',
-    header: 'Filling Type',
+    header: sortifyHeader('Filling Type'),
   },
   {
     accessorKey: 'valve',
@@ -65,7 +65,7 @@ export const columns = [
   },
   {
     accessorKey: 'grade',
-    header: 'Grade',
+    header: sortifyHeader('Grade'),
   },
   {
     accessorKey: 'firstHydrotestDate',
