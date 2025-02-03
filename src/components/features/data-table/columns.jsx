@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
+import { DataTableFacetedFilter } from './data-table-faceted-filter';
 
 const formatDate =
   (accessorKey) =>
@@ -9,16 +9,20 @@ const formatDate =
     new Date(row.original[accessorKey]).toLocaleDateString('uk');
 
 const sortifyHeader =
-  (headerName) =>
+  (headerName, isFilter) =>
   ({ column }) => {
     return (
-      <Button
-        variant='ghost'
-        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-      >
-        {headerName}
-        <ArrowUpDown className='ml-1 h-4 w-4' />
-      </Button>
+      <div className='flex items-center justify-between'>
+        {isFilter ? (
+          <DataTableFacetedFilter column={column} title={headerName} />
+        ) : (
+          <span className='pl-1'>{headerName}</span>
+        )}
+        <ArrowUpDown
+          className='h-5 min-w-4 hover:bg-gray-200 cursor-pointer'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        />
+      </div>
     );
   };
 
@@ -41,11 +45,11 @@ export const columns = [
   },
   {
     accessorKey: 'volume',
-    header: sortifyHeader('Volume'),
+    header: sortifyHeader('Volume', true),
   },
   {
     accessorKey: 'material',
-    header: sortifyHeader('Material'),
+    header: sortifyHeader('Material', true),
   },
   {
     accessorKey: 'color',
@@ -53,19 +57,22 @@ export const columns = [
   },
   {
     accessorKey: 'status',
-    header: sortifyHeader('Status'),
+    header: sortifyHeader('Status', true),
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: 'fillingType',
-    header: sortifyHeader('Filling Type'),
+    header: sortifyHeader('Filling Type', true),
   },
   {
     accessorKey: 'valve',
-    header: sortifyHeader('Valve'),
+    header: sortifyHeader('Valve', true),
   },
   {
     accessorKey: 'grade',
-    header: sortifyHeader('Grade'),
+    header: sortifyHeader('Grade', true),
   },
   {
     accessorKey: 'firstHydrotestDate',
