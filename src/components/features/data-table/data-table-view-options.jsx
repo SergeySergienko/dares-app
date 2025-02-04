@@ -4,24 +4,23 @@ import {
   Menubar,
   MenubarCheckboxItem,
   MenubarContent,
+  MenubarItem,
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import { Button } from '@/components/ui/button';
+import { SquareMousePointer, SquareX } from 'lucide-react';
 
 export function DataTableViewOptions({ table }) {
   const [open, setOpen] = useState(false);
-  const [isColumnBulk, setColumnBulk] = useState(false);
+  const [isFilterVisible, setFilterVisible] = useState(false);
 
   const handleColumnBulk = () => {
-    table
-      .getAllColumns()
-      .filter((column) => !column.getCanFilter())
-      .forEach((column) => {
-        column.toggleVisibility(!column.getIsVisible());
-      });
-    setColumnBulk((prev) => !prev);
+    table.getAllColumns().forEach((column) => {
+      column.toggleVisibility(isFilterVisible || column.getCanFilter());
+    });
+    setFilterVisible((prev) => !prev);
   };
 
   return (
@@ -30,10 +29,17 @@ export function DataTableViewOptions({ table }) {
         <MenubarTrigger asChild>
           <Button
             variant='outline'
-            className='cursor-pointer w-28'
+            className='cursor-pointer w-32'
             onClick={() => setOpen(!open)}
           >
-            {open ? 'Close panel' : 'Toggle columns'}
+            {open ? (
+              <>
+                <SquareX className='h-4' />
+                <span>Close panel</span>
+              </>
+            ) : (
+              'Columns selector'
+            )}
           </Button>
         </MenubarTrigger>
         <MenubarContent>
@@ -53,13 +59,15 @@ export function DataTableViewOptions({ table }) {
               );
             })}
           <MenubarSeparator />
-          <MenubarCheckboxItem
-            className='cursor-pointer'
-            checked={isColumnBulk}
+          <MenubarItem
+            className='cursor-pointer flex justify-evenly font-semibold'
             onClick={handleColumnBulk}
           >
-            <span className='font-semibold'>Only filtered columns</span>
-          </MenubarCheckboxItem>
+            <SquareMousePointer className='h-4' />
+            <span>
+              {isFilterVisible ? 'Select all columns' : 'Select filter columns'}
+            </span>
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
