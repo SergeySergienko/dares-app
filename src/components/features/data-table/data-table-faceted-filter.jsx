@@ -33,11 +33,11 @@ export function DataTableFacetedFilter({ column, title }) {
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
-              {options.map((value) => {
+              {options.map((value, index) => {
                 const isSelected = selectedValues.has(value);
                 return (
                   <CommandItem
-                    key={value}
+                    key={value + index}
                     onSelect={() => {
                       if (isSelected) {
                         selectedValues.delete(value);

@@ -34,14 +34,17 @@ export const columns = [
   {
     accessorKey: 'serialNumber',
     header: sortifyHeader('Serial Number'),
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'manufacturer',
     header: 'Manufacturer',
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'workPressure',
     header: sortifyHeader('Work Pressure'),
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'volume',
@@ -54,6 +57,7 @@ export const columns = [
   {
     accessorKey: 'color',
     header: sortifyHeader('Color'),
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'status',
@@ -78,15 +82,18 @@ export const columns = [
     accessorKey: 'firstHydrotestDate',
     header: 'First Hydrotest Date',
     cell: formatDate('firstHydrotestDate'),
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'lastHydrotestDate',
     header: 'Last Hydrotest Date',
     cell: formatDate('lastHydrotestDate'),
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'lastInspectionDate',
     header: 'Last Inspection Date',
     cell: formatDate('lastInspectionDate'),
+    enableColumnFilter: false,
   },
 ];

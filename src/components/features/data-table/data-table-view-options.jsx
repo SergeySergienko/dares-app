@@ -4,28 +4,39 @@ import {
   Menubar,
   MenubarCheckboxItem,
   MenubarContent,
-  MenubarLabel,
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { Button } from '@/components/ui/button';
 
 export function DataTableViewOptions({ table }) {
   const [open, setOpen] = useState(false);
+  const [isBulkFilter, setBulkFilter] = useState(false);
+
+  const handleFilterBulk = () => {
+    table
+      .getAllColumns()
+      .filter((column) => !column.getCanFilter())
+      .forEach((column) => {
+        column.toggleVisibility(!column.getIsVisible());
+      });
+    setBulkFilter((prev) => !prev);
+  };
 
   return (
     <Menubar className='p-0'>
       <MenubarMenu open={open}>
-        <MenubarTrigger
-          variant='outline'
-          className='cursor-pointer py-1 px-2 data-[state=open]:bg-white focus: bg-white'
-          onClick={() => setOpen(!open)}
-        >
-          {open ? 'Close' : 'Select columns'}
+        <MenubarTrigger asChild>
+          <Button
+            variant='outline'
+            className='cursor-pointer w-28'
+            onClick={() => setOpen(!open)}
+          >
+            {open ? 'Close panel' : 'Toggle columns'}
+          </Button>
         </MenubarTrigger>
         <MenubarContent>
-          <MenubarLabel>Toggle columns</MenubarLabel>
-          <MenubarSeparator />
           {table
             .getAllColumns()
             .filter((column) => column.getCanHide())
@@ -41,6 +52,14 @@ export function DataTableViewOptions({ table }) {
                 </MenubarCheckboxItem>
               );
             })}
+          <MenubarSeparator />
+          <MenubarCheckboxItem
+            className='cursor-pointer'
+            checked={isBulkFilter}
+            onClick={handleFilterBulk}
+          >
+            <span className='font-semibold'>Only filtered columns</span>
+          </MenubarCheckboxItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
