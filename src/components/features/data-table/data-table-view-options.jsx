@@ -12,16 +12,16 @@ import { Button } from '@/components/ui/button';
 
 export function DataTableViewOptions({ table }) {
   const [open, setOpen] = useState(false);
-  const [isBulkFilter, setBulkFilter] = useState(false);
+  const [isColumnBulk, setColumnBulk] = useState(false);
 
-  const handleFilterBulk = () => {
+  const handleColumnBulk = () => {
     table
       .getAllColumns()
       .filter((column) => !column.getCanFilter())
       .forEach((column) => {
         column.toggleVisibility(!column.getIsVisible());
       });
-    setBulkFilter((prev) => !prev);
+    setColumnBulk((prev) => !prev);
   };
 
   return (
@@ -55,8 +55,8 @@ export function DataTableViewOptions({ table }) {
           <MenubarSeparator />
           <MenubarCheckboxItem
             className='cursor-pointer'
-            checked={isBulkFilter}
-            onClick={handleFilterBulk}
+            checked={isColumnBulk}
+            onClick={handleColumnBulk}
           >
             <span className='font-semibold'>Only filtered columns</span>
           </MenubarCheckboxItem>

@@ -8,6 +8,8 @@ const formatDate =
   ({ row }) =>
     new Date(row.original[accessorKey]).toLocaleDateString('uk');
 
+const filterFn = (row, id, value) => value.includes(row.getValue(id));
+
 const sortifyHeader =
   (headerName, isFilter) =>
   ({ column }) => {
@@ -49,10 +51,12 @@ export const columns = [
   {
     accessorKey: 'volume',
     header: sortifyHeader('Volume', true),
+    filterFn,
   },
   {
     accessorKey: 'material',
     header: sortifyHeader('Material', true),
+    filterFn,
   },
   {
     accessorKey: 'color',
@@ -62,21 +66,22 @@ export const columns = [
   {
     accessorKey: 'status',
     header: sortifyHeader('Status', true),
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
+    filterFn,
   },
   {
     accessorKey: 'fillingType',
     header: sortifyHeader('Filling Type', true),
+    filterFn,
   },
   {
     accessorKey: 'valve',
     header: sortifyHeader('Valve', true),
+    filterFn,
   },
   {
     accessorKey: 'grade',
     header: sortifyHeader('Grade', true),
+    filterFn,
   },
   {
     accessorKey: 'firstHydrotestDate',

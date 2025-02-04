@@ -11,7 +11,6 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-
 import {
   Table,
   TableBody,
@@ -20,8 +19,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
 
 import { DataTableViewOptions } from './data-table-view-options';
+import { Badge } from '@/components/ui/badge';
 
 export function DataTable({ columns, data, title }) {
   const [sorting, setSorting] = useState([
@@ -52,10 +54,59 @@ export function DataTable({ columns, data, title }) {
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const isFiltered = table.getState().columnFilters.length > 0;
+
+  const selectedValues = table
+    .getAllColumns()
+    .filter((column) => column.getCanFilter())
+    .map((column) => column.getFilterValue())
+    .filter(Boolean)
+    .flat();
+
+  const rows = table.getRowModel().rows;
+
   return (
     <div>
-      <h2 className='title'>{title}</h2>
-      <div className='flex justify-end items-center pb-4'>
+      <h2 className='title mb-0'>{title}</h2>
+      <div className='text-center text-sm h-5'>
+        {rows?.length > 0 && <span>Result records: {rows.length}</span>}
+      </div>
+      <div className='flex justify-between items-center pb-4'>
+        <div>
+          {selectedValues.length > 0 && (
+            <span>
+              <span className='font-semibold'>Filters: </span>
+              {selectedValues.length > 10 ? (
+                <Badge
+                  variant='secondary'
+                  className='rounded-sm px-1 font-normal'
+                >
+                  {selectedValues.length} selected
+                </Badge>
+              ) : (
+                selectedValues.map((option) => (
+                  <Badge
+                    variant='secondary'
+                    key={option}
+                    className='rounded-sm px-0.5 mx-0.5 font-normal'
+                  >
+                    {option}
+                  </Badge>
+                ))
+              )}
+            </span>
+          )}
+          {isFiltered && (
+            <Button
+              variant='ghost'
+              onClick={() => table.resetColumnFilters()}
+              className='h-8 px-3'
+            >
+              Reset
+              <X />
+            </Button>
+          )}
+        </div>
         <DataTableViewOptions table={table} />
       </div>
       <div className='rounded-md border'>
@@ -82,8 +133,8 @@ export function DataTable({ columns, data, title }) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {rows?.length ? (
+              rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
