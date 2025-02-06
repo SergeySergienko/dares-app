@@ -11,11 +11,11 @@ const formatDate =
 const filterFn = (row, id, value) => value.includes(row.getValue(id));
 
 const sortifyHeader =
-  (headerName, isFilter) =>
+  (headerName, type) =>
   ({ column }) => {
     return (
       <div className='flex items-center justify-between'>
-        {isFilter ? (
+        {type === 'filter' ? (
           <DataTableFacetedFilter column={column} title={headerName} />
         ) : (
           <span className='pl-1'>{headerName}</span>
@@ -50,12 +50,12 @@ export const columns = [
   },
   {
     accessorKey: 'volume',
-    header: sortifyHeader('Volume', true),
+    header: sortifyHeader('Volume', 'filter'),
     filterFn,
   },
   {
     accessorKey: 'material',
-    header: sortifyHeader('Material', true),
+    header: sortifyHeader('Material', 'filter'),
     filterFn,
   },
   {
@@ -65,22 +65,22 @@ export const columns = [
   },
   {
     accessorKey: 'status',
-    header: sortifyHeader('Status', true),
+    header: sortifyHeader('Status', 'filter'),
     filterFn,
   },
   {
     accessorKey: 'fillingType',
-    header: sortifyHeader('Filling Type', true),
+    header: sortifyHeader('Filling Type', 'filter'),
     filterFn,
   },
   {
     accessorKey: 'valve',
-    header: sortifyHeader('Valve', true),
+    header: sortifyHeader('Valve', 'filter'),
     filterFn,
   },
   {
     accessorKey: 'grade',
-    header: sortifyHeader('Grade', true),
+    header: sortifyHeader('Grade', 'filter'),
     filterFn,
   },
   {

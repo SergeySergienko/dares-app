@@ -5,6 +5,14 @@ export const tankApi = {
     const response = await fetch(`${API_URL}/tanks?limit=${limit}`);
     return response.json();
   },
+  fetchTankByInternalNumber: async (internalNumber) => {
+    const response = await fetch(
+      `${API_URL}/tanks?internalNumber=${internalNumber}`
+    );
+    const [tank] = await response.json();
+
+    return tank;
+  },
 };
 
 export const fetchTanksByInspectionDate = async (monthsAgo, limit = 0) => {
@@ -31,13 +39,4 @@ export const fetchTanksByHydrotestDate = async (monthsAgo, limit = 0) => {
   );
 
   return response.json();
-};
-
-export const fetchTankByInternalNumber = async (internalNumber) => {
-  const response = await fetch(
-    `${API_URL}/tanks?internalNumber=${internalNumber}`
-  );
-  const [tank] = await response.json();
-
-  return tank;
 };

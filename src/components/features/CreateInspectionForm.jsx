@@ -93,7 +93,7 @@ const valveRadioFields = [
   },
 ];
 
-export const CreateInspectionForm = () => {
+export const CreateInspectionForm = ({ tank }) => {
   const [state, action, isPending] = useActionState(
     createInspection,
     undefined
@@ -119,7 +119,9 @@ export const CreateInspectionForm = () => {
             id='tankNumber'
             name='tankNumber'
             min='1'
+            defaultValue={tank.internalNumber}
             required
+            readOnly
           />
         </div>
         <div>
@@ -180,26 +182,34 @@ export const CreateInspectionForm = () => {
           </RadioGroup>
         </div>
       </div>
-      <div>
-        <Label htmlFor='inspector.name'>Inspector's name</Label>
-        <RadioGroup
-          id='inspector.name'
-          name='inspector.name'
-          defaultValue='Deripalov Andrii'
-          className='flex space-x-12'
-          onValueChange={handleInspectorChange}
-        >
-          <div className='flex items-center space-x-2'>
-            <RadioGroupItem value='Deripalov Andrii' id='deripalov' />
-            <Label htmlFor='deripalov'>Deripalov Andrii</Label>
-          </div>
-          <div className='flex items-center space-x-2'>
-            <RadioGroupItem value='Shai Karny' id='shai' />
-            <Label htmlFor='shai'>Shai Karny</Label>
-          </div>
-        </RadioGroup>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div>
+          <Label htmlFor='grade'>Grade</Label>
+          <Input type='number' id='grade' name='grade' min='1' max='10' />
+        </div>
+        <div>
+          <Label htmlFor='inspector.name'>Inspector's name</Label>
+          <RadioGroup
+            id='inspector.name'
+            name='inspector.name'
+            defaultValue='Deripalov Andrii'
+            className='flex space-x-12'
+            onValueChange={handleInspectorChange}
+          >
+            <div className='flex items-center space-x-2'>
+              <RadioGroupItem value='Deripalov Andrii' id='deripalov' />
+              <Label htmlFor='deripalov'>Deripalov Andrii</Label>
+            </div>
+            <div className='flex items-center space-x-2'>
+              <RadioGroupItem value='Shai Karny' id='shai' />
+              <Label htmlFor='shai'>Shai Karny</Label>
+            </div>
+          </RadioGroup>
+        </div>
       </div>
       <Input type='hidden' name='inspector.pciNumber' value={pciNumber} />
+      <Input type='hidden' name='tankId' value={tank.id} />
 
       <Accordion type='single' value={open} onValueChange={setOpen} collapsible>
         <AccordionItem value='Condemn'>
@@ -311,7 +321,7 @@ export const CreateInspectionForm = () => {
             <RadioField
               name='valve.type'
               title='Type'
-              defaultValue='YOKE'
+              defaultValue={tank.valve}
               options={[
                 {
                   value: 'YOKE',

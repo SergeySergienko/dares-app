@@ -34,14 +34,19 @@ export default function HomePage() {
         />
       </div>
       <div className='w-full flex justify-between gap-4'>
-        <Button disabled>Tank Card</Button>
+        <Button
+          disabled={!tankNumber}
+          onClick={() => redirect(`/inspections/create/${tankNumber}`)}
+        >
+          Create Inspection
+        </Button>
         <Button
           disabled={!tankNumber}
           onClick={() =>
             redirect(`/reports/tanks/${tankNumber}/last-inspection`)
           }
         >
-          Last Inspection
+          View Last Inspection
         </Button>
       </div>
     </div>

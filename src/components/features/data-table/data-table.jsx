@@ -73,7 +73,7 @@ export function DataTable({ columns, data, title }) {
                   return (
                     <TableHead
                       key={header.id}
-                      className='[&_button]:whitespace-normal [&_button]:gap-0 px-0 text-center border-r'
+                      className='[&_button]:whitespace-normal [&_button]:gap-0 px-0.5 text-center border-r'
                     >
                       {header.isPlaceholder
                         ? null

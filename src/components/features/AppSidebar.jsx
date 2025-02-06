@@ -6,7 +6,7 @@ import {
   Eye,
   House,
   List,
-  Plus,
+  // Plus,
   LogIn,
   LogOut,
   User,
@@ -95,14 +95,14 @@ export function AppSidebar() {
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  <SidebarMenuItem>
+                  {/* <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <a href='#'>
                         <Plus />
                         <span>Create</span>
                       </a>
                     </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  </SidebarMenuItem> */}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
@@ -131,14 +131,14 @@ export function AppSidebar() {
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  <SidebarMenuItem>
+                  {/* <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <a href='/inspections/create'>
                         <Plus />
                         <span>Create</span>
                       </a>
                     </SidebarMenuButton>
-                  </SidebarMenuItem>
+                  </SidebarMenuItem> */}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

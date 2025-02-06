@@ -24,7 +24,10 @@ export function DataTableFacetedFilter({ column, title }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant='ghost' className='max-w-20 p-1 hover:bg-gray-200'>
+        <Button
+          variant='ghost'
+          className='max-w-20 p-0.5 bg-gray-200 hover:bg-transparent'
+        >
           {title}
         </Button>
       </PopoverTrigger>
