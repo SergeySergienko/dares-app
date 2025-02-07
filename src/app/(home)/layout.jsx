@@ -18,6 +18,9 @@ export const metadata = {
   description: 'Diving And Repair Equipment Service',
   robots: 'noindex, nofollow',
   manifest: '/manifest.json',
+  icons: {
+    apple: '/icons/apple-touch-icon.png',
+  },
 };
 
 export default function RootLayout({ children }) {
