@@ -33,7 +33,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../ui/collapsible';
-import logo from '/public/logo.png';
+import logo from '/public/icon_logo.png';
 
 const profileItems = [
   {

@@ -17,6 +17,7 @@ export const metadata = {
   title: 'DARES',
   description: 'Diving And Repair Equipment Service',
   robots: 'noindex, nofollow',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({ children }) {
