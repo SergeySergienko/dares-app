@@ -1,16 +1,12 @@
+import { auth, currentUser } from '@clerk/nextjs/server';
 import Image from 'next/image';
 import {
   ChevronDown,
-  ChevronUp,
   Cylinder,
   Eye,
   House,
   List,
-  // Plus,
   LogIn,
-  LogOut,
-  User,
-  UserPlus,
   Folders,
   FileText,
 } from 'lucide-react';
@@ -34,34 +30,29 @@ import {
   CollapsibleTrigger,
 } from '../ui/collapsible';
 import logo from '/public/icon_logo.png';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
-const profileItems = [
-  {
-    title: 'Register',
-    url: '#',
-    icon: UserPlus,
-  },
-  {
-    title: 'Log in',
-    url: '#',
-    icon: LogIn,
-  },
-  {
-    title: 'Log out',
-    url: '#',
-    icon: LogOut,
-  },
-];
+export async function AppSidebar() {
+  const user = await currentUser();
 
-export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader className='flex flex-row items-center bg-white'>
+      <SidebarHeader className='flex flex-row justify-between items-center bg-white'>
         <Image src={logo} alt='logo' />
-        <div className='flex flex-col'>
+        <div className='flex flex-col grow'>
           <span className='font-bold'>DARES</span>
           <span className='text-xs'>v0.1.0</span>
         </div>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <a href='/log-in'>
+            <div className='p-1 rounded-md text-lg font-semibold hover:bg-secondary'>
+              Log in
+            </div>
+          </a>
+        </SignedOut>
       </SidebarHeader>
       <SidebarSeparator />
       <SidebarContent className='mt-4'>
@@ -176,35 +167,60 @@ export function AppSidebar() {
       </SidebarContent>
       <SidebarSeparator />
       <SidebarFooter>
-        <Collapsible className='group/collapsible'>
-          <SidebarGroup>
-            <SidebarGroupLabel asChild>
-              <CollapsibleTrigger>
-                <span className='flex items-top space-x-2 text-primary'>
-                  <User />
-                  <span className='text-lg'>Profile</span>
-                </span>
-                <ChevronUp className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
-              </CollapsibleTrigger>
-            </SidebarGroupLabel>
-            <CollapsibleContent className='ml-4 font-semibold text-primary'>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {profileItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
+        <SignedOut>
+          {/* <Collapsible className='group/collapsible'>
+            <SidebarGroup>
+              <SidebarGroupLabel asChild>
+                <CollapsibleTrigger>
+                  <span className='flex items-top space-x-2 text-primary'>
+                    <User />
+                    <span className='text-lg'>Profile</span>
+                  </span>
+                  <ChevronUp className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+
+              <CollapsibleContent className='ml-4 font-semibold text-primary'>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    <SidebarMenuItem>
                       <SidebarMenuButton asChild>
-                        <a href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
+                        <a href='/sign-up'>
+                          <UserPlus />
+                          <span>Register</span>
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </SidebarGroup>
-        </Collapsible>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <a href='/log-in'>
+                          <LogIn />
+                          <span>Log in</span>
+                        </a>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </SidebarGroup>
+          </Collapsible> */}
+          <a
+            href='/log-in'
+            className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
+          >
+            <LogIn />
+            <span className='text-lg font-semibold text-primary'>Log in</span>
+          </a>
+        </SignedOut>
+        <SignedIn>
+          <div className='flex gap-x-2 items-center'>
+            <UserButton />
+            <span className='flex flex-col text-xs font-semibold'>
+              <span className='font-bold'>{user?.fullName}</span>
+              <span>{user?.emailAddresses[0]?.emailAddress}</span>
+            </span>
+          </div>
+        </SignedIn>
       </SidebarFooter>
     </Sidebar>
   );
