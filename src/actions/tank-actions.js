@@ -1,3 +1,5 @@
+'use server';
+
 import { tanksRepo } from '@/lib/db/tanks-repo';
 
 const procedureMapper = {
@@ -32,4 +34,13 @@ export async function getTanksByProcedureDate(procedure, monthsAgo) {
   };
   const tanks = await tanksRepo.getTanks(query);
   return tanks.map(tankMapper);
+}
+
+export async function updateTank(updateData) {
+  const updatedTank = await tanksRepo.updateTank(updateData);
+  if (!updatedTank) {
+    throw new Error('Failed to update tank record. Please try again later.');
+  }
+
+  return tankMapper(updatedTank);
 }

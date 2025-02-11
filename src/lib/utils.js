@@ -19,3 +19,33 @@ export function deepSet(obj, path, value) {
     current = current[key];
   });
 }
+
+export function normalizeInspectionData(data) {
+  if (Array.isArray(data)) {
+    return data.map((item) => normalizeInspectionData(item));
+  } else if (typeof data === 'object' && data !== null) {
+    const normalizedObject = {};
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (typeof value === 'string') {
+        const trimmed = value.trim();
+        if (trimmed === 'true') {
+          normalizedObject[key] = true;
+        } else if (trimmed === 'false') {
+          normalizedObject[key] = false;
+        } else if (trimmed === '') {
+          normalizedObject[key] = null;
+        } else {
+          normalizedObject[key] = value;
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        normalizedObject[key] = normalizeInspectionData(value);
+      } else {
+        normalizedObject[key] = value;
+      }
+    });
+    return normalizedObject;
+  }
+
+  return data;
+}

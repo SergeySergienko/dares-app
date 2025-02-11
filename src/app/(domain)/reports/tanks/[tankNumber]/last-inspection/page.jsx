@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { getInspectionByTankNumber } from '@/actions/inspection';
+import { getInspectionByTankNumber } from '@/actions/inspection-actions';
 import formLogo from '/public/inspection_form_logo.jpg';
 import { notFound } from 'next/navigation';
 
 const assignValue = (value) => (value ? 'YES' : 'NO');
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tanks')
 
 export default async function InspectionReport({ params }) {
   const { tankNumber } = await params;
@@ -185,9 +185,7 @@ export default async function InspectionReport({ params }) {
         <div>
           <div className='field'>
             <span>Type:</span>
-            <span className='field-value'>
-              {i.valve?.type || i.tank?.valve || 'Unknown'}
-            </span>
+            <span className='field-value'>{i.tank?.valve || 'Unknown'}</span>
           </div>
           <div className='grid grid-cols-2 xs:grid-cols-3 gap-x-6'>
             <div className='field'>
