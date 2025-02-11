@@ -1,7 +1,7 @@
 import InspectionSection from '@/components/sections/InspectionSection';
 import HydrotestSection from '@/components/sections/HydrotestSection';
 
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tanks')
 
 export default function ScheduledTanksPage() {
   return (

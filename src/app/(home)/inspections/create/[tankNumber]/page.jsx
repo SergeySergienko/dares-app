@@ -1,9 +1,9 @@
-import { fetchTankByInternalNumber } from '@/actions/tank';
+import { getTankByInternalNumber } from '@/actions/tank-actions';
 import { CreateInspectionForm } from '@/components/features/CreateInspectionForm';
 
 export default async function CreateInspectionPage({ params }) {
   const { tankNumber } = await params;
-  const tank = await fetchTankByInternalNumber(tankNumber);
+  const tank = await getTankByInternalNumber(tankNumber);
   if (!tank) {
     throw new Error(`Tank with internal number ${tankNumber} not found`);
   }

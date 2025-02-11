@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { getInspectionByTankNumber } from '@/actions/inspection';
 import formLogo from '/public/inspection_form_logo.jpg';
+import { notFound } from 'next/navigation';
 
 const assignValue = (value) => (value ? 'YES' : 'NO');
 
@@ -9,7 +10,7 @@ export const dynamic = 'force-dynamic';
 export default async function InspectionReport({ params }) {
   const { tankNumber } = await params;
   const i = await getInspectionByTankNumber(tankNumber);
-  if (!i.id) throw new Error(i.message);
+  if (!i.id) notFound();
 
   return (
     <div className='report'>

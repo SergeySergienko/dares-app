@@ -1,8 +1,8 @@
-import { fetchTanksByInspectionDate } from '@/app/api/tank-api';
+import { getTanksByProcedureDate } from '@/actions/tank-actions';
 import { ScheduledTanksTable } from '@/components/features/ScheduledTanksTable';
 
 export default async function InspectionSection({ monthsAgo = 11 }) {
-  const data = await fetchTanksByInspectionDate(monthsAgo);
+  const data = await getTanksByProcedureDate('inspection', monthsAgo);
 
   return (
     <ScheduledTanksTable

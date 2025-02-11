@@ -1,8 +1,8 @@
-import { fetchTanksByHydrotestDate } from '@/app/api/tank-api';
+import { getTanksByProcedureDate } from '@/actions/tank-actions';
 import { ScheduledTanksTable } from '@/components/features/ScheduledTanksTable';
 
 export default async function HydrotestSection({ monthsAgo = 57 }) {
-  const data = await fetchTanksByHydrotestDate(monthsAgo);
+  const data = await getTanksByProcedureDate('hydrotest', monthsAgo);
 
   return (
     <ScheduledTanksTable
