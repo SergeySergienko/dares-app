@@ -8,6 +8,15 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
+type ScheduledTanksTableType = {
+  data: any[];
+  title: string;
+  lastDateKey: string;
+  deadlineYears: number;
+  lastDateLabel: string;
+  deadlineLabel: string;
+};
+
 export const ScheduledTanksTable = ({
   data,
   title,
@@ -15,7 +24,7 @@ export const ScheduledTanksTable = ({
   deadlineYears,
   lastDateLabel,
   deadlineLabel,
-}) => {
+}: ScheduledTanksTableType) => {
   const tanksWithDeadlines = data.map((tank) => ({
     ...tank,
     deadline: new Date(tank[lastDateKey]).setFullYear(

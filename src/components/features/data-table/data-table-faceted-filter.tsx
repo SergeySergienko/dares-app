@@ -1,3 +1,4 @@
+import { Column } from '@tanstack/react-table';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -16,9 +17,17 @@ import {
 
 import { Check } from 'lucide-react';
 
-export function DataTableFacetedFilter({ column, title }) {
+interface DataTableFacetedFilterProps<TData, TValue> {
+  column?: Column<TData, TValue>;
+  title?: string;
+}
+
+export function DataTableFacetedFilter<TData, TValue>({
+  column,
+  title,
+}: DataTableFacetedFilterProps<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
-  const selectedValues = new Set(column?.getFilterValue());
+  const selectedValues = new Set(column?.getFilterValue() as string[]);
   const options = Array.from(facets.keys());
 
   return (

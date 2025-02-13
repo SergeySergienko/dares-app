@@ -3,6 +3,7 @@
 import { useState } from 'react';
 
 import {
+  ColumnDef,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -23,7 +24,17 @@ import {
 import { DataTableViewOptions } from './data-table-view-options';
 import { DataTableFilterToolbar } from './data-table-filter-toolbar';
 
-export function DataTable({ columns, data, title }) {
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  title: string;
+}
+
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  title,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState([
     { id: 'internalNumber', desc: false },
   ]);

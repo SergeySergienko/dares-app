@@ -15,53 +15,60 @@ import {
 import { RadioField } from '../composites/RadioField';
 import { TextareaField } from '../composites/TextareaField';
 
-const externalRadioFields = [
+export type externalRadioFieldsType = {
+  name: string;
+  title: string;
+  defaultValue?: string;
+  options: { value: string; label: string; optionId: string }[];
+};
+
+const externalRadioFields: externalRadioFieldsType[] = [
   {
     name: 'heatDamage',
     title: 'Evidence of heat damage',
     options: [
-      { value: true, label: 'Yes', optionId: 'heatDamageYes' },
-      { value: false, label: 'No', optionId: 'heatDamageNo' },
+      { value: 'true', label: 'Yes', optionId: 'heatDamageYes' },
+      { value: 'false', label: 'No', optionId: 'heatDamageNo' },
     ],
   },
   {
     name: 'repainting',
     title: 'Repainting',
     options: [
-      { value: true, label: 'Yes', optionId: 'repaintingYes' },
-      { value: false, label: 'No', optionId: 'repaintingNo' },
+      { value: 'true', label: 'Yes', optionId: 'repaintingYes' },
+      { value: 'false', label: 'No', optionId: 'repaintingNo' },
     ],
   },
   {
     name: 'odor',
     title: 'Odor',
     options: [
-      { value: true, label: 'Yes', optionId: 'odorYes' },
-      { value: false, label: 'No', optionId: 'odorNo' },
+      { value: 'true', label: 'Yes', optionId: 'odorYes' },
+      { value: 'false', label: 'No', optionId: 'odorNo' },
     ],
   },
   {
     name: 'bow',
     title: 'Bow',
     options: [
-      { value: true, label: 'Yes', optionId: 'bowYes' },
-      { value: false, label: 'No', optionId: 'bowNo' },
+      { value: 'true', label: 'Yes', optionId: 'bowYes' },
+      { value: 'false', label: 'No', optionId: 'bowNo' },
     ],
   },
   {
     name: 'bulges',
     title: 'Bulges',
     options: [
-      { value: true, label: 'Yes', optionId: 'bulgesYes' },
-      { value: false, label: 'No', optionId: 'bulgesNo' },
+      { value: 'true', label: 'Yes', optionId: 'bulgesYes' },
+      { value: 'false', label: 'No', optionId: 'bulgesNo' },
     ],
   },
   {
     name: 'hammerToneTest',
     title: 'Hummer tone test',
     options: [
-      { value: true, label: 'Yes', optionId: 'hammerToneTestYes' },
-      { value: false, label: 'No', optionId: 'hammerToneTestNo' },
+      { value: 'true', label: 'Yes', optionId: 'hammerToneTestYes' },
+      { value: 'false', label: 'No', optionId: 'hammerToneTestNo' },
     ],
   },
 ];
@@ -70,25 +77,25 @@ const valveRadioFields = [
     name: 'burstDiskReplaced',
     title: 'Burst disk replaced',
     options: [
-      { value: true, label: 'Yes', optionId: 'burstDiskReplacedYes' },
-      { value: false, label: 'No', optionId: 'burstDiskReplacedNo' },
+      { value: 'true', label: 'Yes', optionId: 'burstDiskReplacedYes' },
+      { value: 'false', label: 'No', optionId: 'burstDiskReplacedNo' },
     ],
   },
   {
     name: 'oRingReplaced',
     title: '0-ring replaced',
-    defaultValue: true,
+    defaultValue: 'true',
     options: [
-      { value: true, label: 'Yes', optionId: 'oRingReplacedYes' },
-      { value: false, label: 'No', optionId: 'oRingReplacedNo' },
+      { value: 'true', label: 'Yes', optionId: 'oRingReplacedYes' },
+      { value: 'false', label: 'No', optionId: 'oRingReplacedNo' },
     ],
   },
   {
     name: 'dipTubeReplaced',
     title: 'Deep tube replaced',
     options: [
-      { value: true, label: 'Yes', optionId: 'dipTubeReplacedYes' },
-      { value: false, label: 'No', optionId: 'dipTubeReplacedNo' },
+      { value: 'true', label: 'Yes', optionId: 'dipTubeReplacedYes' },
+      { value: 'false', label: 'No', optionId: 'dipTubeReplacedNo' },
     ],
   },
 ];
@@ -168,15 +175,15 @@ export const CreateInspectionForm = ({ tank }) => {
           <RadioGroup
             id='stickerAffixed'
             name='stickerAffixed'
-            defaultValue={false}
+            defaultValue='false'
             className='flex'
           >
             <div className='flex items-center space-x-2'>
-              <RadioGroupItem value={true} id='stickerAffixedYes' />
+              <RadioGroupItem value='true' id='stickerAffixedYes' />
               <Label htmlFor='stickerAffixedYes'>Yes</Label>
             </div>
             <div className='flex items-center space-x-2'>
-              <RadioGroupItem value={false} id='stickerAffixedNo' />
+              <RadioGroupItem value='false' id='stickerAffixedNo' />
               <Label htmlFor='stickerAffixedNo'>No</Label>
             </div>
           </RadioGroup>
@@ -220,7 +227,7 @@ export const CreateInspectionForm = ({ tank }) => {
             <div className='section-title'>EXTERNAL SURFACE</div>
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
               {externalRadioFields.map(
-                ({ name, title, defaultValue, options }) => (
+                ({ name, title, defaultValue = 'false', options }) => (
                   <RadioField
                     key={name}
                     name={`external.${name}`}

@@ -1,7 +1,13 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { externalRadioFieldsType } from '../features/CreateInspectionForm';
 
-export const RadioField = ({ name, title, defaultValue = false, options }) => {
+export const RadioField = ({
+  name,
+  title,
+  defaultValue,
+  options,
+}: externalRadioFieldsType) => {
   return (
     <div className='gap-4'>
       <Label htmlFor={name}>{title}</Label>

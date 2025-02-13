@@ -1,5 +1,6 @@
 'use client';
 
+import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import { DataTableFacetedFilter } from './data-table-faceted-filter';
 
@@ -11,7 +12,7 @@ const formatDate =
 const filterFn = (row, id, value) => value.includes(row.getValue(id));
 
 const sortifyHeader =
-  (headerName, type) =>
+  (headerName: string, type = undefined) =>
   ({ column }) => {
     return (
       <div className='flex items-center justify-between'>
@@ -28,7 +29,7 @@ const sortifyHeader =
     );
   };
 
-export const columns = [
+export const columns: ColumnDef<unknown>[] = [
   {
     accessorKey: 'internalNumber',
     header: sortifyHeader('Internal Number'),
