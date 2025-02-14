@@ -11,8 +11,13 @@ import {
 } from '@/components/ui/menubar';
 import { Button } from '@/components/ui/button';
 import { SquareMousePointer, SquareX } from 'lucide-react';
+import { Table } from '@tanstack/react-table';
 
-export function DataTableViewOptions({ table }) {
+export function DataTableViewOptions<TData>({
+  table,
+}: {
+  table: Table<TData>;
+}) {
   const [open, setOpen] = useState(false);
   const [isFilterVisible, setFilterVisible] = useState(false);
 

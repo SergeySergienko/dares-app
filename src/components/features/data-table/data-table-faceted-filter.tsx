@@ -17,7 +17,7 @@ import {
 
 import { Check } from 'lucide-react';
 
-interface DataTableFacetedFilterProps<TData, TValue> {
+interface Props<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
 }
@@ -25,10 +25,10 @@ interface DataTableFacetedFilterProps<TData, TValue> {
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,
-}: DataTableFacetedFilterProps<TData, TValue>) {
+}: Props<TData, TValue>) {
   const facets = column?.getFacetedUniqueValues();
   const selectedValues = new Set(column?.getFilterValue() as string[]);
-  const options = Array.from(facets.keys());
+  const options = facets ? Array.from(facets.keys()) : [];
 
   return (
     <Popover>

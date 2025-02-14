@@ -31,7 +31,7 @@ export const tanksRepo = {
     const updateFields = Object.entries(fieldsToUpdate).reduce(
       (acc, [key, value]) => {
         if (value !== undefined) {
-          acc[key] = value;
+          (acc as any)[key] = value;
         }
         return acc;
       },

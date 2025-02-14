@@ -6,10 +6,19 @@ export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tank
 
 export default async function TanksPage() {
   const tanks = await getTanks();
-
+  const transformedTanks = tanks.map((tank) => ({
+    ...tank,
+    firstHydrotestDate: tank.firstHydrotestDate.toISOString(),
+    lastHydrotestDate: tank.lastHydrotestDate.toISOString(),
+    lastInspectionDate: tank.lastInspectionDate.toISOString(),
+  }));
   return (
     <div className='w-full px-4 pb-4'>
-      <DataTable columns={columns} data={tanks} title='List of tanks' />
+      <DataTable
+        columns={columns}
+        data={transformedTanks}
+        title='List of tanks'
+      />
     </div>
   );
 }

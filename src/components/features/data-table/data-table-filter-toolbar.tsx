@@ -1,14 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { X } from 'lucide-react';
+import { Table } from '@tanstack/react-table';
 
-export function DataTableFilterToolbar({ table }) {
+export function DataTableFilterToolbar<TData>({
+  table,
+}: {
+  table: Table<TData>;
+}) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   const selectedValues = table
     .getAllColumns()
     .filter((column) => column.getCanFilter() && column.getFilterValue())
-    .flatMap((column) => column.getFilterValue());
+    .flatMap((column) => column.getFilterValue()) as string[];
 
   return (
     <div>

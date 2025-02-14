@@ -1,11 +1,22 @@
 'use server';
 
 import { ObjectId, WithId } from 'mongodb';
-import { inspectionsRepo } from '@/lib/db/inspections-repo';
-import { deepSet, normalizeInspectionData } from '@/lib/utils';
 import { redirect } from 'next/navigation';
+import { inspectionsRepo } from '@/lib/db/inspections-repo';
+import {
+  deepSet,
+  isValidGrade,
+  normalizeInspectionData,
+  parseGrade,
+} from '@/lib/utils';
 import { getTankByInternalNumber, getTanks, updateTank } from './tank-actions';
-import { InspectionModel, InspectionOutputDTO } from '@/models/InspectionModel';
+import {
+  InspectionModel,
+  InspectionOutputDTO,
+  Inspector,
+  Verdict,
+} from '@/models/InspectionModel';
+import { Grade } from '@/models/TankModel';
 
 const inspectionMapper = (
   inspection: WithId<InspectionModel>
@@ -21,8 +32,7 @@ export async function getInspections(query: Partial<InspectionModel> = {}) {
 
 export async function getInspectionByTankNumber(tankNumber: number) {
   const tank = await getTankByInternalNumber(tankNumber);
-  const query = { tankNumber };
-  const [lastInspection] = await getInspections(query);
+  const [lastInspection] = await getInspections({ tankNumber });
   const report = {
     ...lastInspection,
     tank,
@@ -44,16 +54,31 @@ export async function createInspection(state: any, formData: FormData) {
     }
   }
 
-  const { date, tankId, tankVerdict, tankNumber, grade, ...rest } = data;
+  const {
+    date,
+    tankId,
+    tankVerdict,
+    tankNumber,
+    grade: gradeStringValue,
+    inspector,
+    ...rest
+  } = data;
 
   const normalizedData = normalizeInspectionData(rest);
+
+  let grade: Grade | undefined;
+  if (gradeStringValue && isValidGrade(+gradeStringValue)) {
+    grade = parseGrade(gradeStringValue as `${Grade}`);
+  }
+
   const newInspection: InspectionModel = {
     ...normalizedData,
     date: new Date(date as string),
     tankId: ObjectId.createFromHexString(tankId as string),
     tankNumber: Number(tankNumber),
-    tankVerdict,
-    grade: Number(grade),
+    tankVerdict: tankVerdict as Verdict,
+    inspector: inspector as unknown as Inspector,
+    grade,
     createdAt: new Date(),
   };
 

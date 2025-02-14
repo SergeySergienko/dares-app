@@ -35,12 +35,13 @@ export interface InspectionModel {
   tankVerdict: Verdict;
   stickerAffixed?: boolean;
   grade?: Grade;
-  inspector: { name: string; pciNumber: string };
+  inspector: Inspector;
   createdAt: Date;
   updatedAt?: Date;
 }
 
 export type Verdict = 'Acceptable' | 'Marginal' | 'Condemn';
+export type Inspector = { name: string; pciNumber: string };
 
 export type InspectionOutputDTO = Omit<InspectionModel, 'tankId'> & {
   id: string;

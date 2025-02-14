@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { InspectionOutputDTO } from '@/models/InspectionModel';
 
-export const InspectionsTable = ({ data }) => {
+export const InspectionsTable = ({ data }: { data: InspectionOutputDTO[] }) => {
   return (
     <Table>
       <TableHeader>

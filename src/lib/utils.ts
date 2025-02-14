@@ -1,3 +1,4 @@
+import { Grade } from '@/models/TankModel';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -5,7 +6,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function deepSet(obj, path, value) {
+export const isValidGrade = (value: number): value is Grade => {
+  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(value);
+};
+
+export const parseGrade = (gradeStr: `${Grade}`): Grade | undefined => {
+  const grade = Number(gradeStr) as Grade;
+  return grade >= 1 && grade <= 10 ? grade : undefined;
+};
+
+export function deepSet(
+  obj: Record<string, any>,
+  path: string,
+  value: any
+): void {
   const keys = path.split('.');
   let current = obj;
 
@@ -20,11 +34,11 @@ export function deepSet(obj, path, value) {
   });
 }
 
-export function normalizeInspectionData(data) {
+export function normalizeInspectionData<T>(data: T): T {
   if (Array.isArray(data)) {
-    return data.map((item) => normalizeInspectionData(item));
+    return data.map((item) => normalizeInspectionData(item)) as T;
   } else if (typeof data === 'object' && data !== null) {
-    const normalizedObject = {};
+    const normalizedObject: Record<string, any> = {};
 
     Object.entries(data).forEach(([key, value]) => {
       if (typeof value === 'string') {
@@ -44,7 +58,7 @@ export function normalizeInspectionData(data) {
         normalizedObject[key] = value;
       }
     });
-    return normalizedObject;
+    return normalizedObject as T;
   }
 
   return data;

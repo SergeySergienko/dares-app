@@ -14,15 +14,16 @@ import {
 } from '@/components/ui/accordion';
 import { RadioField } from '../composites/RadioField';
 import { TextareaField } from '../composites/TextareaField';
+import { TankOutputDTO } from '@/models/TankModel';
 
-export type externalRadioFieldsType = {
+export type RadioFieldType = {
   name: string;
   title: string;
   defaultValue?: string;
   options: { value: string; label: string; optionId: string }[];
 };
 
-const externalRadioFields: externalRadioFieldsType[] = [
+const externalRadioFields: RadioFieldType[] = [
   {
     name: 'heatDamage',
     title: 'Evidence of heat damage',
@@ -72,7 +73,7 @@ const externalRadioFields: externalRadioFieldsType[] = [
     ],
   },
 ];
-const valveRadioFields = [
+const valveRadioFields: RadioFieldType[] = [
   {
     name: 'burstDiskReplaced',
     title: 'Burst disk replaced',
@@ -100,7 +101,7 @@ const valveRadioFields = [
   },
 ];
 
-export const CreateInspectionForm = ({ tank }) => {
+export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
   const [state, action, isPending] = useActionState(
     createInspection,
     undefined
@@ -108,7 +109,7 @@ export const CreateInspectionForm = ({ tank }) => {
   const [open, setOpen] = useState('');
   const [pciNumber, setPciNumber] = useState('35823');
 
-  const handleInspectorChange = (name) => {
+  const handleInspectorChange = (name: string) => {
     if (name === 'Deripalov Andrii') {
       setPciNumber('35823');
     } else if (name === 'Shai Karny') {

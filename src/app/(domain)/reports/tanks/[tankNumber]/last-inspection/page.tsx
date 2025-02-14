@@ -3,7 +3,7 @@ import { getInspectionByTankNumber } from '@/actions/inspection-actions';
 import formLogo from '/public/inspection_form_logo.jpg';
 import { notFound } from 'next/navigation';
 
-const assignValue = (value) => (value ? 'YES' : 'NO');
+const assignValue = (value: boolean | undefined) => (value ? 'YES' : 'NO');
 
 export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tanks')
 

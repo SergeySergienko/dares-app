@@ -7,11 +7,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { TankOutputDTO } from '@/models/TankModel';
 
-type ScheduledTanksTableType = {
-  data: any[];
+type Props = {
+  data: TankOutputDTO[];
   title: string;
-  lastDateKey: string;
+  lastDateKey: 'lastInspectionDate' | 'lastHydrotestDate';
   deadlineYears: number;
   lastDateLabel: string;
   deadlineLabel: string;
@@ -24,7 +25,7 @@ export const ScheduledTanksTable = ({
   deadlineYears,
   lastDateLabel,
   deadlineLabel,
-}: ScheduledTanksTableType) => {
+}: Props) => {
   const tanksWithDeadlines = data.map((tank) => ({
     ...tank,
     deadline: new Date(tank[lastDateKey]).setFullYear(

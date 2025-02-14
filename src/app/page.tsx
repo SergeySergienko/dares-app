@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,7 +9,7 @@ import { redirect } from 'next/navigation';
 export default function HomePage() {
   const [tankNumber, setTankNumber] = useState('');
 
-  const handleChange = async (e) => {
+  const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const internalNumber = e.target.value;
     if (+internalNumber > 0 && +internalNumber < 1000) {
       setTankNumber(internalNumber);
