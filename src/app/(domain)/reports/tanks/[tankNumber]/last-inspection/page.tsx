@@ -7,9 +7,13 @@ const assignValue = (value) => (value ? 'YES' : 'NO');
 
 export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tanks')
 
-export default async function InspectionReport({ params }) {
+export default async function InspectionReport({
+  params,
+}: {
+  params: Promise<{ tankNumber: string }>;
+}) {
   const { tankNumber } = await params;
-  const i = await getInspectionByTankNumber(tankNumber);
+  const i = await getInspectionByTankNumber(+tankNumber);
   if (!i.id) notFound();
 
   return (

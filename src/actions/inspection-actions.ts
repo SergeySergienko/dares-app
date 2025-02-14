@@ -1,24 +1,27 @@
 'use server';
 
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
 import { inspectionsRepo } from '@/lib/db/inspections-repo';
 import { deepSet, normalizeInspectionData } from '@/lib/utils';
 import { redirect } from 'next/navigation';
 import { getTankByInternalNumber, getTanks, updateTank } from './tank-actions';
+import { InspectionModel, InspectionOutputDTO } from '@/models/InspectionModel';
 
-const inspectionMapper = (inspection) => {
+const inspectionMapper = (
+  inspection: WithId<InspectionModel>
+): InspectionOutputDTO => {
   const { _id, tankId, ...rest } = inspection;
   return { id: _id.toString(), tankId: tankId.toString(), ...rest };
 };
 
-export async function getInspections(query) {
+export async function getInspections(query: Partial<InspectionModel> = {}) {
   const inspections = await inspectionsRepo.getInspections(query);
   return inspections.map(inspectionMapper);
 }
 
-export async function getInspectionByTankNumber(tankNumber) {
+export async function getInspectionByTankNumber(tankNumber: number) {
   const tank = await getTankByInternalNumber(tankNumber);
-  const query = { tankNumber: +tankNumber, sortBy: 'date', sortOrder: 'desc' };
+  const query = { tankNumber };
   const [lastInspection] = await getInspections(query);
   const report = {
     ...lastInspection,
@@ -27,8 +30,8 @@ export async function getInspectionByTankNumber(tankNumber) {
   return report;
 }
 
-export async function createInspection(state, formData) {
-  const data = {};
+export async function createInspection(state: any, formData: FormData) {
+  const data: { [x: string]: FormDataEntryValue } = {};
   for (const [key, value] of formData.entries()) {
     if (key.startsWith('$')) {
       continue;
@@ -44,10 +47,10 @@ export async function createInspection(state, formData) {
   const { date, tankId, tankVerdict, tankNumber, grade, ...rest } = data;
 
   const normalizedData = normalizeInspectionData(rest);
-  const newInspection = {
+  const newInspection: InspectionModel = {
     ...normalizedData,
-    date: new Date(date),
-    tankId: ObjectId.createFromHexString(tankId),
+    date: new Date(date as string),
+    tankId: ObjectId.createFromHexString(tankId as string),
     tankNumber: Number(tankNumber),
     tankVerdict,
     grade: Number(grade),
@@ -62,13 +65,13 @@ export async function createInspection(state, formData) {
   }
 
   // Update the tank's data if the new inspection date is later
-  const [tank] = await getTanks({ _id: ObjectId.createFromHexString(tankId) });
+  const [tank] = await getTanks({ internalNumber: newInspection.tankNumber });
   if (
     new Date(newInspection.date).getTime() >
     new Date(tank.lastInspectionDate).getTime()
   ) {
     await updateTank({
-      id: tankId,
+      id: tankId as string,
       grade: newInspection.grade,
       lastInspectionDate: newInspection.date,
       valve: newInspection.valve?.type,
