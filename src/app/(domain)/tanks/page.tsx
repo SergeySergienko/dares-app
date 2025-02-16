@@ -11,6 +11,7 @@ export default async function TanksPage() {
     firstHydrotestDate: tank.firstHydrotestDate.toISOString(),
     lastHydrotestDate: tank.lastHydrotestDate.toISOString(),
     lastInspectionDate: tank.lastInspectionDate.toISOString(),
+    lastInventoryDate: tank.lastInventoryDate?.toISOString() || '',
   }));
   return (
     <div className='w-full px-4 pb-4'>
