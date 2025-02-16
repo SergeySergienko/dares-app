@@ -49,11 +49,11 @@ describe('HomePage', () => {
       await userEvent.setup().type(input, '0');
     });
 
-    it('should have entered value', async () => {
+    it('should have entered value', () => {
       expect(input).toHaveValue(0);
     });
 
-    it('should render disabled buttons', async () => {
+    it('should render disabled buttons', () => {
       expect(createButton).toBeDisabled();
       expect(viewButton).toBeDisabled();
     });
@@ -64,7 +64,7 @@ describe('HomePage', () => {
       await userEvent.setup().type(input, '1');
     });
 
-    it('should have entered value', async () => {
+    it('should have entered value', () => {
       expect(input).toHaveValue(1);
     });
 
@@ -88,7 +88,7 @@ describe('HomePage', () => {
         await userEvent.clear(input);
       });
 
-      it('should not have entered value', async () => {
+      it('should not have entered value', () => {
         expect(input).toHaveValue(null);
       });
 

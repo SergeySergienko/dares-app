@@ -16,7 +16,7 @@ import {
   Inspector,
   Verdict,
 } from '@/models/InspectionModel';
-import { Grade } from '@/models/TankModel';
+import { Grade, TankUpdateDTO } from '@/models/TankModel';
 
 const inspectionMapper = (
   inspection: WithId<InspectionModel>
@@ -95,12 +95,17 @@ export async function createInspection(state: any, formData: FormData) {
     new Date(newInspection.date).getTime() >
     new Date(tank.lastInspectionDate).getTime()
   ) {
-    await updateTank({
+    const fieldsToUpdate: TankUpdateDTO = {
       id: tankId as string,
       grade: newInspection.grade,
       lastInspectionDate: newInspection.date,
       valve: newInspection.valve?.type,
-    });
+    };
+    if (newInspection.tankVerdict === 'Condemn') {
+      fieldsToUpdate.status = 'Rejected';
+    }
+
+    await updateTank(fieldsToUpdate);
   }
 
   redirect('/inspections');

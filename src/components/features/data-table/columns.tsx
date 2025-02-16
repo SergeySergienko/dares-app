@@ -8,6 +8,7 @@ type Tank = {
   firstHydrotestDate: string;
   lastHydrotestDate: string;
   lastInspectionDate: string;
+  lastInventoryDate: string;
 };
 
 const formatDate =
@@ -16,9 +17,12 @@ const formatDate =
       | 'firstHydrotestDate'
       | 'lastHydrotestDate'
       | 'lastInspectionDate'
+      | 'lastInventoryDate'
   ) =>
-  ({ row }: { row: Row<Tank> }) =>
-    new Date(row.original[accessorKey]).toLocaleDateString('uk');
+  ({ row }: { row: Row<Tank> }) => {
+    const date = row.original[accessorKey];
+    return date ? new Date(date).toLocaleDateString('uk') : '';
+  };
 
 const filterFn = (row: Row<Tank>, id: string, value: Array<any>) =>
   value.includes(row.getValue(id));
@@ -112,6 +116,12 @@ export const columns: ColumnDef<Tank>[] = [
     accessorKey: 'lastInspectionDate',
     header: 'Last Inspection Date',
     cell: formatDate('lastInspectionDate'),
+    enableColumnFilter: false,
+  },
+  {
+    accessorKey: 'lastInventoryDate',
+    header: 'Last Inventory Date',
+    cell: formatDate('lastInventoryDate'),
     enableColumnFilter: false,
   },
 ];

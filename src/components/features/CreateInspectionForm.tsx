@@ -151,7 +151,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             id='tankVerdict'
             name='tankVerdict'
             defaultValue='Acceptable'
-            className='flex'
+            className='flex gap-4'
             onValueChange={setOpen}
           >
             <div className='flex items-center space-x-2'>
@@ -177,7 +177,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             id='stickerAffixed'
             name='stickerAffixed'
             defaultValue='false'
-            className='flex'
+            className='flex gap-4'
           >
             <div className='flex items-center space-x-2'>
               <RadioGroupItem value='true' id='stickerAffixedYes' />
@@ -350,7 +350,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             />
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
               {valveRadioFields.map(
-                ({ name, title, defaultValue, options }) => (
+                ({ name, title, defaultValue = 'false', options }) => (
                   <RadioField
                     key={name}
                     name={`valve.${name}`}

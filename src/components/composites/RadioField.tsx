@@ -9,13 +9,14 @@ export const RadioField = ({
   options,
 }: RadioFieldType) => {
   return (
-    <div className='gap-4'>
+    <div>
       <Label htmlFor={name}>{title}</Label>
       <RadioGroup
         id={name}
         name={name}
         defaultValue={defaultValue}
-        className='flex'
+        className='flex gap-4'
+        required
       >
         {options.map(({ value, label, optionId }) => (
           <div key={value} className='flex items-center space-x-2'>

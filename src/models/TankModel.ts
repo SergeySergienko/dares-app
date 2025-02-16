@@ -12,6 +12,7 @@ export interface TankModel {
   firstHydrotestDate: Date;
   lastHydrotestDate: Date;
   lastInspectionDate: Date;
+  lastInventoryDate?: Date;
   grade?: Grade;
   manufactureDate?: Date;
   terminationDate?: Date;

@@ -5,6 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { redirect } from 'next/navigation';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export default function HomePage() {
   const [tankNumber, setTankNumber] = useState('');
@@ -34,7 +40,52 @@ export default function HomePage() {
         />
       </div>
       <div className='w-full flex justify-between gap-4'>
-        <Button
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button disabled={!tankNumber}>Inspection</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => redirect(`/inspections/create/${tankNumber}`)}
+              className='cursor-pointer'
+            >
+              Create New
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                redirect(`/reports/tanks/${tankNumber}/last-inspection`)
+              }
+              className='cursor-pointer'
+            >
+              View Last
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button disabled={!tankNumber}>Inventory</Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => redirect(`/inventory/create/${tankNumber}`)}
+              className='cursor-pointer'
+            >
+              Create New
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                redirect(`/reports/tanks/${tankNumber}/last-inventory`)
+              }
+              className='cursor-pointer'
+              disabled
+            >
+              View Last
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* <Button
           disabled={!tankNumber}
           onClick={() => redirect(`/inspections/create/${tankNumber}`)}
         >
@@ -47,7 +98,7 @@ export default function HomePage() {
           }
         >
           View Last Inspection
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
