@@ -11,6 +11,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 export default function HomePage() {
   const [tankNumber, setTankNumber] = useState('');
@@ -40,11 +46,11 @@ export default function HomePage() {
         />
       </div>
       <div className='w-full flex justify-between gap-4'>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button disabled={!tankNumber}>Inspection</Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent data-testid='inspection'>
             <DropdownMenuItem
               onClick={() => redirect(`/inspections/create/${tankNumber}`)}
               className='cursor-pointer'
@@ -83,12 +89,13 @@ export default function HomePage() {
               View Last
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
 
         {/* <Button
           disabled={!tankNumber}
           onClick={() => redirect(`/inspections/create/${tankNumber}`)}
         >
+          <CreditCard />
           Create Inspection
         </Button>
         <Button
@@ -99,6 +106,54 @@ export default function HomePage() {
         >
           View Last Inspection
         </Button> */}
+        <Accordion type='single' collapsible className='w-80'>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger
+              disabled={!tankNumber}
+              className='px-2 text-xl hover:no-underline disabled:opacity-50'
+            >
+              Inspection
+            </AccordionTrigger>
+            <AccordionContent className='flex justify-between'>
+              <Button
+                variant='outline'
+                disabled={!tankNumber}
+                onClick={() => redirect(`/inspections/create/${tankNumber}`)}
+              >
+                Create New
+              </Button>
+              <Button
+                variant='outline'
+                disabled={!tankNumber}
+                onClick={() =>
+                  redirect(`/reports/tanks/${tankNumber}/last-inspection`)
+                }
+              >
+                View Last
+              </Button>
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value='item-2'>
+            <AccordionTrigger
+              disabled={!tankNumber}
+              className='px-2 text-xl hover:no-underline disabled:opacity-50'
+            >
+              Inventory
+            </AccordionTrigger>
+            <AccordionContent className='flex justify-between'>
+              <Button
+                variant='outline'
+                disabled={!tankNumber}
+                onClick={() => redirect(`/inventory/create/${tankNumber}`)}
+              >
+                Create New
+              </Button>
+              <Button variant='outline' disabled onClick={() => {}}>
+                View Last
+              </Button>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );

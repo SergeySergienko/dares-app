@@ -191,18 +191,42 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
         </div>
       </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <div>
+      <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+        <RadioField
+          name='valve.type'
+          title='Valve type'
+          defaultValue={tank.valve}
+          options={[
+            {
+              value: 'YOKE',
+              label: 'YOKE',
+              optionId: 'valveTypeYoke',
+            },
+            {
+              value: 'DIN',
+              label: 'DIN',
+              optionId: 'valveTypeDin',
+            },
+            {
+              value: 'Other',
+              label: 'Other',
+              optionId: 'valveTypeOther',
+            },
+          ]}
+        />
+
+        <div className='md:w-5/6'>
           <Label htmlFor='grade'>Grade</Label>
           <Input type='number' id='grade' name='grade' min='1' max='10' />
         </div>
+
         <div>
           <Label htmlFor='inspector.name'>Inspector's name</Label>
           <RadioGroup
             id='inspector.name'
             name='inspector.name'
             defaultValue='Deripalov Andrii'
-            className='flex space-x-12'
+            className='flex space-x-8'
             onValueChange={handleInspectorChange}
           >
             <div className='flex items-center space-x-2'>
@@ -326,28 +350,6 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
               ]}
             />
             <div className='section-title'>VALVE</div>
-            <RadioField
-              name='valve.type'
-              title='Type'
-              defaultValue={tank.valve}
-              options={[
-                {
-                  value: 'YOKE',
-                  label: 'YOKE',
-                  optionId: 'valveTypeYoke',
-                },
-                {
-                  value: 'DIN',
-                  label: 'DIN',
-                  optionId: 'valveTypeDin',
-                },
-                {
-                  value: 'Other',
-                  label: 'Other',
-                  optionId: 'valveTypeOther',
-                },
-              ]}
-            />
             <div className='grid grid-cols-2 md:grid-cols-3 gap-4'>
               {valveRadioFields.map(
                 ({ name, title, defaultValue = 'false', options }) => (
