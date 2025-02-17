@@ -13,3 +13,8 @@ export interface InventoryModel {
 }
 
 export type Fit = Exclude<Status, 'Rejected'>;
+
+export type InventoryOutputDTO = Omit<InventoryModel, 'tankId'> & {
+  id: string;
+  tankId: string;
+};

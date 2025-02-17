@@ -80,7 +80,7 @@ export default function HomePage() {
             <Button
               variant='ghost'
               disabled={!tankNumber}
-              onClick={() => redirect(`/inventory/create/${tankNumber}`)}
+              onClick={() => redirect(`/inventories/create/${tankNumber}`)}
               className='text-lg'
             >
               Create New

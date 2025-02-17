@@ -10,6 +10,7 @@ import {
   LogIn,
   Folders,
   FileText,
+  NotebookPen,
 } from 'lucide-react';
 
 import {
@@ -87,14 +88,6 @@ export async function AppSidebar() {
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  {/* <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <a href='#'>
-                        <Plus />
-                        <span>Create</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem> */}
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
@@ -123,14 +116,34 @@ export async function AppSidebar() {
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                  {/* <SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
+        <Collapsible className='group/collapsible'>
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <span className='flex items-center space-x-2 text-primary'>
+                  <NotebookPen />
+                  <span className='text-lg'>Inventories</span>
+                </span>
+                <ChevronDown className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent className='ml-4 font-semibold text-primary'>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/inspections/create'>
-                        <Plus />
-                        <span>Create</span>
+                      <a href='/inventories'>
+                        <List />
+                        <span>List</span>
                       </a>
                     </SidebarMenuButton>
-                  </SidebarMenuItem> */}
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
@@ -169,42 +182,6 @@ export async function AppSidebar() {
       <SidebarSeparator />
       <SidebarFooter>
         <SignedOut>
-          {/* <Collapsible className='group/collapsible'>
-            <SidebarGroup>
-              <SidebarGroupLabel asChild>
-                <CollapsibleTrigger>
-                  <span className='flex items-top space-x-2 text-primary'>
-                    <User />
-                    <span className='text-lg'>Profile</span>
-                  </span>
-                  <ChevronUp className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
-
-              <CollapsibleContent className='ml-4 font-semibold text-primary'>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <a href='/sign-up'>
-                          <UserPlus />
-                          <span>Register</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild>
-                        <a href='/log-in'>
-                          <LogIn />
-                          <span>Log in</span>
-                        </a>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible> */}
           <a
             href='/log-in'
             className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'

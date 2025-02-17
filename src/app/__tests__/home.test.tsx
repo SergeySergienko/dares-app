@@ -142,7 +142,7 @@ describe('HomePage', () => {
 
       it('should call redirect when clicking "Create New" button', async () => {
         await userEvent.click(createNewButton);
-        expect(redirect).toHaveBeenCalledWith('/inventory/create/1');
+        expect(redirect).toHaveBeenCalledWith('/inventories/create/1');
       });
 
       // it('should call redirect when clicking "View Last" button', async () => {

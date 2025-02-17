@@ -2,14 +2,8 @@
 
 import { Column, ColumnDef, Row } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
-import { DataTableFacetedFilter } from './data-table-faceted-filter';
-
-type Tank = {
-  firstHydrotestDate: string;
-  lastHydrotestDate: string;
-  lastInspectionDate: string;
-  lastInventoryDate: string;
-};
+import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-faceted-filter';
+import { TankOutputDTO } from '@/models/TankModel';
 
 const formatDate =
   (
@@ -19,19 +13,19 @@ const formatDate =
       | 'lastInspectionDate'
       | 'lastInventoryDate'
   ) =>
-  ({ row }: { row: Row<Tank> }) => {
+  ({ row }: { row: Row<TankOutputDTO> }) => {
     const date = row.original[accessorKey];
     return date ? new Date(date).toLocaleDateString('uk') : '';
   };
 
-const filterFn = (row: Row<Tank>, id: string, value: Array<any>) =>
+const filterFn = (row: Row<TankOutputDTO>, id: string, value: Array<any>) =>
   value.includes(row.getValue(id));
 
 const sortifyHeader =
   (headerName: string, type?: 'filter') =>
-  ({ column }: { column: Column<Tank, unknown> }) => {
+  ({ column }: { column: Column<TankOutputDTO, unknown> }) => {
     return (
-      <div className='flex items-center justify-between'>
+      <div className='flex items-center justify-evenly'>
         {type === 'filter' ? (
           <DataTableFacetedFilter column={column} title={headerName} />
         ) : (
@@ -45,7 +39,7 @@ const sortifyHeader =
     );
   };
 
-export const columns: ColumnDef<Tank>[] = [
+export const columns: ColumnDef<TankOutputDTO>[] = [
   {
     accessorKey: 'internalNumber',
     header: sortifyHeader('Internal Number'),

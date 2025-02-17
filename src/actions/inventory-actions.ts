@@ -1,10 +1,26 @@
 'use server';
 
-import { Fit, InventoryModel } from '@/models/InventoryModel';
-import { ObjectId } from 'mongodb';
+import {
+  Fit,
+  InventoryModel,
+  InventoryOutputDTO,
+} from '@/models/InventoryModel';
+import { ObjectId, WithId } from 'mongodb';
 import { getTanks, updateTank } from './tank-actions';
 import { inventoryRepo } from '@/lib/db/inventory-repo';
 import { redirect } from 'next/navigation';
+
+const inventoryMapper = (
+  inventory: WithId<InventoryModel>
+): InventoryOutputDTO => {
+  const { _id, tankId, ...rest } = inventory;
+  return { id: _id.toString(), tankId: tankId.toString(), ...rest };
+};
+
+export async function getInventories(query: Partial<InventoryModel> = {}) {
+  const inventories = await inventoryRepo.getInventories(query);
+  return inventories.map(inventoryMapper);
+}
 
 export async function createInventory(state: any, formData: FormData) {
   const getValue = (key: string) => formData.get(key)?.toString().trim() || '';
@@ -40,5 +56,5 @@ export async function createInventory(state: any, formData: FormData) {
     });
   }
 
-  redirect('/tanks'); // TODO: redirect('/inventory')
+  redirect('/inventories');
 }

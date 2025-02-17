@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import {
   ColumnDef,
+  ColumnSort,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -28,16 +29,16 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   title: string;
+  initialSorting: ColumnSort;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   title,
+  initialSorting,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState([
-    { id: 'internalNumber', desc: false },
-  ]);
+  const [sorting, setSorting] = useState([initialSorting]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
 
