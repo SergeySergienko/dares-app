@@ -11,18 +11,18 @@ jest.mock('next/navigation', () => ({
 describe('HomePage', () => {
   let label: HTMLElement,
     input: HTMLElement,
-    createButton: HTMLElement,
-    viewButton: HTMLElement;
+    inspectionOption: HTMLElement,
+    inventoryOption: HTMLElement;
 
   beforeEach(() => {
     render(<HomePage />);
     label = screen.getByLabelText('Tank Number');
     input = screen.getByRole('spinbutton');
-    createButton = screen.getByRole('button', {
-      name: 'Create Inspection',
+    inspectionOption = screen.getByRole('button', {
+      name: /Inspection/,
     });
-    viewButton = screen.getByRole('button', {
-      name: 'View Last Inspection',
+    inventoryOption = screen.getByRole('button', {
+      name: /Inventory/,
     });
   });
 
@@ -34,68 +34,123 @@ describe('HomePage', () => {
     expect(input).toBeInTheDocument();
   });
 
-  it('should render two buttons', () => {
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(2);
+  it('should render two options', () => {
+    const options = screen.getAllByRole('button');
+    expect(options).toHaveLength(2);
   });
 
-  it('should render disabled buttons', () => {
-    expect(createButton).toBeDisabled();
-    expect(viewButton).toBeDisabled();
+  it('should render disabled options', () => {
+    expect(inspectionOption).toBeDisabled();
+    expect(inventoryOption).toBeDisabled();
   });
 
   describe('when entering incorrect value into the input', () => {
     beforeEach(async () => {
-      await userEvent.setup().type(input, '0');
+      await userEvent.type(input, '0');
     });
 
     it('should have entered value', () => {
       expect(input).toHaveValue(0);
     });
 
-    it('should render disabled buttons', () => {
-      expect(createButton).toBeDisabled();
-      expect(viewButton).toBeDisabled();
+    it('should render disabled options', () => {
+      expect(inspectionOption).toBeDisabled();
+      expect(inventoryOption).toBeDisabled();
     });
   });
 
   describe('when entering correct value into the input', () => {
     beforeEach(async () => {
-      await userEvent.setup().type(input, '1');
+      await userEvent.type(input, '1');
     });
 
     it('should have entered value', () => {
       expect(input).toHaveValue(1);
     });
 
-    it('should render activated buttons', () => {
-      expect(createButton).not.toBeDisabled();
-      expect(viewButton).not.toBeDisabled();
+    it('should render enabled options', () => {
+      expect(inspectionOption).toBeEnabled();
+      expect(inventoryOption).toBeEnabled();
     });
 
-    it('should call redirect when clicking "Create Inspection"', async () => {
-      await userEvent.click(createButton);
-      expect(redirect).toHaveBeenCalledWith('/inspections/create/1');
-    });
-
-    it('should call redirect when clicking "View Last Inspection"', async () => {
-      await userEvent.click(viewButton);
-      expect(redirect).toHaveBeenCalledWith('/reports/tanks/1/last-inspection');
-    });
-
-    describe('when clearing the input', () => {
+    describe('when clicking on Inspection option', () => {
+      let createNewButton: HTMLElement;
+      let viewLastButton: HTMLElement;
       beforeEach(async () => {
-        await userEvent.clear(input);
+        await userEvent.click(inspectionOption);
+        createNewButton = screen.getByRole('button', {
+          name: 'Create New',
+        });
+        viewLastButton = screen.getByRole('button', {
+          name: 'View Last',
+        });
       });
 
-      it('should not have entered value', () => {
-        expect(input).toHaveValue(null);
+      it('should render enabled inspection action buttons', () => {
+        expect(createNewButton).toBeEnabled();
+        expect(viewLastButton).toBeEnabled();
       });
 
-      it('should render disabled buttons', () => {
-        expect(createButton).toBeDisabled();
-        expect(viewButton).toBeDisabled();
+      it('should call redirect when clicking "Create New" button', async () => {
+        await userEvent.click(createNewButton);
+        expect(redirect).toHaveBeenCalledWith('/inspections/create/1');
       });
+
+      it('should call redirect when clicking "View Last" button', async () => {
+        await userEvent.click(viewLastButton);
+        expect(redirect).toHaveBeenCalledWith(
+          '/reports/tanks/1/last-inspection'
+        );
+      });
+
+      describe('when clearing the input', () => {
+        beforeEach(async () => {
+          await userEvent.clear(input);
+        });
+
+        it('should have empty value', () => {
+          expect(input).toHaveValue(null);
+        });
+
+        it('should render disabled options and buttons', () => {
+          expect(inspectionOption).toBeDisabled();
+          expect(inventoryOption).toBeDisabled();
+          expect(createNewButton).toBeDisabled();
+          expect(viewLastButton).toBeDisabled();
+        });
+      });
+    });
+
+    describe('when clicking on Inventory option', () => {
+      let createNewButton: HTMLElement;
+      let viewLastButton: HTMLElement;
+      beforeEach(async () => {
+        await userEvent.click(inventoryOption);
+        createNewButton = screen.getByRole('button', {
+          name: 'Create New',
+        });
+        viewLastButton = screen.getByRole('button', {
+          name: 'View Last',
+        });
+      });
+
+      it('should render inventory action buttons', () => {
+        expect(createNewButton).toBeInTheDocument();
+        expect(viewLastButton).toBeInTheDocument();
+        expect(viewLastButton).toBeDisabled();
+      });
+
+      it('should call redirect when clicking "Create New" button', async () => {
+        await userEvent.click(createNewButton);
+        expect(redirect).toHaveBeenCalledWith('/inventory/create/1');
+      });
+
+      // it('should call redirect when clicking "View Last" button', async () => {
+      //   await userEvent.click(viewLastButton);
+      //   expect(redirect).toHaveBeenCalledWith(
+      //     '/reports/tanks/1/last-inventory'
+      //   );
+      // });
     });
   });
 });
