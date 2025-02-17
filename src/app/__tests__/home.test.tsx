@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { redirect } from 'next/navigation';
 import HomePage from '../page';
@@ -11,18 +11,18 @@ jest.mock('next/navigation', () => ({
 describe('HomePage', () => {
   let label: HTMLElement,
     input: HTMLElement,
-    inspectionButton: HTMLElement,
-    inventoryButton: HTMLElement;
+    inspectionOption: HTMLElement,
+    inventoryOption: HTMLElement;
 
   beforeEach(() => {
     render(<HomePage />);
     label = screen.getByLabelText('Tank Number');
     input = screen.getByRole('spinbutton');
-    inspectionButton = screen.getByRole('button', {
-      name: 'Inspection',
+    inspectionOption = screen.getByRole('button', {
+      name: /Inspection/,
     });
-    inventoryButton = screen.getByRole('button', {
-      name: 'Inventory',
+    inventoryOption = screen.getByRole('button', {
+      name: /Inventory/,
     });
   });
 
@@ -34,14 +34,14 @@ describe('HomePage', () => {
     expect(input).toBeInTheDocument();
   });
 
-  it('should render two buttons', () => {
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(2);
+  it('should render two options', () => {
+    const options = screen.getAllByRole('button');
+    expect(options).toHaveLength(2);
   });
 
-  it('should render disabled buttons', () => {
-    expect(inspectionButton).toBeDisabled();
-    expect(inventoryButton).toBeDisabled();
+  it('should render disabled options', () => {
+    expect(inspectionOption).toBeDisabled();
+    expect(inventoryOption).toBeDisabled();
   });
 
   describe('when entering incorrect value into the input', () => {
@@ -53,9 +53,9 @@ describe('HomePage', () => {
       expect(input).toHaveValue(0);
     });
 
-    it('should render disabled buttons', () => {
-      expect(inspectionButton).toBeDisabled();
-      expect(inventoryButton).toBeDisabled();
+    it('should render disabled options', () => {
+      expect(inspectionOption).toBeDisabled();
+      expect(inventoryOption).toBeDisabled();
     });
   });
 
@@ -68,37 +68,89 @@ describe('HomePage', () => {
       expect(input).toHaveValue(1);
     });
 
-    it('should render activated buttons', () => {
-      expect(inspectionButton).toBeEnabled();
-      expect(inventoryButton).toBeEnabled();
+    it('should render enabled options', () => {
+      expect(inspectionOption).toBeEnabled();
+      expect(inventoryOption).toBeEnabled();
     });
 
-    it.only('should render menu items', async () => {
-      await userEvent.click(inspectionButton);
-      const inspection = await screen.findByTestId('inspection');
-      expect(inspection).toBeInTheDocument();
-      // screen.debug(inspection);
-      // expect(redirect).toHaveBeenCalledWith('/inspections/create/1');
-    });
-
-    it.skip('should call redirect when clicking "View Last Inspection"', async () => {
-      await userEvent.click(inventoryButton);
-      expect(redirect).toHaveBeenCalledWith('/reports/tanks/1/last-inspection');
-    });
-
-    describe('when clearing the input', () => {
+    describe('when clicking on Inspection option', () => {
+      let createNewButton: HTMLElement;
+      let viewLastButton: HTMLElement;
       beforeEach(async () => {
-        await userEvent.clear(input);
+        await userEvent.click(inspectionOption);
+        createNewButton = screen.getByRole('button', {
+          name: 'Create New',
+        });
+        viewLastButton = screen.getByRole('button', {
+          name: 'View Last',
+        });
       });
 
-      it('should not have entered value', () => {
-        expect(input).toHaveValue(null);
+      it('should render enabled inspection action buttons', () => {
+        expect(createNewButton).toBeEnabled();
+        expect(viewLastButton).toBeEnabled();
       });
 
-      it('should render disabled buttons', () => {
-        expect(inspectionButton).toBeDisabled();
-        expect(inventoryButton).toBeDisabled();
+      it('should call redirect when clicking "Create New" button', async () => {
+        await userEvent.click(createNewButton);
+        expect(redirect).toHaveBeenCalledWith('/inspections/create/1');
       });
+
+      it('should call redirect when clicking "View Last" button', async () => {
+        await userEvent.click(viewLastButton);
+        expect(redirect).toHaveBeenCalledWith(
+          '/reports/tanks/1/last-inspection'
+        );
+      });
+
+      describe('when clearing the input', () => {
+        beforeEach(async () => {
+          await userEvent.clear(input);
+        });
+
+        it('should have empty value', () => {
+          expect(input).toHaveValue(null);
+        });
+
+        it('should render disabled options and buttons', () => {
+          expect(inspectionOption).toBeDisabled();
+          expect(inventoryOption).toBeDisabled();
+          expect(createNewButton).toBeDisabled();
+          expect(viewLastButton).toBeDisabled();
+        });
+      });
+    });
+
+    describe('when clicking on Inventory option', () => {
+      let createNewButton: HTMLElement;
+      let viewLastButton: HTMLElement;
+      beforeEach(async () => {
+        await userEvent.click(inventoryOption);
+        createNewButton = screen.getByRole('button', {
+          name: 'Create New',
+        });
+        viewLastButton = screen.getByRole('button', {
+          name: 'View Last',
+        });
+      });
+
+      it('should render inventory action buttons', () => {
+        expect(createNewButton).toBeInTheDocument();
+        expect(viewLastButton).toBeInTheDocument();
+        expect(viewLastButton).toBeDisabled();
+      });
+
+      it('should call redirect when clicking "Create New" button', async () => {
+        await userEvent.click(createNewButton);
+        expect(redirect).toHaveBeenCalledWith('/inventory/create/1');
+      });
+
+      // it('should call redirect when clicking "View Last" button', async () => {
+      //   await userEvent.click(viewLastButton);
+      //   expect(redirect).toHaveBeenCalledWith(
+      //     '/reports/tanks/1/last-inventory'
+      //   );
+      // });
     });
   });
 });
