@@ -1,11 +1,13 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { redirect } from 'next/navigation';
 import HomePage from '../page';
 
+const mockPush = jest.fn();
 jest.mock('next/navigation', () => ({
-  redirect: jest.fn(),
+  useRouter: () => ({
+    push: mockPush,
+  }),
 }));
 
 describe('HomePage', () => {
@@ -24,6 +26,8 @@ describe('HomePage', () => {
     inventoryOption = screen.getByRole('button', {
       name: /Inventory/,
     });
+
+    mockPush.mockClear();
   });
 
   it('should render the label', () => {
@@ -93,12 +97,12 @@ describe('HomePage', () => {
 
       it('should call redirect when clicking "Create New" button', async () => {
         await userEvent.click(createNewButton);
-        expect(redirect).toHaveBeenCalledWith('/inspections/create/1');
+        expect(mockPush).toHaveBeenCalledWith('/inspections/create/1');
       });
 
       it('should call redirect when clicking "View Last" button', async () => {
         await userEvent.click(viewLastButton);
-        expect(redirect).toHaveBeenCalledWith(
+        expect(mockPush).toHaveBeenCalledWith(
           '/reports/tanks/1/last-inspection'
         );
       });
@@ -142,7 +146,7 @@ describe('HomePage', () => {
 
       it('should call redirect when clicking "Create New" button', async () => {
         await userEvent.click(createNewButton);
-        expect(redirect).toHaveBeenCalledWith('/inventories/create/1');
+        expect(mockPush).toHaveBeenCalledWith('/inventories/create/1');
       });
 
       // it('should call redirect when clicking "View Last" button', async () => {

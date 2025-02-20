@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import {
   Accordion,
   AccordionContent,
@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/accordion';
 
 export default function HomePage() {
+  const router = useRouter();
   const [tankNumber, setTankNumber] = useState('');
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +53,7 @@ export default function HomePage() {
             <Button
               variant='ghost'
               disabled={!tankNumber}
-              onClick={() => redirect(`/inspections/create/${tankNumber}`)}
+              onClick={() => router.push(`/inspections/create/${tankNumber}`)}
               className='text-lg'
             >
               Create New
@@ -61,7 +62,7 @@ export default function HomePage() {
               variant='ghost'
               disabled={!tankNumber}
               onClick={() =>
-                redirect(`/reports/tanks/${tankNumber}/last-inspection`)
+                router.push(`/reports/tanks/${tankNumber}/last-inspection`)
               }
               className='text-lg'
             >
@@ -80,7 +81,7 @@ export default function HomePage() {
             <Button
               variant='ghost'
               disabled={!tankNumber}
-              onClick={() => redirect(`/inventories/create/${tankNumber}`)}
+              onClick={() => router.push(`/inventories/create/${tankNumber}`)}
               className='text-lg'
             >
               Create New
