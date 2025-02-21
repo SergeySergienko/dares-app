@@ -14,6 +14,7 @@ export default async function TanksPage() {
         data={tanks}
         title='List of tanks'
         initialSorting={{ id: 'internalNumber', desc: false }}
+        searchBy='internalNumber'
       />
     </div>
   );

@@ -2,17 +2,16 @@ import { cn } from '@/lib/utils';
 import { Column } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 
-interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
+interface Props<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
 }
 
-export function DataTableColumnHeader<TData, TValue>({
+export function DataTableSortingHeader<TData, TValue>({
   column,
   title,
   className,
-}: DataTableColumnHeaderProps<TData, TValue>) {
+}: Props<TData, TValue>) {
   return (
     <div className={cn('flex items-center justify-evenly', className)}>
       <span className='pl-1'>{title}</span>

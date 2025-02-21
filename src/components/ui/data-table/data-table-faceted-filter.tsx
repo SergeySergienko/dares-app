@@ -33,10 +33,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button
-          variant='ghost'
-          className='max-w-20 p-0.5 bg-gray-200 hover:bg-transparent'
-        >
+        <Button variant='link' className='p-0.5 underline hover:no-underline'>
           {title}
         </Button>
       </PopoverTrigger>

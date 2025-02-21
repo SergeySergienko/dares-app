@@ -24,12 +24,15 @@ import {
 
 import { DataTableViewOptions } from './data-table-view-options';
 import { DataTableFilterToolbar } from './data-table-filter-toolbar';
+import { DataTableSearchInput } from './data-table-search-input';
+import { DataTableResetButton } from './data-table-reset-button';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   title: string;
   initialSorting: ColumnSort;
+  searchBy?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -37,10 +40,19 @@ export function DataTable<TData, TValue>({
   data,
   title,
   initialSorting,
+  searchBy,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState([initialSorting]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState({});
+  const [inputValue, setInputValue] = useState('');
+
+  const reset = () => {
+    setInputValue('');
+    table.resetColumnFilters();
+  };
+
+  const onChange = (value: string) => setInputValue(value);
 
   const table = useReactTable({
     data,
@@ -63,6 +75,8 @@ export function DataTable<TData, TValue>({
 
   const rows = table.getRowModel().rows;
 
+  const isFiltered = table.getState().columnFilters.length > 0;
+
   return (
     <div>
       <h2 className='title mb-0'>{title}</h2>
@@ -70,7 +84,16 @@ export function DataTable<TData, TValue>({
         {rows?.length > 0 && <span>Result records: {rows.length}</span>}
       </div>
       <div className='flex justify-between items-center pb-4'>
-        <DataTableFilterToolbar table={table} />
+        <div className='flex items-center'>
+          <DataTableSearchInput
+            table={table}
+            inputValue={inputValue}
+            onChange={onChange}
+            searchBy={searchBy}
+          />
+          <DataTableFilterToolbar table={table} />
+          {isFiltered && <DataTableResetButton reset={reset} />}
+        </div>
         <DataTableViewOptions table={table} />
       </div>
       <div className='rounded-md border'>

@@ -1,121 +1,119 @@
 'use client';
 
-import { Column, ColumnDef, Row } from '@tanstack/react-table';
-import { ArrowUpDown } from 'lucide-react';
+import { ColumnDef } from '@tanstack/react-table';
 import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-faceted-filter';
 import { TankOutputDTO } from '@/models/TankModel';
-
-const formatDate =
-  (
-    accessorKey:
-      | 'firstHydrotestDate'
-      | 'lastHydrotestDate'
-      | 'lastInspectionDate'
-      | 'lastInventoryDate'
-  ) =>
-  ({ row }: { row: Row<TankOutputDTO> }) => {
-    const date = row.original[accessorKey];
-    return date ? new Date(date).toLocaleDateString('uk') : '';
-  };
-
-const filterFn = (row: Row<TankOutputDTO>, id: string, value: Array<any>) =>
-  value.includes(row.getValue(id));
-
-const sortifyHeader =
-  (headerName: string, type?: 'filter') =>
-  ({ column }: { column: Column<TankOutputDTO, unknown> }) => {
-    return (
-      <div className='flex items-center justify-evenly'>
-        {type === 'filter' ? (
-          <DataTableFacetedFilter column={column} title={headerName} />
-        ) : (
-          <span className='pl-1'>{headerName}</span>
-        )}
-        <ArrowUpDown
-          className='h-5 min-w-4 hover:bg-gray-200 cursor-pointer'
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        />
-      </div>
-    );
-  };
+import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-sorting-header';
 
 export const columns: ColumnDef<TankOutputDTO>[] = [
   {
     accessorKey: 'internalNumber',
-    header: sortifyHeader('Internal Number'),
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='I/N' />
+    ),
+    filterFn: (row, id, value) => +value === row.getValue(id),
+    enableColumnFilter: false,
   },
   {
     accessorKey: 'serialNumber',
-    header: sortifyHeader('Serial Number'),
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='S/N' />
+    ),
     enableColumnFilter: false,
   },
   {
     accessorKey: 'manufacturer',
-    header: 'Manufacturer',
-    enableColumnFilter: false,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Manufacturer' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'workPressure',
-    header: sortifyHeader('Work Pressure'),
-    enableColumnFilter: false,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Work Pressure' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'volume',
-    header: sortifyHeader('Volume', 'filter'),
-    filterFn,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Volume' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'material',
-    header: sortifyHeader('Material', 'filter'),
-    filterFn,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Material' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'color',
-    header: sortifyHeader('Color'),
-    enableColumnFilter: false,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Color' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'status',
-    header: sortifyHeader('Status', 'filter'),
-    filterFn,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Status' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'fillingType',
-    header: sortifyHeader('Filling Type', 'filter'),
-    filterFn,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Filling Type' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'valve',
-    header: sortifyHeader('Valve', 'filter'),
-    filterFn,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Valve' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'grade',
-    header: sortifyHeader('Grade', 'filter'),
-    filterFn,
+    header: ({ column }) => (
+      <DataTableFacetedFilter column={column} title='Grade' />
+    ),
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'firstHydrotestDate',
-    header: 'First Hydrotest Date',
-    cell: formatDate('firstHydrotestDate'),
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='First Hydrotest Date' />
+    ),
+    cell: ({ row }) => row.original.firstHydrotestDate.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
   {
     accessorKey: 'lastHydrotestDate',
-    header: 'Last Hydrotest Date',
-    cell: formatDate('lastHydrotestDate'),
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='Last Hydrotest Date' />
+    ),
+    cell: ({ row }) => row.original.lastHydrotestDate.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
   {
     accessorKey: 'lastInspectionDate',
-    header: 'Last Inspection Date',
-    cell: formatDate('lastInspectionDate'),
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='Last Inspection Date' />
+    ),
+    cell: ({ row }) => row.original.lastInspectionDate.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
   {
     accessorKey: 'lastInventoryDate',
-    header: 'Last Inventory Date',
-    cell: formatDate('lastInventoryDate'),
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='Last Inventory Date' />
+    ),
+    cell: ({ row }) => row.original.lastInventoryDate?.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
 ];
