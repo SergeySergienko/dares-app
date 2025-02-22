@@ -1,11 +1,11 @@
 'use client';
 
-import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-sorting-header';
 import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-faceted-filter';
-import { InventoryOutputDTO } from '@/models/InventoryModel';
+import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-sorting-header';
+import { InspectionOutputDTO } from '@/models/InspectionModel';
 import { ColumnDef } from '@tanstack/react-table';
 
-export const columns: ColumnDef<InventoryOutputDTO>[] = [
+export const columns: ColumnDef<InspectionOutputDTO>[] = [
   {
     accessorKey: 'date',
     header: ({ column }) => (
@@ -19,27 +19,23 @@ export const columns: ColumnDef<InventoryOutputDTO>[] = [
     header: ({ column }) => (
       <DataTableSortingHeader column={column} title='Tank' />
     ),
-  },
-  {
-    accessorKey: 'tankStatus',
-    header: ({ column }) => (
-      <DataTableFacetedFilter column={column} title='Tank Status' />
-    ),
-    filterFn: (row, id, value) => value.includes(row.getValue(id)),
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'description',
-    header: 'Description',
+    filterFn: (row, id, value) => +value === row.getValue(id),
     enableColumnFilter: false,
-    enableSorting: false,
   },
   {
-    accessorKey: 'executor',
+    accessorKey: 'tankVerdict',
     header: ({ column }) => (
-      <DataTableFacetedFilter column={column} title='Executor' />
+      <DataTableFacetedFilter column={column} title='Verdict' />
     ),
     filterFn: (row, id, value) => value.includes(row.getValue(id)),
     enableSorting: false,
+  },
+  {
+    accessorKey: 'inspector',
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='Inspector' />
+    ),
+    cell: ({ row }) => row.original.inspector.name,
+    enableColumnFilter: false,
   },
 ];

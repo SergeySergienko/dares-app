@@ -11,7 +11,8 @@ export default async function InventoriesPage() {
         columns={columns}
         data={inventories}
         title='List of Inventories'
-        initialSorting={{ id: 'date', desc: false }}
+        initialSorting={{ id: 'date', desc: true }}
+        searchBy='tankNumber'
       />
     </div>
   );

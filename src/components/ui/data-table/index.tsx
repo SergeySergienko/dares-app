@@ -80,10 +80,10 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <h2 className='title mb-0'>{title}</h2>
-      <div className='text-center text-sm h-5'>
+      <div className='text-center text-sm h-5 mb-2'>
         {rows?.length > 0 && <span>Result records: {rows.length}</span>}
       </div>
-      <div className='flex justify-between items-center pb-4'>
+      <div className='flex justify-between items-center pb-4 print:hidden'>
         <div className='flex items-center'>
           <DataTableSearchInput
             table={table}

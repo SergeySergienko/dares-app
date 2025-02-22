@@ -10,7 +10,7 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import { Button } from '@/components/ui/button';
-import { SquareMousePointer, SquareX } from 'lucide-react';
+import { Settings2, SquareMousePointer, X } from 'lucide-react';
 import { Table } from '@tanstack/react-table';
 
 export function DataTableViewOptions<TData>({
@@ -34,16 +34,19 @@ export function DataTableViewOptions<TData>({
         <MenubarTrigger asChild>
           <Button
             variant='outline'
-            className='cursor-pointer w-32'
+            className='cursor-pointer'
             onClick={() => setOpen(!open)}
           >
             {open ? (
               <>
-                <SquareX className='h-4' />
-                <span>Close panel</span>
+                <X className='h-4' />
+                <span className='hidden md:block w-32'>Close panel</span>
               </>
             ) : (
-              'Columns selector'
+              <>
+                <Settings2 className='h-4' />
+                <span className='hidden md:block w-32'>Columns selector</span>
+              </>
             )}
           </Button>
         </MenubarTrigger>

@@ -5,8 +5,6 @@ import { notFound } from 'next/navigation';
 
 const assignValue = (value: boolean | undefined) => (value ? 'YES' : 'NO');
 
-export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tanks')
-
 export default async function InspectionReport({
   params,
 }: {

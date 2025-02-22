@@ -22,16 +22,19 @@ export function DataTableSearchInput<TData>({
     return;
   }
   return (
-    <div>
+    <div className='flex items-center'>
       <Input
-        placeholder='I/N' // TODO: implement flexible placeholder depending on searchBy value
+        type='number'
+        min='1'
+        max='999'
+        placeholder='Tank' // TODO: implement flexible placeholder depending on searchBy value
         value={inputValue}
         onChange={(event) => onChange(event.target.value)}
-        className='h-8 w-16'
+        className='h-8 w-16 xs:w-20'
       />
       <Button
         size='sm'
-        className='mr-4'
+        className='mr-2 md:mr-4'
         onClick={() => table.getColumn(searchBy)?.setFilterValue(inputValue)}
       >
         Search

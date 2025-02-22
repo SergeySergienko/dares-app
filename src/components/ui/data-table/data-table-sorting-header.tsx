@@ -16,7 +16,7 @@ export function DataTableSortingHeader<TData, TValue>({
     <div className={cn('flex items-center justify-evenly', className)}>
       <span className='pl-1'>{title}</span>
       <ArrowUpDown
-        className='h-5 min-w-4 hover:bg-gray-200 cursor-pointer'
+        className='h-5 min-w-4 hover:bg-gray-200 cursor-pointer print:hidden'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     </div>

@@ -1,14 +1,18 @@
 import { getInspections } from '@/actions/inspection-actions';
-import { InspectionsTable } from '@/components/features/InspectionsTable';
-
-export const dynamic = 'force-dynamic'; // TODO: implement revalidatePath('/tanks')
+import { DataTable } from '@/components/ui/data-table';
+import { columns } from './columns';
 
 export default async function InspectionsPage() {
   const inspections = await getInspections();
   return (
-    <div className='w-11/12 md:w-5/6 py-4'>
-      <h1 className='title'>Inspection List</h1>
-      <InspectionsTable data={inspections} />
+    <div className='w-full px-4 pb-4'>
+      <DataTable
+        columns={columns}
+        data={inspections}
+        title='List of Inspections'
+        initialSorting={{ id: 'date', desc: true }}
+        searchBy='tankNumber'
+      />
     </div>
   );
 }
