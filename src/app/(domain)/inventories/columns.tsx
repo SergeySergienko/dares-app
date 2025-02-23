@@ -30,7 +30,7 @@ export const columns: ColumnDef<InventoryOutputDTO>[] = [
   },
   {
     accessorKey: 'description',
-    header: 'Description',
+    header: () => 'Description',
     enableColumnFilter: false,
     enableSorting: false,
   },
