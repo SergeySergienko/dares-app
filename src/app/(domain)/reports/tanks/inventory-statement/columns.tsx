@@ -39,11 +39,11 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     filterFn: (row, id, value) => +value === row.getValue(id),
   },
   {
-    accessorKey: 'serialNumber',
+    accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableSortingHeader column={column} title='S/N' />
+      <DataTableFacetedFilter column={column} title='Status' />
     ),
-    enableColumnFilter: false,
+    filterFn: (row, id, value) => value.includes(row.getValue(id)),
   },
   {
     accessorKey: 'volume',
@@ -78,17 +78,32 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     accessorKey: 'nextInspectionDeadline',
     header: () => 'Next Inspection Deadline',
     cell: ({ row }) => {
-      const deadLine = new Date(row.original.lastInspectionDate).setFullYear(
-        row.original.lastInspectionDate.getFullYear() + 1
+      const lastInspectionDate = new Date(
+        row.original.lastInspectionDate.getTime()
       );
+
+      const deadLine = new Date(lastInspectionDate);
+      deadLine.setFullYear(deadLine.getFullYear() + 1);
+
+      const deadLine11Months = new Date(lastInspectionDate);
+      deadLine11Months.setMonth(deadLine11Months.getMonth() + 11);
+
+      const now = Date.now();
+      const isPastDeadline = deadLine.getTime() < now;
+      const isNearDeadline =
+        deadLine11Months.getTime() < now && !isPastDeadline;
 
       return (
         <span
-          className={`${
-            deadLine < Date.now() ? 'px-2 py-1 bg-primary text-muted' : ''
+          className={`px-2 py-1 ${
+            isPastDeadline
+              ? 'bg-primary text-muted'
+              : isNearDeadline
+              ? 'border-2 border-primary'
+              : ''
           }`}
         >
-          {new Date(deadLine).toLocaleDateString('uk')}
+          {deadLine.toLocaleDateString('uk')}
         </span>
       );
     },
