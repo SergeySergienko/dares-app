@@ -16,10 +16,14 @@ export default async function TankCardPage({
   const t = await getTankByInternalNumber(internalNumber);
   if (!t) return;
 
-  const inspections = await getInspections({ tankNumber: internalNumber });
-  const inventories = await getInventories({ tankNumber: internalNumber });
-  const hasHistory = !!(inspections.length || inventories.length);
-  const tankForTesting = /test|fake|mock/i.test(t.serialNumber);
+  const [inspections, inventories] = await Promise.all([
+    getInspections({ tankNumber: internalNumber }),
+    getInventories({ tankNumber: internalNumber }),
+  ]);
+
+  const isTankUsed = inspections.length > 0 || inventories.length > 0;
+  const isTestTank = /test|fake|mock/i.test(t.serialNumber);
+  const disabled = !isTestTank && isTankUsed;
 
   return (
     <div className='report xs:gap-y-8'>
@@ -103,12 +107,12 @@ export default async function TankCardPage({
 
       <div className='flex flex-row gap-x-4 mt-16'>
         <a href={`/terminations/create/${internalNumber}`}>
-          <Button>
+          <Button disabled={internalNumber > 5}>
             <DatabaseBackup />
             Send to scrap
           </Button>
         </a>
-        {(tankForTesting || !hasHistory) && <DeleteTankDialog id={t.id} />}
+        {<DeleteTankDialog id={t.id} disabled={disabled} />}
       </div>
     </div>
   );

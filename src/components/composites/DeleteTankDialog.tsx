@@ -18,7 +18,13 @@ import { Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
-export const DeleteTankDialog = ({ id }: { id: string }) => {
+export const DeleteTankDialog = ({
+  id,
+  disabled,
+}: {
+  id: string;
+  disabled: boolean;
+}) => {
   const router = useRouter();
   const { toast } = useToast();
   const [container, setContainer] = useState<HTMLElement | null>(null);
@@ -53,7 +59,7 @@ export const DeleteTankDialog = ({ id }: { id: string }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='destructive'>
+        <Button variant='destructive' disabled={disabled}>
           <Trash2 />
           Delete
         </Button>
