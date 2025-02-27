@@ -7,7 +7,7 @@ import {
 } from '@/models/InventoryModel';
 import { ObjectId, WithId } from 'mongodb';
 import { getTanks, updateTank } from './tank-actions';
-import { inventoryRepo } from '@/lib/db/inventory-repo';
+import { inventoriesRepo } from '@/lib/db/inventories-repo';
 import { redirect } from 'next/navigation';
 
 const inventoryMapper = (
@@ -18,12 +18,13 @@ const inventoryMapper = (
 };
 
 export async function getInventories(query: Partial<InventoryModel> = {}) {
-  const inventories = await inventoryRepo.getInventories(query);
+  const inventories = await inventoriesRepo.getInventories(query);
   return inventories.map(inventoryMapper);
 }
 
 export async function createInventory(state: any, formData: FormData) {
-  const getValue = (key: string) => formData.get(key)?.toString().trim() || '';
+  const getValue = (key: keyof InventoryModel) =>
+    formData.get(key)?.toString().trim() || '';
 
   const newInventory: InventoryModel = {
     date: new Date(getValue('date')),
@@ -35,7 +36,7 @@ export async function createInventory(state: any, formData: FormData) {
     createdAt: new Date(),
   };
 
-  const { insertedId } = await inventoryRepo.createInventory(newInventory);
+  const { insertedId } = await inventoriesRepo.createInventory(newInventory);
   if (!insertedId) {
     throw new Error(
       'Failed to create inventory record. Please try again later.'

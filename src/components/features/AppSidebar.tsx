@@ -12,6 +12,7 @@ import {
   FileText,
   NotebookPen,
   SquareCheckBig,
+  Plus,
 } from 'lucide-react';
 
 import {
@@ -86,6 +87,14 @@ export async function AppSidebar() {
                       <a href='/tanks'>
                         <List />
                         <span>List</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <a href='/tanks/create'>
+                        <Plus />
+                        <span>Create</span>
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

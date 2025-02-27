@@ -1,5 +1,6 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { Toaster } from '@/components/ui/toaster';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/features/AppSidebar';
 import './globals.css';
@@ -40,8 +41,10 @@ export default function RootLayout({
             <main>
               <SidebarTrigger className='mr-auto items-end pl-2 [&_svg]:size-5 print:hidden' />
               {children}
+              <div id='custom-container' className='relative' />
             </main>
           </SidebarProvider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

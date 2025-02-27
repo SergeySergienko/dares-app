@@ -2,7 +2,7 @@ import { Filter } from 'mongodb';
 import { connectDB } from './mongo-db';
 import { InventoryModel } from '@/models/InventoryModel';
 
-export const inventoryRepo = {
+export const inventoriesRepo = {
   async getInventories(query: Partial<InventoryModel>) {
     const db = await connectDB();
     const filter: Filter<InventoryModel> = { ...query };

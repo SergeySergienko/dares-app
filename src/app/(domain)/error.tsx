@@ -1,8 +1,7 @@
 'use client'; // Error boundaries must be Client Components
 
-import { Button } from '@/components/ui/button';
-import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
 
 export default function Error({
   error,
@@ -20,7 +19,7 @@ export default function Error({
       <h2 className='text-red-500'>
         {error.message || 'Something went wrong'}
       </h2>
-      <Button onClick={() => redirect('/')}>Try again</Button>
+      <Button onClick={reset}>Try again</Button>
     </div>
   );
 }

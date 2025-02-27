@@ -4,6 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-faceted-filter';
 import { TankOutputDTO } from '@/models/TankModel';
 import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-sorting-header';
+import Link from 'next/link';
 
 export const columns: ColumnDef<TankOutputDTO>[] = [
   {
@@ -12,6 +13,11 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
       <DataTableSortingHeader column={column} title='I/N' />
     ),
     filterFn: (row, id, value) => +value === row.getValue(id),
+    cell: ({ row }) => (
+      <Link href={`/tanks/${row.original.internalNumber}`}>
+        {row.original.internalNumber}
+      </Link>
+    ),
     enableColumnFilter: false,
   },
   {

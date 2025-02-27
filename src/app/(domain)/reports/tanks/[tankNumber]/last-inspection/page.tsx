@@ -52,43 +52,43 @@ export default async function InspectionReport({
         <div className='grid grid-cols-2 xs:grid-row-3 xs:grid-cols-3 gap-x-6'>
           <div className='field'>
             <span>Cylinder Work Pressure:</span>
-            <span className='field-value'>{i.tank.workPressure}</span>
+            <span className='field-value'>{i.tank?.workPressure}</span>
           </div>
           <div className='field'>
             <span>Manufactured:</span>
-            <span className='field-value'>{i.tank.manufacturer}</span>
+            <span className='field-value'>{i.tank?.manufacturer}</span>
           </div>
           <div className='field'>
             <span>Volume:</span>
-            <span className='field-value'>{i.tank.volume}L</span>
+            <span className='field-value'>{i.tank?.volume}L</span>
           </div>
           <div className='field'>
             <span>Material:</span>
-            <span className='field-value'>{i.tank.material}</span>
+            <span className='field-value'>{i.tank?.material}</span>
           </div>
           <div className='field'>
             <span>First HYDRO:</span>
             <span className='field-value'>
-              {new Date(i.tank.firstHydrotestDate).toLocaleDateString('uk')}
+              {i.tank?.firstHydrotestDate.toLocaleDateString('uk')}
             </span>
           </div>
           <div className='field'>
             <span>Last HYDRO:</span>
             <span className='field-value'>
-              {new Date(i.tank.lastHydrotestDate).toLocaleDateString('uk')}
+              {i.tank?.lastHydrotestDate.toLocaleDateString('uk')}
             </span>
           </div>
           <div className='field'>
             <span>Man S/N:</span>
-            <span className='field-value'>{i.tank.serialNumber}</span>
+            <span className='field-value'>{i.tank?.serialNumber}</span>
           </div>
           <div className='field'>
             <span>Internal number:</span>
-            <span className='field-value'>{i.tank.internalNumber}</span>
+            <span className='field-value'>{i.tank?.internalNumber}</span>
           </div>
           <div className='field'>
             <span>Color:</span>
-            <span className='field-value'>{i.tank.color}</span>
+            <span className='field-value'>{i.tank?.color}</span>
           </div>
         </div>
         <h2 className='title-2'>EXTERNAL SURFACE</h2>
@@ -187,7 +187,7 @@ export default async function InspectionReport({
         <div>
           <div className='field'>
             <span>Type:</span>
-            <span className='field-value'>{i.tank?.valve || 'Unknown'}</span>
+            <span className='field-value'>{i.tank?.valve}</span>
           </div>
           <div className='grid grid-cols-2 xs:grid-cols-3 gap-x-6'>
             <div className='field'>

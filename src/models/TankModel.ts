@@ -1,3 +1,7 @@
+import { ObjectId } from 'mongodb';
+import { InspectionModel } from './InspectionModel';
+import { InventoryModel } from './InventoryModel';
+
 export interface TankModel {
   internalNumber: number;
   serialNumber: string;
@@ -19,7 +23,29 @@ export interface TankModel {
   createdAt: Date;
   updatedAt?: Date;
 }
-export type Manufacturer = 'Catalina';
+
+export interface BackupModel {
+  _id: ObjectId;
+  internalNumber: number;
+  serialNumber: string;
+  manufacturer: Manufacturer;
+  workPressure: number;
+  material: Material;
+  volume: number;
+  color: Color;
+  fillingType: FillingType;
+  firstHydrotestDate: Date;
+  lastHydrotestDate: Date;
+  manufactureDate?: Date;
+  terminationDate: Date;
+  inspectionList: InspectionModel[];
+  inventoryList: InventoryModel[];
+  // hydrotestList: HydrotestModel[];
+  // maintenanceList: MaintenanceModel[];
+  createdAt: Date;
+}
+
+export type Manufacturer = 'Catalina' | 'Faber';
 export type Material = 'Aluminium' | 'Steel' | 'FRP' | 'Carbon Composite';
 export type Valve = 'YOKE' | 'DIN' | 'Other' | 'Unknown';
 export type Color = 'Not painted' | 'Black/White' | 'Black/Yellow';
