@@ -6,9 +6,9 @@ import {
   InventoryOutputDTO,
 } from '@/models/InventoryModel';
 import { ObjectId, WithId } from 'mongodb';
-import { getTanks, updateTank } from './tank-actions';
+import { getTankByInternalNumber, getTanks, updateTank } from './tank-actions';
 import { inventoriesRepo } from '@/lib/db/inventories-repo';
-import { redirect } from 'next/navigation';
+import { client } from '@/lib/db/mongo-db';
 
 const inventoryMapper = (
   inventory: WithId<InventoryModel>
@@ -26,36 +26,52 @@ export async function createInventory(state: any, formData: FormData) {
   const getValue = (key: keyof InventoryModel) =>
     formData.get(key)?.toString().trim() || '';
 
-  const newInventory: InventoryModel = {
-    date: new Date(getValue('date')),
-    tankId: ObjectId.createFromHexString(getValue('tankId')),
-    tankNumber: Number(getValue('tankNumber')),
-    tankStatus: getValue('tankStatus') as Fit,
-    executor: getValue('executor'),
-    description: getValue('description'),
-    createdAt: new Date(),
-  };
-
-  const { insertedId } = await inventoriesRepo.createInventory(newInventory);
-  if (!insertedId) {
-    throw new Error(
-      'Failed to create inventory record. Please try again later.'
-    );
+  const tankNumber = Number(getValue('tankNumber'));
+  const tank = await getTankByInternalNumber(tankNumber);
+  if (!tank) {
+    throw new Error(`Tank with internal number ${tankNumber} not found`);
   }
 
-  // Update the tank's data if its last inventory date is missing or older
-  const [tank] = await getTanks({ internalNumber: newInventory.tankNumber });
-  if (
-    !tank.lastInventoryDate ||
-    new Date(newInventory.date).getTime() >
-      new Date(tank.lastInventoryDate).getTime()
-  ) {
-    await updateTank({
-      id: getValue('tankId'),
-      status: newInventory.tankStatus,
-      lastInventoryDate: newInventory.date,
+  const session = client.startSession();
+
+  try {
+    await session.withTransaction(async () => {
+      const newInventory: InventoryModel = {
+        date: new Date(getValue('date')),
+        tankId: ObjectId.createFromHexString(tank.id),
+        tankNumber,
+        tankStatus: getValue('tankStatus') as Fit,
+        executor: getValue('executor'),
+        description: getValue('description'),
+        createdAt: new Date(),
+      };
+
+      const { insertedId } = await inventoriesRepo.createInventory(
+        newInventory
+      );
+      if (!insertedId) {
+        throw new Error(
+          'Failed to create inventory record. Please try again later.'
+        );
+      }
+
+      // Update the tank's data if its last inventory date is missing or older
+      if (
+        !tank.lastInventoryDate ||
+        newInventory.date.getTime() > tank.lastInventoryDate.getTime()
+      ) {
+        await updateTank({
+          id: tank.id,
+          status: newInventory.tankStatus,
+          lastInventoryDate: newInventory.date,
+        });
+      }
     });
-  }
 
-  redirect('/inventories');
+    return 'Inventory has been successfully created.';
+  } catch (error) {
+    throw new Error(`Transaction failed: ${(error as Error).message}`);
+  } finally {
+    await session.endSession();
+  }
 }

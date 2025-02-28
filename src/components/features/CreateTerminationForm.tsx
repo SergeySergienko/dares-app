@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { TextareaField } from '../composites/TextareaField';
 import { createTermination } from '@/actions/termination-actions';
+import { createFormAction } from './form-utils';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
@@ -14,38 +15,22 @@ export const CreateTerminationForm = ({
 }: {
   tankNumber: string;
 }) => {
-  const router = useRouter();
   const { toast } = useToast();
+  const router = useRouter();
+  const handleFormAction = createFormAction(
+    createTermination,
+    '/tanks',
+    toast,
+    router.push
+  );
 
-  const handleTermination = async (state: any, formData: FormData) => {
-    try {
-      const message = await createTermination(state, formData);
-      toast({
-        title: 'SUCCESS!',
-        description: message,
-        duration: 5000,
-        style: { color: 'white', backgroundColor: 'green' },
-      });
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Something went wrong';
-      toast({
-        title: 'Oops...',
-        description: errorMessage,
-        variant: 'destructive',
-        duration: 5000,
-      });
-    } finally {
-      router.push('/tanks');
-    }
-  };
-  const [state, action, isPending] = useActionState(
-    handleTermination,
+  const [state, formAction, isPending] = useActionState(
+    handleFormAction,
     undefined
   );
 
   return (
-    <form action={action} className='space-y-4'>
+    <form action={formAction} className='space-y-4'>
       <div className='grid grid-cols-2 gap-4'>
         <div>
           <Label htmlFor='tankNumber'>Internal tank number</Label>
@@ -61,13 +46,7 @@ export const CreateTerminationForm = ({
         </div>
         <div>
           <Label htmlFor='date'>Date</Label>
-          <Input
-            type='date'
-            id='date'
-            name='date'
-            // defaultValue={new Date().toISOString().split('T')[0]}
-            required
-          />
+          <Input type='date' id='date' name='date' required />
         </div>
       </div>
       <TextareaField id='reason' title='Reason' required />
