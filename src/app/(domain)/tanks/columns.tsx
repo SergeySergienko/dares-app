@@ -15,7 +15,9 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     filterFn: (row, id, value) => +value === row.getValue(id),
     cell: ({ row }) => (
       <Link href={`/tanks/${row.original.internalNumber}`}>
-        {row.original.internalNumber}
+        <span className='p-1 underline hover:no-underline hover:font-bold hover:bg-slate-300'>
+          {row.original.internalNumber}
+        </span>
       </Link>
     ),
     enableColumnFilter: false,
@@ -111,7 +113,8 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     header: ({ column }) => (
       <DataTableSortingHeader column={column} title='Last Inspection Date' />
     ),
-    cell: ({ row }) => row.original.lastInspectionDate.toLocaleDateString('uk'),
+    cell: ({ row }) =>
+      row.original.lastInspectionDate?.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
   {

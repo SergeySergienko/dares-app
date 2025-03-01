@@ -92,8 +92,8 @@ export async function createInspection(state: any, formData: FormData) {
   // Update the tank's data if the new inspection date is later
   const [tank] = await getTanks({ internalNumber: newInspection.tankNumber });
   if (
-    new Date(newInspection.date).getTime() >
-    new Date(tank.lastInspectionDate).getTime()
+    !tank.lastInspectionDate ||
+    newInspection.date.getTime() > tank.lastInspectionDate.getTime()
   ) {
     const fieldsToUpdate: TankUpdateDTO = {
       id: tankId as string,

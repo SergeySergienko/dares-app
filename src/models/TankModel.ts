@@ -9,13 +9,13 @@ export interface TankModel {
   workPressure: number;
   material: Material;
   volume: number;
-  valve: Valve;
+  valve?: Valve;
   color: Color;
-  status: Status;
+  status?: Status;
   fillingType: FillingType;
   firstHydrotestDate: Date;
   lastHydrotestDate: Date;
-  lastInspectionDate: Date;
+  lastInspectionDate?: Date;
   lastInventoryDate?: Date;
   grade?: Grade;
   manufactureDate?: Date;

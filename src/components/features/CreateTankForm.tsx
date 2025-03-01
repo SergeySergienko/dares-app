@@ -33,21 +33,21 @@ const tankRadioFields: RadioFieldType[] = [
       },
     ],
   },
-  {
-    name: 'valve',
-    title: 'Valve',
-    defaultValue: 'YOKE',
-    options: [
-      { value: 'YOKE', label: 'YOKE', optionId: 'yoke' },
-      { value: 'DIN', label: 'DIN', optionId: 'din' },
-      { value: 'Other', label: 'Other', optionId: 'other' },
-      {
-        value: 'Unknown',
-        label: 'Unknown',
-        optionId: 'unknown',
-      },
-    ],
-  },
+  // {
+  //   name: 'valve',
+  //   title: 'Valve',
+  //   defaultValue: 'YOKE',
+  //   options: [
+  //     { value: 'YOKE', label: 'YOKE', optionId: 'yoke' },
+  //     { value: 'DIN', label: 'DIN', optionId: 'din' },
+  //     { value: 'Other', label: 'Other', optionId: 'other' },
+  //     {
+  //       value: 'Unknown',
+  //       label: 'Unknown',
+  //       optionId: 'unknown',
+  //     },
+  //   ],
+  // },
   {
     name: 'color',
     title: 'Color',
@@ -62,26 +62,26 @@ const tankRadioFields: RadioFieldType[] = [
       },
     ],
   },
-  {
-    name: 'status',
-    title: 'Status',
-    defaultValue: 'In use',
-    options: [
-      { value: 'In use', label: 'In use', optionId: 'in_use' },
-      { value: 'In testing', label: 'In testing', optionId: 'in_testing' },
-      { value: 'Rejected', label: 'Rejected', optionId: 'rejected' },
-      {
-        value: 'Not found',
-        label: 'Not found',
-        optionId: 'not_found',
-      },
-      {
-        value: 'Lost',
-        label: 'Lost',
-        optionId: 'lost',
-      },
-    ],
-  },
+  // {
+  //   name: 'status',
+  //   title: 'Status',
+  //   defaultValue: 'In use',
+  //   options: [
+  //     { value: 'In use', label: 'In use', optionId: 'in_use' },
+  //     { value: 'In testing', label: 'In testing', optionId: 'in_testing' },
+  //     { value: 'Rejected', label: 'Rejected', optionId: 'rejected' },
+  //     {
+  //       value: 'Not found',
+  //       label: 'Not found',
+  //       optionId: 'not_found',
+  //     },
+  //     {
+  //       value: 'Lost',
+  //       label: 'Lost',
+  //       optionId: 'lost',
+  //     },
+  //   ],
+  // },
   {
     name: 'fillingType',
     title: 'FillingType',
@@ -146,8 +146,7 @@ export const CreateTankForm = () => {
           type='date'
           id='firstHydrotestDate'
           name='firstHydrotestDate'
-          defaultValue={new Date().toISOString().split('T')[0]}
-          required
+          // defaultValue={new Date().toISOString().split('T')[0]}
         />
       </div>
       <div>
@@ -156,19 +155,12 @@ export const CreateTankForm = () => {
           type='date'
           id='lastHydrotestDate'
           name='lastHydrotestDate'
-          defaultValue={new Date().toISOString().split('T')[0]}
-          required
+          // defaultValue={new Date().toISOString().split('T')[0]}
         />
       </div>
       <div>
         <Label htmlFor='lastInspectionDate'>Last Inspection Date</Label>
-        <Input
-          type='date'
-          id='lastInspectionDate'
-          name='lastInspectionDate'
-          defaultValue={new Date().toISOString().split('T')[0]}
-          required
-        />
+        <Input type='date' id='lastInspectionDate' name='lastInspectionDate' />
       </div>
       <div>
         <Label htmlFor='lastInventoryDate'>Last Inventory Date</Label>

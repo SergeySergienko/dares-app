@@ -28,8 +28,8 @@ export const ScheduledTanksTable = ({
 }: Props) => {
   const tanksWithDeadlines = data.map((tank) => ({
     ...tank,
-    deadline: new Date(tank[lastDateKey]).setFullYear(
-      new Date(tank[lastDateKey]).getFullYear() + deadlineYears
+    deadline: new Date(tank[lastDateKey] || '').setFullYear(
+      new Date(tank[lastDateKey] || '').getFullYear() + deadlineYears
     ),
   }));
 
@@ -70,7 +70,7 @@ export const ScheduledTanksTable = ({
                   {serialNumber}
                 </TableCell>
                 <TableCell className='hidden xs:table-cell'>
-                  {new Date(lastDate).toLocaleDateString('uk')}
+                  {new Date(lastDate || '').toLocaleDateString('uk')}
                 </TableCell>
                 <TableCell
                   className={`${deadline < Date.now() ? 'text-red-500' : ''}`}

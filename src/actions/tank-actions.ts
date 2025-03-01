@@ -66,7 +66,9 @@ export async function createTank(state: any, formData: FormData) {
     fillingType: getValue('fillingType') as FillingType,
     firstHydrotestDate: new Date(getValue('firstHydrotestDate')),
     lastHydrotestDate: new Date(getValue('lastHydrotestDate')),
-    lastInspectionDate: new Date(getValue('lastInspectionDate')),
+    lastInspectionDate: getValue('lastInspectionDate')
+      ? new Date(getValue('lastInspectionDate'))
+      : undefined,
     lastInventoryDate: getValue('lastInventoryDate')
       ? new Date(getValue('lastInventoryDate'))
       : undefined,

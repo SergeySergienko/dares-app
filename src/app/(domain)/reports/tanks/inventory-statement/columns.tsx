@@ -1,6 +1,6 @@
 'use client';
 
-import { ColumnDef, Row, Cell } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-faceted-filter';
 import { TankOutputDTO } from '@/models/TankModel';
 import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-sorting-header';
@@ -71,13 +71,16 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     header: ({ column }) => (
       <DataTableSortingHeader column={column} title='Last Inspection Date' />
     ),
-    cell: ({ row }) => row.original.lastInspectionDate.toLocaleDateString('uk'),
+    cell: ({ row }) =>
+      row.original.lastInspectionDate?.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
   {
     accessorKey: 'nextInspectionDeadline',
     header: () => 'Next Inspection Deadline',
     cell: ({ row }) => {
+      if (!row.original.lastInspectionDate) return;
+
       const lastInspectionDate = new Date(
         row.original.lastInspectionDate.getTime()
       );

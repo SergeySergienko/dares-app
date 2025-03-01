@@ -4,8 +4,6 @@ import { getTankByInternalNumber } from '@/actions/tank-actions';
 import { Button } from '@/components/ui/button';
 import { DeleteTankDialog } from '@/components/composites/DeleteTankDialog';
 import { DatabaseBackup } from 'lucide-react';
-import { getInspections } from '@/actions/inspection-actions';
-import { getInventories } from '@/actions/inventory-actions';
 
 export default async function TankCardPage({
   params,
@@ -16,14 +14,9 @@ export default async function TankCardPage({
   const t = await getTankByInternalNumber(internalNumber);
   if (!t) return;
 
-  const [inspections, inventories] = await Promise.all([
-    getInspections({ tankNumber: internalNumber }),
-    getInventories({ tankNumber: internalNumber }),
-  ]);
-
-  const isTankUsed = inspections.length > 0 || inventories.length > 0;
+  const hasStatus = !!t.status;
   const isTestTank = /test|fake|mock/i.test(t.serialNumber);
-  const disabled = !isTestTank && isTankUsed;
+  const disabled = !isTestTank && hasStatus;
 
   return (
     <div className='report xs:gap-y-8'>
@@ -93,7 +86,8 @@ export default async function TankCardPage({
         <div className='field'>
           <span>Last Inspection Date:</span>
           <span className='field-value'>
-            {new Date(t.lastInspectionDate).toLocaleDateString('uk')}
+            {t.lastInspectionDate &&
+              new Date(t.lastInspectionDate).toLocaleDateString('uk')}
           </span>
         </div>
         <div className='field'>
