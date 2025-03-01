@@ -34,11 +34,11 @@ export function DataTableFilterToolbar<TData>({
         )}
       </div>
 
-      <div className='flex md:hidden'>
+      {/* <div className='flex md:hidden'>
         <Badge variant='secondary' className='rounded-sm px-1 font-normal'>
           {selectedValues.length} selected
         </Badge>
-      </div>
+      </div> */}
     </>
   );
 }

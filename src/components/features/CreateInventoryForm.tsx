@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 export const CreateInventoryForm = ({ tankNumber }: { tankNumber: string }) => {
   const { toast } = useToast();
   const router = useRouter();
+
   const handleFormAction = createFormAction(
     createInventory,
     '/inventories',

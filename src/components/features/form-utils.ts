@@ -1,12 +1,7 @@
 'use client';
 
-import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
-
-type FormActionFn = (state: any, formData: FormData) => Promise<string>;
-
 export const createFormAction = (
-  formActionFn: FormActionFn,
+  formActionFn: (state: any, formData: FormData) => Promise<string>,
   successRedirectPath: string,
   toast: (config: any) => void,
   push: (path: string) => void

@@ -6,7 +6,7 @@ interface Props {
 }
 export function DataTableResetButton({ reset }: Props) {
   return (
-    <Button variant='ghost' onClick={reset} className='px-2 gap-1'>
+    <Button variant='ghost' onClick={reset} className='p-0 gap-1'>
       Reset
       <X />
     </Button>

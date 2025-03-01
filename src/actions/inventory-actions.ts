@@ -31,7 +31,6 @@ export async function createInventory(state: any, formData: FormData) {
   if (!tank) {
     throw new Error(`Tank with internal number ${tankNumber} not found`);
   }
-
   const session = client.startSession();
 
   try {

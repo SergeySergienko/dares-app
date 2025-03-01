@@ -34,7 +34,6 @@ export function DataTableSearchInput<TData>({
       />
       <Button
         size='sm'
-        className='mr-2 md:mr-4'
         onClick={() => table.getColumn(searchBy)?.setFilterValue(inputValue)}
       >
         Search
