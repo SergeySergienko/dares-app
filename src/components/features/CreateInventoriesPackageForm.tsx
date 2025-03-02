@@ -70,7 +70,7 @@ export const CreateInventoriesPackageForm = ({
             Selected Tanks
           </div>
 
-          <ul className='flex justify-center gap-4'>
+          <ul className='flex justify-center flex-wrap gap-4'>
             {tanksArray.map((tankNumber) => (
               <Link href={`/tanks/${tankNumber}`}>
                 <li key={tankNumber} className='relative'>

@@ -154,6 +154,14 @@ export async function AppSidebar() {
                       </a>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <a href='/reports/tanks/inventory-statement'>
+                        <SquareCheckBig />
+                        <span>Inventory Statement</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>
@@ -174,14 +182,6 @@ export async function AppSidebar() {
             <CollapsibleContent className='ml-4 font-semibold text-primary'>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <a href='/reports/tanks/inventory-statement'>
-                        <SquareCheckBig />
-                        <span>Inventory Statement</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <a href='/reports/tanks/scheduled'>

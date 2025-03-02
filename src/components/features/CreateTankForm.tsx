@@ -7,6 +7,9 @@ import { RadioFieldType } from './CreateInspectionForm';
 import { RadioField } from '../composites/RadioField';
 import { useActionState } from 'react';
 import { createTank } from '@/actions/tank-actions';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
+import { createFormAction } from './form-utils';
 
 const tankRadioFields: RadioFieldType[] = [
   {
@@ -94,7 +97,20 @@ const tankRadioFields: RadioFieldType[] = [
 ];
 
 export const CreateTankForm = () => {
-  const [state, action, isPending] = useActionState(createTank, undefined);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleFormAction = createFormAction(
+    createTank,
+    '/tanks',
+    toast,
+    router.push
+  );
+
+  const [state, action, isPending] = useActionState(
+    handleFormAction,
+    undefined
+  );
 
   return (
     <form action={action} className='space-y-4'>

@@ -17,6 +17,7 @@ export const CreateTerminationForm = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
+
   const handleFormAction = createFormAction(
     createTermination,
     '/tanks',

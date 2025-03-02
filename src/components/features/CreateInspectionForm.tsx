@@ -15,6 +15,9 @@ import {
 import { RadioField } from '../composites/RadioField';
 import { TextareaField } from '../composites/TextareaField';
 import { TankOutputDTO } from '@/models/TankModel';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
+import { createFormAction } from './form-utils';
 
 export type RadioFieldType = {
   name: string;
@@ -102,8 +105,18 @@ const valveRadioFields: RadioFieldType[] = [
 ];
 
 export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
-  const [state, action, isPending] = useActionState(
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleFormAction = createFormAction(
     createInspection,
+    '/inspections',
+    toast,
+    router.push
+  );
+
+  const [state, action, isPending] = useActionState(
+    handleFormAction,
     undefined
   );
   const [open, setOpen] = useState('');

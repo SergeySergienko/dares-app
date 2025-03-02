@@ -38,7 +38,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <PopoverTrigger asChild>
           <Button
             variant='link'
-            className='underline hover:no-underline text-muted-foreground print:no-underline'
+            className='px-1 underline hover:no-underline hover:text-primary text-muted-foreground print:no-underline'
           >
             {title}
           </Button>

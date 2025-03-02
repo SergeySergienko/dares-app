@@ -95,7 +95,7 @@ export async function createTank(state: any, formData: FormData) {
   if (!insertedId) {
     throw new Error('Failed to create tank record. Please try again later.');
   }
-  redirect('/tanks');
+  return 'New tank has been successfully created.';
 }
 
 export async function updateTank(updateData: TankUpdateDTO) {

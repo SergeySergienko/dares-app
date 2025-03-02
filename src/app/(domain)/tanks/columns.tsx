@@ -15,7 +15,7 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     filterFn: (row, id, value) => +value === row.getValue(id),
     cell: ({ row }) => (
       <Link href={`/tanks/${row.original.internalNumber}`}>
-        <span className='p-1 underline hover:no-underline hover:font-bold hover:bg-slate-300'>
+        <span className='p-1 underline hover:no-underline hover:font-bold hover:bg-slate-300 print:no-underline'>
           {row.original.internalNumber}
         </span>
       </Link>

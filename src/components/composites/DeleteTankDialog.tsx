@@ -73,7 +73,7 @@ export const DeleteTankDialog = ({
                 There is no backup for the Tank!
               </span>
               This action cannot be undone. This will permanently delete this
-              Tank and and remove the associated data from DB.
+              Tank and its history from DB.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className='flex-row justify-between items-center'>

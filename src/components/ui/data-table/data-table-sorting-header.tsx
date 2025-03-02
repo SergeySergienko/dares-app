@@ -14,10 +14,10 @@ export function DataTableSortingHeader<TData, TValue>({
 }: Props<TData, TValue>) {
   return (
     <div className={cn('flex items-center justify-evenly', className)}>
-      <span className='pl-1'>{title}</span>
+      <span>{title}</span>
       <ArrowUpDown
         id={title}
-        className='h-5 min-w-4 hover:bg-gray-200 cursor-pointer print:hidden'
+        className='h-5 min-w-4 hover:text-primary cursor-pointer print:hidden'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       />
     </div>

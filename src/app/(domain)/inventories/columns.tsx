@@ -4,6 +4,7 @@ import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-so
 import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-faceted-filter';
 import { InventoryOutputDTO } from '@/models/InventoryModel';
 import { ColumnDef } from '@tanstack/react-table';
+import Link from 'next/link';
 
 export const columns: ColumnDef<InventoryOutputDTO>[] = [
   {
@@ -19,6 +20,14 @@ export const columns: ColumnDef<InventoryOutputDTO>[] = [
     header: ({ column }) => (
       <DataTableSortingHeader column={column} title='Tank' />
     ),
+    cell: ({ row }) => (
+      <Link href={`/tanks/${row.original.tankNumber}`}>
+        <span className='p-1 underline hover:no-underline hover:font-bold hover:bg-slate-300 print:no-underline'>
+          {row.original.tankNumber}
+        </span>
+      </Link>
+    ),
+    filterFn: (row, id, value) => +value === row.getValue(id),
   },
   {
     accessorKey: 'tankStatus',
