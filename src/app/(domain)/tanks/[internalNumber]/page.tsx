@@ -4,6 +4,7 @@ import { getTankByInternalNumber } from '@/actions/tank-actions';
 import { Button } from '@/components/ui/button';
 import { DeleteTankDialog } from '@/components/composites/DeleteTankDialog';
 import { DatabaseBackup } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function TankCardPage({
   params,
@@ -100,12 +101,19 @@ export default async function TankCardPage({
       </div>
 
       <div className='flex flex-row gap-x-4 mt-16'>
-        <a href={`/terminations/create/${internalNumber}`}>
-          <Button disabled={internalNumber > 5}>
+        {internalNumber > 5 ? (
+          <Button disabled>
             <DatabaseBackup />
             Send to scrap
           </Button>
-        </a>
+        ) : (
+          <Link href={`/terminations/create/${internalNumber}`}>
+            <Button>
+              <DatabaseBackup />
+              Send to scrap
+            </Button>
+          </Link>
+        )}
         {<DeleteTankDialog id={t.id} disabled={disabled} />}
       </div>
     </div>
