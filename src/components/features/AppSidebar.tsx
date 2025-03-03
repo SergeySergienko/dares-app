@@ -59,7 +59,9 @@ export async function AppSidebar() {
         </SignedOut>
       </SidebarHeader>
       <SidebarSeparator />
-      <SidebarContent className='mt-4'>
+      <SidebarContent
+        className={`mt-4 ${!user ? 'pointer-events-none blur-sm' : ''}`}
+      >
         <a
           href='/'
           className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'

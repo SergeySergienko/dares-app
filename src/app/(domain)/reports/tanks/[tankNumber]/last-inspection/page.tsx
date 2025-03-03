@@ -17,7 +17,7 @@ export default async function InspectionReport({
   return (
     <div className='report'>
       <div className='flex justify-between items-center'>
-        <Image src={formLogo} alt='inspection form logo' placeholder='blur' />
+        <Image src={formLogo} alt='inspection_form_logo' placeholder='blur' />
       </div>
       <div>
         <h1 className='title'>Visual cylinder inspection evaluation form</h1>

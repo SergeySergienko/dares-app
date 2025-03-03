@@ -12,8 +12,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { RadioField } from '../composites/RadioField';
-import { TextareaField } from '../composites/TextareaField';
+import { RadioField } from '@/components/composites/RadioField';
+import { TextareaField } from '@/components/composites/TextareaField';
 import { TankOutputDTO } from '@/models/TankModel';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -158,50 +158,46 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <div>
-          <Label htmlFor='tankVerdict'>Cylinder condition</Label>
-          <RadioGroup
-            id='tankVerdict'
-            name='tankVerdict'
-            defaultValue='Acceptable'
-            className='flex gap-4'
-            onValueChange={setOpen}
-          >
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='Acceptable' id='tankVerdictAcceptable' />
-              <Label htmlFor='tankVerdictAcceptable'>Acceptable</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='Marginal' id='tankVerdictMarginal' />
-              <Label htmlFor='tankVerdictMarginal'>Marginal</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='Condemn' id='tankVerdictCondemn' />
-              <Label htmlFor='tankVerdictCondemn'>Condemn</Label>
-            </div>
-          </RadioGroup>
-        </div>
+        <RadioField
+          name='tankVerdict'
+          title='Cylinder condition'
+          defaultValue='Acceptable'
+          options={[
+            {
+              value: 'Acceptable',
+              label: 'Acceptable',
+              optionId: 'tankVerdictAcceptable',
+            },
+            {
+              value: 'Marginal',
+              label: 'Marginal',
+              optionId: 'tankVerdictMarginal',
+            },
+            {
+              value: 'Condemn',
+              label: 'Condemn',
+              optionId: 'tankVerdictCondemn',
+            },
+          ]}
+        />
 
-        <div>
-          <Label htmlFor='stickerAffixed'>
-            Visual inspections sticker affixed
-          </Label>
-          <RadioGroup
-            id='stickerAffixed'
-            name='stickerAffixed'
-            defaultValue='false'
-            className='flex gap-4'
-          >
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='true' id='stickerAffixedYes' />
-              <Label htmlFor='stickerAffixedYes'>Yes</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='false' id='stickerAffixedNo' />
-              <Label htmlFor='stickerAffixedNo'>No</Label>
-            </div>
-          </RadioGroup>
-        </div>
+        <RadioField
+          name='stickerAffixed'
+          title='Visual inspections sticker affixed'
+          defaultValue='false'
+          options={[
+            {
+              value: 'true',
+              label: 'Yes',
+              optionId: 'stickerAffixedYes',
+            },
+            {
+              value: 'false',
+              label: 'No',
+              optionId: 'stickerAffixedNo',
+            },
+          ]}
+        />
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
@@ -233,30 +229,28 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
           <Input type='number' id='grade' name='grade' min='1' max='10' />
         </div>
 
-        <div>
-          <Label htmlFor='inspector.name'>Inspector's name</Label>
-          <RadioGroup
-            id='inspector.name'
-            name='inspector.name'
-            defaultValue='Deripalov Andrii'
-            className='flex space-x-8'
-            onValueChange={handleInspectorChange}
-          >
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='Deripalov Andrii' id='deripalov' />
-              <Label htmlFor='deripalov'>Deripalov Andrii</Label>
-            </div>
-            <div className='flex items-center space-x-2'>
-              <RadioGroupItem value='Shai Karny' id='shai' />
-              <Label htmlFor='shai'>Shai Karny</Label>
-            </div>
-          </RadioGroup>
-        </div>
+        <RadioField
+          name='inspector.name'
+          title="Inspector's name"
+          defaultValue='Deripalov Andrii'
+          options={[
+            {
+              value: 'Deripalov Andrii',
+              label: 'Deripalov Andrii',
+              optionId: 'deripalov',
+            },
+            {
+              value: 'Shai Karny',
+              label: 'Shai Karny',
+              optionId: 'shai',
+            },
+          ]}
+        />
       </div>
       <Input type='hidden' name='inspector.pciNumber' value={pciNumber} />
       <Input type='hidden' name='tankId' value={tank.id} />
 
-      <Accordion type='single' value={open} onValueChange={setOpen} collapsible>
+      {/* <Accordion type='single' value={open} onValueChange={setOpen} collapsible>
         <AccordionItem value='Condemn'>
           <AccordionTrigger className='bg-slate-50 px-2 text-md hover:no-underline'>
             Optional fields
@@ -379,7 +373,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             <TextareaField id='valve.description' title='Description' />
           </AccordionContent>
         </AccordionItem>
-      </Accordion>
+      </Accordion> */}
 
       <Button disabled={isPending} type='submit'>
         {isPending ? 'Loading...' : 'Submit'}

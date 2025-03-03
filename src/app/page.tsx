@@ -1,6 +1,7 @@
 'use client';
 
 import { ChangeEvent, useState } from 'react';
+import { useAuth } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,8 +12,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { HomePageStub } from '@/components/composites/HomePageStub';
 
 export default function HomePage() {
+  const { isSignedIn } = useAuth();
   const router = useRouter();
   const [tankNumber, setTankNumber] = useState('');
 
@@ -24,6 +27,8 @@ export default function HomePage() {
       setTankNumber('');
     }
   };
+
+  if (!isSignedIn) return <HomePageStub />;
 
   return (
     <div className='flex-1 flex flex-col justify-center items-center mx-auto space-y-8'>
