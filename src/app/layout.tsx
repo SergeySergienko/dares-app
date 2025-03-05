@@ -39,7 +39,7 @@ export default function RootLayout({
           <SidebarProvider defaultOpen={false}>
             <AppSidebar />
             <main>
-              <SidebarTrigger className='mr-auto items-end pl-2 [&_svg]:size-5 print:hidden' />
+              <SidebarTrigger className='mr-auto items-end pl-2 [&_svg]:size-5 [&_svg]:pointer-events-auto print:hidden' />
               {children}
               <div id='custom-container' className='relative' />
             </main>

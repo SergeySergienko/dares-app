@@ -1,4 +1,4 @@
-import { auth, currentUser } from '@clerk/nextjs/server';
+import { currentUser } from '@clerk/nextjs/server';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 import {
@@ -41,27 +41,19 @@ export async function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className='flex flex-row justify-between items-center bg-white'>
+      <SidebarHeader
+        className={`flex flex-row justify-between items-center bg-white ${
+          !user ? 'pointer-events-none' : ''
+        }`}
+      >
         <Image src={logo} alt='logo' />
         <div className='flex flex-col grow'>
           <span className='font-bold'>DARES</span>
           <span className='text-xs'>v.{packageJson.version}</span>
         </div>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-        <SignedOut>
-          <a href='/log-in'>
-            <div className='p-1 rounded-md text-lg font-semibold hover:bg-secondary'>
-              Log in
-            </div>
-          </a>
-        </SignedOut>
       </SidebarHeader>
       <SidebarSeparator />
-      <SidebarContent
-        className={`mt-4 ${!user ? 'pointer-events-none blur-sm' : ''}`}
-      >
+      <SidebarContent className={`mt-4 ${!user ? 'pointer-events-none' : ''}`}>
         <a
           href='/'
           className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
