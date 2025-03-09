@@ -23,7 +23,7 @@ export default async function InspectionReport({
         <h1 className='title'>Visual cylinder inspection evaluation form</h1>
         <div className='grid grid-cols-2 xs:grid-cols-3 gap-x-6 bg-primary text-yellow-200 p-1'>
           <div className='field -order-3 xs:order-none'>
-            <span>Owner's Name:</span>
+            <span>Owner&#39;s Name:</span>
             <span className='field-value'>Aqua sport</span>
           </div>
           <div className='field -order-1 xs:order-none'>
@@ -138,7 +138,7 @@ export default async function InspectionReport({
             </span>
           </div>
           <div className='field'>
-            <span>Gouges, Pits, Marks more than 0.015" (location):</span>
+            <span>Gouges, Pits, Marks more than 0.015&#34; (location):</span>
             <span className='field-value'>
               {i.external?.damageLocation || 'No damage found'}
             </span>
@@ -237,7 +237,7 @@ export default async function InspectionReport({
         </div>
         <div className='grid grid-cols-2 gap-6'>
           <div className='field'>
-            <span>Inspector's Name:</span>
+            <span>Inspector&#39;s Name:</span>
             <span className='field-value'>{i.inspector.name}</span>
           </div>
           <div className='field'>

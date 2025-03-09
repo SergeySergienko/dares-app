@@ -35,6 +35,7 @@ import {
 } from '@/components/ui/collapsible';
 import logo from '/public/icon_logo.png';
 import packageJson from 'package.json';
+import Link from 'next/link';
 
 export async function AppSidebar() {
   const user = await currentUser();
@@ -54,13 +55,13 @@ export async function AppSidebar() {
       </SidebarHeader>
       <SidebarSeparator />
       <SidebarContent className={`mt-4 ${!user ? 'pointer-events-none' : ''}`}>
-        <a
+        <Link
           href='/'
           className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
         >
           <House />
           <span className='text-lg font-semibold text-primary'>Home</span>
-        </a>
+        </Link>
         {/* ------------------------------------------------------------------------------------------------- */}
         <Collapsible className='group/collapsible'>
           <SidebarGroup>
@@ -78,18 +79,18 @@ export async function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/tanks'>
+                      <Link href='/tanks'>
                         <List />
                         <span>List</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/tanks/create'>
+                      <Link href='/tanks/create'>
                         <Plus />
                         <span>Create</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -114,10 +115,10 @@ export async function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/inspections'>
+                      <Link href='/inspections'>
                         <List />
                         <span>List</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -142,18 +143,18 @@ export async function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/inventories'>
+                      <Link href='/inventories'>
                         <List />
                         <span>List</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/reports/tanks/inventory-statement'>
+                      <Link href='/reports/tanks/inventory-statement'>
                         <SquareCheckBig />
                         <span>Inventory Statement</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -178,10 +179,10 @@ export async function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <a href='/reports/tanks/scheduled'>
+                      <Link href='/reports/tanks/scheduled'>
                         <FileText />
                         <span>Scheduled Tanks</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </SidebarMenu>
@@ -194,13 +195,13 @@ export async function AppSidebar() {
       <SidebarSeparator />
       <SidebarFooter>
         <SignedOut>
-          <a
+          <Link
             href='/log-in'
             className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
           >
             <LogIn />
             <span className='text-lg font-semibold text-primary'>Log in</span>
-          </a>
+          </Link>
         </SignedOut>
         <SignedIn>
           <div className='flex gap-x-2 items-center'>

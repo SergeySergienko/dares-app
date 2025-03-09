@@ -119,7 +119,6 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
     handleFormAction,
     undefined
   );
-  const [open, setOpen] = useState('');
   const [pciNumber, setPciNumber] = useState('35823');
 
   const handleInspectorChange = (name: string) => {
@@ -250,7 +249,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
       <Input type='hidden' name='inspector.pciNumber' value={pciNumber} />
       <Input type='hidden' name='tankId' value={tank.id} />
 
-      {/* <Accordion type='single' value={open} onValueChange={setOpen} collapsible>
+      <Accordion type='single' collapsible>
         <AccordionItem value='Condemn'>
           <AccordionTrigger className='bg-slate-50 px-2 text-md hover:no-underline'>
             Optional fields
@@ -373,7 +372,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             <TextareaField id='valve.description' title='Description' />
           </AccordionContent>
         </AccordionItem>
-      </Accordion> */}
+      </Accordion>
 
       <Button disabled={isPending} type='submit'>
         {isPending ? 'Loading...' : 'Submit'}

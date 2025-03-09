@@ -72,8 +72,8 @@ export const CreateInventoriesPackageForm = ({
 
           <ul className='flex justify-center flex-wrap gap-4'>
             {tanksArray.map((tankNumber) => (
-              <Link href={`/tanks/${tankNumber}`}>
-                <li key={tankNumber} className='relative'>
+              <Link key={tankNumber} href={`/tanks/${tankNumber}`}>
+                <li className='relative'>
                   <Cylinder size={40} className='bg-gray-100 rounded-full' />
                   <span className='flex items-center justify-center relative'>
                     <span className='absolute text-sm font-bold text-black bottom-1'>
