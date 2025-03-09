@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "cy:open": "cypress open"
+    "cy:open": "cypress open",
+    "cy:local": "set CYPRESS_BASE_URL=http://localhost:3000&& cypress open"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.11.1",

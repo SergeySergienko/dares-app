@@ -7,12 +7,14 @@ import {
   ColumnSort,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
   getFacetedRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
   getSortedRowModel,
   RowSelectionState,
   useReactTable,
+  PaginationState,
 } from '@tanstack/react-table';
 import {
   Table,
@@ -29,6 +31,7 @@ import { DataTableSearchInput } from './data-table-search-input';
 import { DataTableResetButton } from './data-table-reset-button';
 import { Button } from '@/components/ui/button';
 import { ArrowsUpFromLine } from 'lucide-react';
+import { DataTablePagination } from './data-table-pagination';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -49,6 +52,10 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState([initialSorting]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: Number.MAX_SAFE_INTEGER,
+  });
   const [inputValue, setInputValue] = useState('');
 
   const reset = () => {
@@ -65,12 +72,15 @@ export function DataTable<TData, TValue>({
       sorting,
       columnVisibility,
       rowSelection,
+      pagination,
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
@@ -172,6 +182,9 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+      </div>
+      <div className='mt-4 print:hidden'>
+        <DataTablePagination table={table} />
       </div>
     </div>
   );
