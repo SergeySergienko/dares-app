@@ -1,4 +1,6 @@
-import { currentUser } from '@clerk/nextjs/server';
+'use client';
+
+import { useUser } from '@clerk/clerk-react';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Image from 'next/image';
 import {
@@ -27,6 +29,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import {
   Collapsible,
@@ -37,16 +40,18 @@ import logo from '/public/icon_logo.png';
 import packageJson from 'package.json';
 import Link from 'next/link';
 
-export async function AppSidebar() {
-  const user = await currentUser();
+export function AppSidebar() {
+  const { isSignedIn, user } = useUser();
+  const { setOpen, setOpenMobile } = useSidebar();
+
+  const handleCloseSidebar = () => {
+    setOpen(false);
+    setOpenMobile(false);
+  };
 
   return (
     <Sidebar>
-      <SidebarHeader
-        className={`flex flex-row justify-between items-center bg-white ${
-          !user ? 'pointer-events-none' : ''
-        }`}
-      >
+      <SidebarHeader className='flex flex-row items-center'>
         <Image src={logo} alt='logo' />
         <div className='flex flex-col grow'>
           <span className='font-bold'>DARES</span>
@@ -54,7 +59,9 @@ export async function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarSeparator />
-      <SidebarContent className={`mt-4 ${!user ? 'pointer-events-none' : ''}`}>
+      <SidebarContent
+        className={`mt-4 ${!isSignedIn ? 'pointer-events-none' : ''}`}
+      >
         <Link
           href='/'
           className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
@@ -197,6 +204,7 @@ export async function AppSidebar() {
         <SignedOut>
           <Link
             href='/log-in'
+            onClick={handleCloseSidebar}
             className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
           >
             <LogIn />
