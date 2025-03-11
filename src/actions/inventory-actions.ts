@@ -67,6 +67,7 @@ export async function createInventory(state: any, formData: FormData) {
         });
       }
     });
+    revalidatePath('/tanks');
     revalidatePath('/inventories');
     return 'Inventory has been successfully created.';
   } catch (error) {

@@ -108,6 +108,7 @@ export async function createInspection(state: any, formData: FormData) {
 
     await updateTank(fieldsToUpdate);
   }
+  revalidatePath('/tanks');
   revalidatePath('/inspections');
   return 'Inspection has been successfully created.';
 }

@@ -117,6 +117,8 @@ export async function deleteTank(id: string, session?: ClientSession) {
   if (!success) {
     throw new Error(message);
   }
-  revalidatePath('/');
+  revalidatePath('/tanks');
+  revalidatePath('/inspections');
+  revalidatePath('/inventories');
   return message;
 }
