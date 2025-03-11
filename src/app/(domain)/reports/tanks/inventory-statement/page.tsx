@@ -2,6 +2,8 @@ import { getTanks } from '@/actions/tank-actions';
 import { columns } from './columns';
 import { DataTable } from '@/components/ui/data-table';
 
+export const dynamic = 'force-dynamic';
+
 export default async function InventoryStatementPage() {
   const tanks = await getTanks();
 
