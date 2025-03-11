@@ -9,6 +9,7 @@ import { ObjectId, WithId } from 'mongodb';
 import { getTankByInternalNumber, getTanks, updateTank } from './tank-actions';
 import { inventoriesRepo } from '@/lib/db/inventories-repo';
 import { client } from '@/lib/db/mongo-db';
+import { revalidatePath } from 'next/cache';
 
 const inventoryMapper = (
   inventory: WithId<InventoryModel>
@@ -66,7 +67,7 @@ export async function createInventory(state: any, formData: FormData) {
         });
       }
     });
-
+    revalidatePath('/inventories');
     return 'Inventory has been successfully created.';
   } catch (error) {
     throw new Error(`Transaction failed: ${(error as Error).message}`);

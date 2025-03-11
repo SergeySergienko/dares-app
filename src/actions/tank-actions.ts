@@ -7,13 +7,11 @@ import {
   FillingType,
   Manufacturer,
   Material,
-  Status,
   TankModel,
   TankOutputDTO,
   TankUpdateDTO,
-  Valve,
 } from '@/models/TankModel';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 const procedureMapper = {
   inspection: 'lastInspectionDate',
@@ -91,6 +89,7 @@ export async function createTank(state: any, formData: FormData) {
   if (!insertedId) {
     throw new Error('Failed to create tank record. Please try again later.');
   }
+  revalidatePath('/tanks');
   return 'New tank has been successfully created.';
 }
 
@@ -118,5 +117,6 @@ export async function deleteTank(id: string, session?: ClientSession) {
   if (!success) {
     throw new Error(message);
   }
+  revalidatePath('/tanks');
   return message;
 }

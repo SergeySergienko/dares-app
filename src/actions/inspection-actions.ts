@@ -17,6 +17,7 @@ import {
   Verdict,
 } from '@/models/InspectionModel';
 import { Grade, TankUpdateDTO } from '@/models/TankModel';
+import { revalidatePath } from 'next/cache';
 
 const inspectionMapper = (
   inspection: WithId<InspectionModel>
@@ -107,6 +108,6 @@ export async function createInspection(state: any, formData: FormData) {
 
     await updateTank(fieldsToUpdate);
   }
-
+  revalidatePath('/inspections');
   return 'Inspection has been successfully created.';
 }
