@@ -64,6 +64,7 @@ export function AppSidebar() {
       >
         <Link
           href='/'
+          onClick={handleCloseSidebar}
           className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
         >
           <House />
@@ -86,7 +87,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href='/tanks'>
+                      <Link href='/tanks' onClick={handleCloseSidebar}>
                         <List />
                         <span>List</span>
                       </Link>
@@ -94,7 +95,7 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href='/tanks/create'>
+                      <Link href='/tanks/create' onClick={handleCloseSidebar}>
                         <Plus />
                         <span>Create</span>
                       </Link>
@@ -122,7 +123,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href='/inspections'>
+                      <Link href='/inspections' onClick={handleCloseSidebar}>
                         <List />
                         <span>List</span>
                       </Link>
@@ -150,7 +151,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href='/inventories'>
+                      <Link href='/inventories' onClick={handleCloseSidebar}>
                         <List />
                         <span>List</span>
                       </Link>
@@ -158,7 +159,10 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href='/reports/tanks/inventory-statement'>
+                      <Link
+                        href='/reports/tanks/inventory-statement'
+                        onClick={handleCloseSidebar}
+                      >
                         <SquareCheckBig />
                         <span>Inventory Statement</span>
                       </Link>
@@ -186,7 +190,10 @@ export function AppSidebar() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
-                      <Link href='/reports/tanks/scheduled'>
+                      <Link
+                        href='/reports/tanks/scheduled'
+                        onClick={handleCloseSidebar}
+                      >
                         <FileText />
                         <span>Scheduled Tanks</span>
                       </Link>

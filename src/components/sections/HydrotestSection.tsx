@@ -1,6 +1,8 @@
 import { getTanksByProcedureDate } from '@/actions/tank-actions';
 import { ScheduledTanksTable } from '@/components/features/ScheduledTanksTable';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HydrotestSection({ monthsAgo = 57 }) {
   const data = await getTanksByProcedureDate('hydrotest', monthsAgo);
 
