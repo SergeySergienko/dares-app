@@ -3,7 +3,7 @@ import formLogo from '/public/inspection_form_logo.jpg';
 import { getTankByInternalNumber } from '@/actions/tank-actions';
 import { Button } from '@/components/ui/button';
 import { DeleteTankDialog } from '@/components/composites/DeleteTankDialog';
-import { DatabaseBackup } from 'lucide-react';
+import { DatabaseBackup, FireExtinguisher } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function TankCardPage({
@@ -100,21 +100,29 @@ export default async function TankCardPage({
         </div>
       </div>
 
-      <div className='flex flex-row gap-x-4 mt-16'>
-        {internalNumber > 5 ? (
-          <Button disabled>
-            <DatabaseBackup />
-            Send to scrap
-          </Button>
-        ) : (
-          <Link href={`/terminations/create/${internalNumber}`}>
-            <Button>
+      <div className='flex flex-row justify-between mt-16'>
+        <div className='flex gap-x-4'>
+          {internalNumber > 5 ? (
+            <Button disabled>
               <DatabaseBackup />
               Send to scrap
             </Button>
-          </Link>
-        )}
-        {<DeleteTankDialog id={t.id} disabled={disabled} />}
+          ) : (
+            <Link href={`/terminations/create/${internalNumber}`}>
+              <Button>
+                <DatabaseBackup />
+                Send to scrap
+              </Button>
+            </Link>
+          )}
+          {<DeleteTankDialog id={t.id} disabled={disabled} />}
+        </div>
+        <Link href={`/hydrotests/create/${internalNumber}`}>
+          <Button>
+            <FireExtinguisher />
+            Create Hydrotest
+          </Button>
+        </Link>
       </div>
     </div>
   );

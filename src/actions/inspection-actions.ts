@@ -97,7 +97,7 @@ export async function createInspection(state: any, formData: FormData) {
     newInspection.date.getTime() > tank.lastInspectionDate.getTime()
   ) {
     const fieldsToUpdate: TankUpdateDTO = {
-      id: tankId as string,
+      id: tank.id,
       grade: newInspection.grade,
       lastInspectionDate: newInspection.date,
       valve: newInspection.valve?.type,

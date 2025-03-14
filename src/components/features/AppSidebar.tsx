@@ -15,6 +15,7 @@ import {
   NotebookPen,
   SquareCheckBig,
   Plus,
+  FireExtinguisher,
 } from 'lucide-react';
 
 import {
@@ -165,6 +166,34 @@ export function AppSidebar() {
                       >
                         <SquareCheckBig />
                         <span>Inventory Statement</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
+        <Collapsible className='group/collapsible'>
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <span className='flex items-center space-x-2 text-primary'>
+                  <FireExtinguisher />
+                  <span className='text-lg'>Hydrotests</span>
+                </span>
+                <ChevronDown className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent className='ml-4 font-semibold text-primary'>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href='/hydrotests' onClick={handleCloseSidebar}>
+                        <List />
+                        <span>List</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
