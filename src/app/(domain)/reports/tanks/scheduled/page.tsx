@@ -1,6 +1,8 @@
 import InspectionSection from '@/components/sections/InspectionSection';
 import HydrotestSection from '@/components/sections/HydrotestSection';
 
+export const dynamic = 'force-dynamic';
+
 export default function ScheduledTanksPage() {
   return (
     <div className='w-11/12 md:w-3/4'>
