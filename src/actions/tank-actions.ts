@@ -120,5 +120,6 @@ export async function deleteTank(id: string, session?: ClientSession) {
   revalidatePath('/tanks');
   revalidatePath('/inspections');
   revalidatePath('/inventories');
+  revalidatePath('/hydrotests');
   return message;
 }

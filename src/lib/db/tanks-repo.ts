@@ -3,6 +3,7 @@ import { client, connectDB } from './mongo-db';
 import { BackupModel, TankModel, TankUpdateDTO } from '@/models/TankModel';
 import { InspectionModel } from '@/models/InspectionModel';
 import { InventoryModel } from '@/models/InventoryModel';
+import { HydrotestModel } from '@/models/HydrotestModel';
 
 export const tanksRepo = {
   async getTanks({
@@ -70,6 +71,7 @@ export const tanksRepo = {
           'status',
           'lastInspectionDate',
           'lastInventoryDate',
+          'lastHydrotestDate',
           'grade',
           'updatedAt',
         ],
@@ -88,6 +90,14 @@ export const tanksRepo = {
           localField: '_id',
           foreignField: 'tankId',
           as: 'inventoryList',
+        },
+      },
+      {
+        $lookup: {
+          from: 'hydrotest',
+          localField: '_id',
+          foreignField: 'tankId',
+          as: 'hydrotestList',
         },
       },
       {
@@ -131,6 +141,10 @@ export const tanksRepo = {
 
       await db
         .collection<InventoryModel>('inventory')
+        .deleteMany({ tankId: objectId }, { session: currentSession });
+
+      await db
+        .collection<HydrotestModel>('hydrotest')
         .deleteMany({ tankId: objectId }, { session: currentSession });
 
       const result = await db

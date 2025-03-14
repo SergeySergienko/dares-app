@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { InspectionModel } from './InspectionModel';
 import { InventoryModel } from './InventoryModel';
+import { HydrotestModel } from './HydrotestModel';
 
 export interface TankModel {
   internalNumber: number;
@@ -35,12 +36,11 @@ export interface BackupModel {
   color: Color;
   fillingType: FillingType;
   firstHydrotestDate: Date;
-  lastHydrotestDate: Date;
   manufactureDate?: Date;
   terminationDate: Date;
   inspectionList: InspectionModel[];
   inventoryList: InventoryModel[];
-  // hydrotestList: HydrotestModel[];
+  hydrotestList: HydrotestModel[];
   // maintenanceList: MaintenanceModel[];
   createdAt: Date;
 }
