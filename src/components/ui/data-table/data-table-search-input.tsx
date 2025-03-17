@@ -1,6 +1,7 @@
 import { Table } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 interface Props<TData> {
   table: Table<TData>;
@@ -36,7 +37,8 @@ export function DataTableSearchInput<TData>({
         size='sm'
         onClick={() => table.getColumn(searchBy)?.setFilterValue(inputValue)}
       >
-        Search
+        <Search />
+        <span className='hidden md:block'>Search</span>
       </Button>
     </div>
   );

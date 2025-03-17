@@ -6,15 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const isValidGrade = (value: number): value is Grade => {
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(value);
-};
-
-export const parseGrade = (gradeStr: `${Grade}`): Grade | undefined => {
-  const grade = Number(gradeStr) as Grade;
-  return grade >= 1 && grade <= 10 ? grade : undefined;
-};
-
 export function deepSet(
   obj: Record<string, any>,
   path: string,

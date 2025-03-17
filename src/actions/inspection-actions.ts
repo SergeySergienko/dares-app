@@ -1,15 +1,9 @@
 'use server';
 
 import { ObjectId, WithId } from 'mongodb';
-import { redirect } from 'next/navigation';
 import { inspectionsRepo } from '@/lib/db/inspections-repo';
-import {
-  deepSet,
-  isValidGrade,
-  normalizeInspectionData,
-  parseGrade,
-} from '@/lib/utils';
-import { getTankByInternalNumber, getTanks, updateTank } from './tank-actions';
+import { deepSet, normalizeInspectionData } from '@/lib/utils';
+import { getTankByInternalNumber, updateTank } from './tank-actions';
 import {
   InspectionModel,
   InspectionOutputDTO,
@@ -17,6 +11,7 @@ import {
   Verdict,
 } from '@/models/InspectionModel';
 import { Grade, TankUpdateDTO } from '@/models/TankModel';
+import { client } from '@/lib/db/mongo-db';
 import { revalidatePath } from 'next/cache';
 
 const inspectionMapper = (
@@ -55,60 +50,65 @@ export async function createInspection(state: any, formData: FormData) {
     }
   }
 
-  const {
-    date,
-    tankId,
-    tankVerdict,
-    tankNumber,
-    grade: gradeStringValue,
-    inspector,
-    ...rest
-  } = data;
+  const { date, tankId, tankVerdict, tankNumber, grade, inspector, ...rest } =
+    data;
 
   const normalizedData = normalizeInspectionData(rest);
 
-  let grade: Grade | undefined;
-  if (gradeStringValue && isValidGrade(+gradeStringValue)) {
-    grade = parseGrade(gradeStringValue as `${Grade}`);
+  const session = client.startSession();
+
+  try {
+    await session.withTransaction(async () => {
+      const newInspection: InspectionModel = {
+        ...normalizedData,
+        date: new Date(date as string),
+        tankId: ObjectId.createFromHexString(tankId as string),
+        tankNumber: Number(tankNumber),
+        tankVerdict: tankVerdict as Verdict,
+        inspector: inspector as unknown as Inspector,
+        grade: grade as unknown as Grade,
+        createdAt: new Date(),
+      };
+
+      const { insertedId } = await inspectionsRepo.createInspection(
+        newInspection
+      );
+      if (!insertedId) {
+        throw new Error(
+          'Failed to create inspection record. Please try again later.'
+        );
+      }
+
+      // Update the tank's data if the new inspection date is later
+      const tank = await getTankByInternalNumber(newInspection.tankNumber);
+      if (!tank) {
+        throw new Error(
+          `Tank with internal number ${newInspection.tankNumber} not found`
+        );
+      }
+      if (
+        !tank.lastInspectionDate ||
+        newInspection.date.getTime() > tank.lastInspectionDate.getTime()
+      ) {
+        const fieldsToUpdate: TankUpdateDTO = {
+          id: tank.id,
+          grade: newInspection.grade,
+          lastInspectionDate: newInspection.date,
+          valve: newInspection.valve?.type,
+        };
+        if (newInspection.tankVerdict === 'Condemn') {
+          fieldsToUpdate.status = 'Rejected';
+        }
+
+        await updateTank(fieldsToUpdate);
+      }
+    });
+    revalidatePath('/tanks');
+    revalidatePath('/inspections');
+    return 'Inspection has been successfully created.';
+  } catch (error) {
+    throw new Error(`Transaction failed: ${(error as Error).message}`);
+  } finally {
+    await session.endSession();
   }
-
-  const newInspection: InspectionModel = {
-    ...normalizedData,
-    date: new Date(date as string),
-    tankId: ObjectId.createFromHexString(tankId as string),
-    tankNumber: Number(tankNumber),
-    tankVerdict: tankVerdict as Verdict,
-    inspector: inspector as unknown as Inspector,
-    grade,
-    createdAt: new Date(),
-  };
-
-  const { insertedId } = await inspectionsRepo.createInspection(newInspection);
-  if (!insertedId) {
-    throw new Error(
-      'Failed to create inspection record. Please try again later.'
-    );
-  }
-
-  // Update the tank's data if the new inspection date is later
-  const [tank] = await getTanks({ internalNumber: newInspection.tankNumber });
-  if (
-    !tank.lastInspectionDate ||
-    newInspection.date.getTime() > tank.lastInspectionDate.getTime()
-  ) {
-    const fieldsToUpdate: TankUpdateDTO = {
-      id: tank.id,
-      grade: newInspection.grade,
-      lastInspectionDate: newInspection.date,
-      valve: newInspection.valve?.type,
-    };
-    if (newInspection.tankVerdict === 'Condemn') {
-      fieldsToUpdate.status = 'Rejected';
-    }
-
-    await updateTank(fieldsToUpdate);
-  }
-  revalidatePath('/tanks');
-  revalidatePath('/inspections');
-  return 'Inspection has been successfully created.';
 }

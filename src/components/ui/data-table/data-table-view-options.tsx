@@ -39,12 +39,12 @@ export function DataTableViewOptions<TData>({
           >
             {open ? (
               <>
-                <X className='h-4' />
+                <X />
                 <span className='hidden md:block w-32'>Close panel</span>
               </>
             ) : (
               <>
-                <Settings2 className='h-4' />
+                <Settings2 />
                 <span className='hidden md:block w-32'>Columns selector</span>
               </>
             )}
