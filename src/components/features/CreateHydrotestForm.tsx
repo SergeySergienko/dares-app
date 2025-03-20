@@ -29,22 +29,26 @@ export const CreateHydrotestForm = ({ tankNumber }: { tankNumber: string }) => {
 
   return (
     <form action={formAction} className='space-y-4'>
+      <div>
+        <Label htmlFor='tankNumber'>Internal tank number</Label>
+        <Input
+          type='number'
+          id='tankNumber'
+          name='tankNumber'
+          min='1'
+          defaultValue={tankNumber}
+          required
+          readOnly
+        />
+      </div>
       <div className='grid grid-cols-2 gap-4'>
         <div>
-          <Label htmlFor='tankNumber'>Internal tank number</Label>
-          <Input
-            type='number'
-            id='tankNumber'
-            name='tankNumber'
-            min='1'
-            defaultValue={tankNumber}
-            required
-            readOnly
-          />
+          <Label htmlFor='startDate'>Start date</Label>
+          <Input type='date' id='startDate' name='startDate' required />
         </div>
         <div>
-          <Label htmlFor='date'>Date</Label>
-          <Input type='date' id='date' name='date' required />
+          <Label htmlFor='endDate'>End date</Label>
+          <Input type='date' id='endDate' name='endDate' />
         </div>
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>

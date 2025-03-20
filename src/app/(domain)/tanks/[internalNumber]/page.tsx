@@ -117,12 +117,12 @@ export default async function TankCardPage({
           )}
           {<DeleteTankDialog id={t.id} disabled={disabled} />}
         </div>
-        <Link href={`/hydrotests/create/${internalNumber}`}>
+        {/* <Link href={`/hydrotests/create/${internalNumber}`}>
           <Button>
             <FireExtinguisher />
             Create Hydrotest
           </Button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

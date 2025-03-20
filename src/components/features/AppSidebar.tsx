@@ -197,6 +197,17 @@ export function AppSidebar() {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href='/reports/tanks/hydrotest-statement'
+                        onClick={handleCloseSidebar}
+                      >
+                        <SquareCheckBig />
+                        <span>Hydrotest Statement</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </CollapsibleContent>

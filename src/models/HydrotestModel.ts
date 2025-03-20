@@ -2,10 +2,11 @@ import { ObjectId } from 'mongodb';
 import { Verdict } from './InspectionModel';
 
 export interface HydrotestModel {
-  date: Date;
+  startDate: Date;
+  endDate?: Date;
   tankId: ObjectId;
   tankNumber: number;
-  tankVerdict: Verdict;
+  tankVerdict?: Omit<Verdict, 'Marginal'>;
   executor: string;
   description?: string;
   createdAt: Date;
@@ -15,4 +16,8 @@ export interface HydrotestModel {
 export type HydrotestOutputDTO = Omit<HydrotestModel, 'tankId'> & {
   id: string;
   tankId: string;
+};
+
+export type HydrotestUpdateDTO = Omit<Partial<HydrotestModel>, 'createdAt'> & {
+  _id: ObjectId;
 };

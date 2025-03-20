@@ -4,7 +4,7 @@ import { DataTable } from '@/components/ui/data-table';
 
 export const dynamic = 'force-dynamic';
 
-export default async function InventoryStatementPage() {
+export default async function HydrotestStatementPage() {
   const tanks = await getTanks();
 
   return (
@@ -12,10 +12,10 @@ export default async function InventoryStatementPage() {
       <DataTable
         columns={columns}
         data={tanks}
-        title='Inventory Statement'
+        title='Hydrotest Statement'
         initialSorting={{ id: 'internalNumber', desc: false }}
         searchBy='internalNumber'
-        packageEntity='inventories'
+        packageEntity='hydrotests'
       />
     </div>
   );

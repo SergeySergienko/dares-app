@@ -12,7 +12,7 @@ export const columns: ColumnDef<HydrotestOutputDTO>[] = [
     header: ({ column }) => (
       <DataTableSortingHeader column={column} title='Date' />
     ),
-    cell: ({ row }) => row.original.date.toLocaleDateString('uk'),
+    cell: ({ row }) => row.original.endDate?.toLocaleDateString('uk'),
     enableColumnFilter: false,
   },
   {

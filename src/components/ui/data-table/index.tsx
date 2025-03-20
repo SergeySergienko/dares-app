@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import {
   ColumnDef,
   ColumnSort,
@@ -29,9 +28,8 @@ import { DataTableViewOptions } from './data-table-view-options';
 import { DataTableFilterToolbar } from './data-table-filter-toolbar';
 import { DataTableSearchInput } from './data-table-search-input';
 import { DataTableResetButton } from './data-table-reset-button';
-import { Button } from '@/components/ui/button';
-import { ArrowsUpFromLine } from 'lucide-react';
 import { DataTablePagination } from './data-table-pagination';
+import { DataTableHandlePackage } from './data-table-handle-package';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -39,6 +37,7 @@ interface DataTableProps<TData, TValue> {
   title: string;
   initialSorting: ColumnSort;
   searchBy?: string;
+  packageEntity?: 'inventories' | 'hydrotests';
 }
 
 export function DataTable<TData, TValue>({
@@ -47,8 +46,8 @@ export function DataTable<TData, TValue>({
   title,
   initialSorting,
   searchBy,
+  packageEntity,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
   const [sorting, setSorting] = useState([initialSorting]);
   const [columnVisibility, setColumnVisibility] = useState({});
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -88,22 +87,8 @@ export function DataTable<TData, TValue>({
   });
 
   const rows = table.getRowModel().rows;
-
-  const handleGetSelectedTanks = useCallback(() => {
-    const selectedTanks: number[] = [];
-    rows.forEach((row) => {
-      if (row.getIsSelected()) {
-        selectedTanks.push(row.getValue('internalNumber'));
-      }
-    });
-    router.push(
-      `/reports/tanks/create-inventories-package?tanks=${selectedTanks.join(
-        ','
-      )}`
-    );
-  }, [rows, router]);
-
   const isFiltered = table.getState().columnFilters.length > 0;
+  const isSelected = Object.keys(rowSelection).length > 0;
 
   return (
     <div>
@@ -119,11 +104,11 @@ export function DataTable<TData, TValue>({
             onChange={onChange}
             searchBy={searchBy}
           />
-          {Object.keys(rowSelection).length > 0 && (
-            <Button size='sm' onClick={handleGetSelectedTanks} className=''>
-              <ArrowsUpFromLine />
-              <span className='hidden md:block'>Create</span>
-            </Button>
+          {isSelected && (
+            <DataTableHandlePackage
+              table={table}
+              packageEntity={packageEntity}
+            />
           )}
           <DataTableFilterToolbar table={table} />
           {isFiltered && <DataTableResetButton reset={reset} />}
