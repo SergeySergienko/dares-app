@@ -92,6 +92,11 @@ export async function updateHydrotest(state: any, formData: FormData) {
   if (!tank) {
     throw new Error(`Tank with internal number ${tankNumber} not found`);
   }
+  if (tank.status !== 'In testing') {
+    throw new Error(
+      `Tank with internal number ${tankNumber} must have status "In testing"`
+    );
+  }
 
   const session = client.startSession();
 
