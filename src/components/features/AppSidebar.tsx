@@ -231,11 +231,22 @@ export function AppSidebar() {
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild>
                       <Link
-                        href='/reports/tanks/scheduled'
+                        href='/reports/tanks/for-visual-inspection'
                         onClick={handleCloseSidebar}
                       >
                         <FileText />
-                        <span>Scheduled Tanks</span>
+                        <span>Tanks for Visual inspection</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href='/reports/tanks/for-hydro-testing'
+                        onClick={handleCloseSidebar}
+                      >
+                        <FileText />
+                        <span>Tanks for Hydro Testing</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
