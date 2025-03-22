@@ -68,3 +68,7 @@ export type TankUpdateDTO = Omit<
 export type TankOutputDTO = TankModel & {
   id: string;
 };
+
+export type BackupOutputDTO = Omit<Partial<BackupModel>, '_id'> & {
+  id: string;
+};

@@ -31,6 +31,18 @@ export const tanksRepo = {
     return await db.collection<TankModel>('tanks').find(filter).toArray();
   },
 
+  async getScrappedTanks() {
+    const db = await connectDB();
+    return await db.collection<BackupModel>('backup').find({}).toArray();
+  },
+
+  async getScrappedTankBySerialNumber(serialNumber: string) {
+    const db = await connectDB();
+    return await db
+      .collection<BackupModel>('backup')
+      .findOne({ serialNumber: decodeURI(serialNumber) });
+  },
+
   async createTank(tank: TankModel) {
     const db = await connectDB();
     return await db.collection<TankModel>('tanks').insertOne(tank);

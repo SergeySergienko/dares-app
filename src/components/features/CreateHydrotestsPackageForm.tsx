@@ -87,7 +87,7 @@ export const CreateHydrotestsPackageForm = ({
           <form action={formAction} className='space-y-4'>
             <div className='grid grid-cols-2 gap-4'>
               <div>
-                <Label htmlFor='startDate'>Date</Label>
+                <Label htmlFor='startDate'>Start date</Label>
                 <Input
                   type='date'
                   id='startDate'

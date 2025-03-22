@@ -8,9 +8,17 @@ import Link from 'next/link';
 
 export const columns: ColumnDef<HydrotestOutputDTO>[] = [
   {
-    accessorKey: 'date',
+    accessorKey: 'startDate',
     header: ({ column }) => (
-      <DataTableSortingHeader column={column} title='Date' />
+      <DataTableSortingHeader column={column} title='Start date' />
+    ),
+    cell: ({ row }) => row.original.startDate.toLocaleDateString('uk'),
+    enableColumnFilter: false,
+  },
+  {
+    accessorKey: 'endDate',
+    header: ({ column }) => (
+      <DataTableSortingHeader column={column} title='End date' />
     ),
     cell: ({ row }) => row.original.endDate?.toLocaleDateString('uk'),
     enableColumnFilter: false,

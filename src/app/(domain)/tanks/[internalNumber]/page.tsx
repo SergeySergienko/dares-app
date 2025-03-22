@@ -3,8 +3,9 @@ import formLogo from '/public/inspection_form_logo.jpg';
 import { getTankByInternalNumber } from '@/actions/tank-actions';
 import { Button } from '@/components/ui/button';
 import { DeleteTankDialog } from '@/components/composites/DeleteTankDialog';
-import { DatabaseBackup, FireExtinguisher } from 'lucide-react';
+import { DatabaseBackup } from 'lucide-react';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 export default async function TankCardPage({
   params,
@@ -13,7 +14,7 @@ export default async function TankCardPage({
 }) {
   const internalNumber = Number((await params).internalNumber);
   const t = await getTankByInternalNumber(internalNumber);
-  if (!t) return;
+  if (!t) notFound();
 
   const hasStatus = !!t.status;
   const isTestTank = /test|fake|mock/i.test(t.serialNumber);
@@ -117,12 +118,6 @@ export default async function TankCardPage({
           )}
           {<DeleteTankDialog id={t.id} disabled={disabled} />}
         </div>
-        {/* <Link href={`/hydrotests/create/${internalNumber}`}>
-          <Button>
-            <FireExtinguisher />
-            Create Hydrotest
-          </Button>
-        </Link> */}
       </div>
     </div>
   );

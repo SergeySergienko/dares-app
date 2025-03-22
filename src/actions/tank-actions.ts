@@ -3,6 +3,8 @@
 import { ClientSession, WithId } from 'mongodb';
 import { tanksRepo } from '@/lib/db/tanks-repo';
 import {
+  BackupModel,
+  BackupOutputDTO,
   Color,
   FillingType,
   Manufacturer,
@@ -118,8 +120,27 @@ export async function deleteTank(id: string, session?: ClientSession) {
     throw new Error(message);
   }
   revalidatePath('/tanks');
+  revalidatePath('/tanks/scrapped');
   revalidatePath('/inspections');
   revalidatePath('/inventories');
   revalidatePath('/hydrotests');
   return message;
+}
+
+const scrappedMapper = (tank: BackupModel): BackupOutputDTO => {
+  const { _id, inspectionList, inventoryList, hydrotestList, ...rest } = tank;
+  return { id: _id.toString(), ...rest };
+};
+
+export async function getScrappedTanks() {
+  const tanks = await tanksRepo.getScrappedTanks();
+  return tanks.map(scrappedMapper);
+}
+
+export async function getScrappedTankBySerialNumber(serialNumber: string) {
+  const tank = await tanksRepo.getScrappedTankBySerialNumber(serialNumber);
+  if (!tank) return null;
+
+  const { _id, ...rest } = tank;
+  return { id: _id.toString(), ...rest };
 }

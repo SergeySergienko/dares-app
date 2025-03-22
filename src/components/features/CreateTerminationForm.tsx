@@ -20,7 +20,7 @@ export const CreateTerminationForm = ({
 
   const handleFormAction = createFormAction(
     createTermination,
-    '/tanks',
+    '/tanks/scrapped',
     toast,
     router.push
   );

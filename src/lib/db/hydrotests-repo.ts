@@ -17,7 +17,7 @@ export const hydrotestRepo = {
   async getPendingHydrotestByTank(tankNumber: number) {
     const db = await connectDB();
     const filter: Filter<HydrotestModel> = {
-      tankNumber: tankNumber,
+      tankNumber,
       tankVerdict: { $exists: false },
     };
 

@@ -1,6 +1,10 @@
-import Link from 'next/link';
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
+  const router = useRouter();
   return (
     <div className='flex min-h-screen items-center justify-center bg-white text-black dark:bg-black dark:text-white'>
       <div className='text-center'>
@@ -12,12 +16,9 @@ export default function NotFound() {
             Could not find requested resource
           </h2>
         </div>
-        <Link
-          href='/'
-          className='mt-6 inline-block rounded bg-black px-6 py-2 text-white transition hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-300'
-        >
-          Return Home
-        </Link>
+        <Button onClick={router.back} className='mt-6'>
+          Return Back
+        </Button>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import {
   SquareCheckBig,
   Plus,
   FireExtinguisher,
+  CircleOff,
 } from 'lucide-react';
 
 import {
@@ -99,6 +100,15 @@ export function AppSidebar() {
                       <Link href='/tanks/create' onClick={handleCloseSidebar}>
                         <Plus />
                         <span>Create</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarSeparator />
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href='/tanks/scrapped' onClick={handleCloseSidebar}>
+                        <CircleOff />
+                        <span>Scrapped List</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
