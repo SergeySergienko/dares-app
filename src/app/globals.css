@@ -103,6 +103,10 @@
   .section-title {
     @apply font-bold text-base;
   }
+  .collapsible-trigger:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }
 
 .cl-footer,

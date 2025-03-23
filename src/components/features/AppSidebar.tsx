@@ -44,7 +44,7 @@ import Link from 'next/link';
 
 export function AppSidebar() {
   const { isSignedIn, user } = useUser();
-  const { setOpen, setOpenMobile } = useSidebar();
+  const { setOpen, setOpenMobile, isMobile } = useSidebar();
 
   const handleCloseSidebar = () => {
     setOpen(false);
@@ -66,17 +66,17 @@ export function AppSidebar() {
       >
         <Link
           href='/'
-          onClick={handleCloseSidebar}
+          // onClick={handleCloseSidebar}
           className='h-12 pl-4 flex items-center space-x-2 text-primary cursor-pointer'
         >
           <House />
           <span className='text-lg font-semibold text-primary'>Home</span>
         </Link>
         {/* ------------------------------------------------------------------------------------------------- */}
-        <Collapsible className='group/collapsible'>
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
-              <CollapsibleTrigger>
+              <CollapsibleTrigger className='collapsible-trigger'>
                 <span className='flex items-top space-x-2 text-primary'>
                   <Cylinder />
                   <span className='text-lg'>Tanks</span>
@@ -118,7 +118,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
         {/* ------------------------------------------------------------------------------------------------- */}
-        <Collapsible className='group/collapsible'>
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>
@@ -146,7 +146,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
         {/* ------------------------------------------------------------------------------------------------- */}
-        <Collapsible className='group/collapsible'>
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>
@@ -185,7 +185,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
         {/* ------------------------------------------------------------------------------------------------- */}
-        <Collapsible className='group/collapsible'>
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>
@@ -224,7 +224,7 @@ export function AppSidebar() {
           </SidebarGroup>
         </Collapsible>
         {/* ------------------------------------------------------------------------------------------------- */}
-        <Collapsible className='group/collapsible'>
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
           <SidebarGroup>
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger>

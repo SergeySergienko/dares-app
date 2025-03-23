@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,8 +13,11 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { HomePageStub } from '@/components/composites/HomePageStub';
+import { useSidebar } from '@/components/ui/sidebar';
 
 export default function HomePage() {
+  const { setOpen, setOpenMobile } = useSidebar();
+
   const { isSignedIn } = useAuth();
   const router = useRouter();
   const [tankNumber, setTankNumber] = useState('');
@@ -27,6 +30,11 @@ export default function HomePage() {
       setTankNumber('');
     }
   };
+
+  useEffect(() => {
+    setOpen(true);
+    setOpenMobile(true);
+  }, []);
 
   if (!isSignedIn) return <HomePageStub />;
 
