@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/accordion';
 import { HomePageStub } from '@/components/composites/HomePageStub';
 import { useSidebar } from '@/components/ui/sidebar';
+import { set } from 'node_modules/cypress/types/lodash';
 
 export default function HomePage() {
   const { setOpen, setOpenMobile } = useSidebar();
@@ -34,7 +35,7 @@ export default function HomePage() {
   useEffect(() => {
     setOpen(true);
     setOpenMobile(true);
-  }, []);
+  }, [setOpen, setOpenMobile]);
 
   if (!isSignedIn) return <HomePageStub />;
 

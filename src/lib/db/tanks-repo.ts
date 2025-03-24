@@ -73,12 +73,15 @@ export const tanksRepo = {
     return result.value;
   },
 
-  async backupTank(internalNumber: number, session?: ClientSession) {
+  async backupTank(id: string, session?: ClientSession) {
     const db = await connectDB();
+    const objectId = new ObjectId(id);
+
     const pipeline = [
-      { $match: { internalNumber } },
+      { $match: { _id: objectId } },
       {
         $unset: [
+          'internalNumber',
           'valve',
           'status',
           'lastInspectionDate',
@@ -132,7 +135,7 @@ export const tanksRepo = {
       .toArray();
     return await db
       .collection<BackupModel>('backup')
-      .findOne({ internalNumber }, { session });
+      .findOne({ _id: objectId }, { session });
   },
 
   async deleteTank(id: string, session?: ClientSession) {

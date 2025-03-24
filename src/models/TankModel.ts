@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId, WithId } from 'mongodb';
 import { InspectionModel } from './InspectionModel';
 import { InventoryModel } from './InventoryModel';
 import { HydrotestModel } from './HydrotestModel';
@@ -27,7 +27,6 @@ export interface TankModel {
 
 export interface BackupModel {
   _id: ObjectId;
-  internalNumber: number;
   serialNumber: string;
   manufacturer: Manufacturer;
   workPressure: number;
@@ -38,9 +37,9 @@ export interface BackupModel {
   firstHydrotestDate: Date;
   manufactureDate?: Date;
   terminationDate: Date;
-  inspectionList: InspectionModel[];
-  inventoryList: InventoryModel[];
-  hydrotestList: HydrotestModel[];
+  inspectionList: WithId<InspectionModel>[];
+  inventoryList: WithId<InventoryModel>[];
+  hydrotestList: WithId<HydrotestModel>[];
   // maintenanceList: MaintenanceModel[];
   createdAt: Date;
 }

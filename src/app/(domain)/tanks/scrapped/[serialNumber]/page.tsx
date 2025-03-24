@@ -46,10 +46,6 @@ export default async function ScrappedTankCardPage({
           <span className='field-value'>{t.serialNumber}</span>
         </div>
         <div className='field'>
-          <span>Internal Number:</span>
-          <span className='field-value'>{t.internalNumber}</span>
-        </div>
-        <div className='field'>
           <span>Color:</span>
           <span className='field-value'>{t.color}</span>
         </div>
@@ -62,8 +58,8 @@ export default async function ScrappedTankCardPage({
         <div>
           <div className='font-bold'>Visual Inspections</div>
           <>
-            {t.inspectionList.map(({ date, tankVerdict }) => (
-              <div>
+            {t.inspectionList.map(({ _id, date, tankVerdict }) => (
+              <div key={_id.toString()}>
                 {date.toLocaleDateString('uk')} - {tankVerdict}
               </div>
             ))}
@@ -72,8 +68,8 @@ export default async function ScrappedTankCardPage({
         <div>
           <div className='font-bold'>Inventories</div>
           <>
-            {t.inventoryList.map(({ date, tankStatus }) => (
-              <div>
+            {t.inventoryList.map(({ _id, date, tankStatus }) => (
+              <div key={_id.toString()}>
                 {date.toLocaleDateString('uk')} - {tankStatus}
               </div>
             ))}
@@ -82,8 +78,8 @@ export default async function ScrappedTankCardPage({
         <div>
           <div className='font-bold'>Hydrotests</div>
           <>
-            {t.hydrotestList.map(({ endDate, tankVerdict }) => (
-              <div>
+            {t.hydrotestList.map(({ _id, endDate, tankVerdict }) => (
+              <div key={_id.toString()}>
                 {endDate?.toLocaleDateString('uk')} - {tankVerdict}
               </div>
             ))}

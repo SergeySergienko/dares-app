@@ -107,7 +107,12 @@ export async function backupTank(
   internalNumber: number,
   session?: ClientSession
 ) {
-  const tank = await tanksRepo.backupTank(internalNumber, session);
+  const currentTank = await getTankByInternalNumber(internalNumber);
+  if (!currentTank) {
+    throw new Error('Tank not found');
+  }
+
+  const tank = await tanksRepo.backupTank(currentTank.id, session);
   if (!tank) {
     throw new Error('Backup for this tank already exists');
   }
