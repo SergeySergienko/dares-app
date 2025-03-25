@@ -18,6 +18,11 @@ export type HydrotestOutputDTO = Omit<HydrotestModel, 'tankId'> & {
   tankId: string;
 };
 
-export type HydrotestUpdateDTO = Omit<Partial<HydrotestModel>, 'createdAt'> & {
+export type HydrotestUpdateDTO = {
   _id: ObjectId;
+  endDate: Date;
+  tankVerdict: Omit<Verdict, 'Marginal'>;
+  executor: string;
+  description?: string;
+  updatedAt?: Date;
 };

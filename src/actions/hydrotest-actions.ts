@@ -110,6 +110,13 @@ export async function updateHydrotest(state: any, formData: FormData) {
         description: getValue('description'),
       };
 
+      if (
+        pendingHydrotest.startDate.getTime() >
+        HydrotestToUpdate.endDate.getTime()
+      ) {
+        throw new Error('The end date must be after the start date');
+      }
+
       const updatedHydrotest = await hydrotestRepo.updateHydrotest(
         HydrotestToUpdate
       );
