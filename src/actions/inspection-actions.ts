@@ -74,17 +74,17 @@ export async function createInspection(state: any, formData: FormData) {
         newInspection
       );
       if (!insertedId) {
-        throw new Error(
-          'Failed to create inspection record. Please try again later.'
-        );
+        return {
+          error: 'Failed to create inspection record. Please try again later.',
+        };
       }
 
       // Update the tank's data if the new inspection date is later
       const tank = await getTankByInternalNumber(newInspection.tankNumber);
       if (!tank) {
-        throw new Error(
-          `Tank with internal number ${newInspection.tankNumber} not found`
-        );
+        return {
+          error: `Tank with internal number ${newInspection.tankNumber} not found`,
+        };
       }
       if (
         !tank.lastInspectionDate ||
@@ -105,7 +105,7 @@ export async function createInspection(state: any, formData: FormData) {
     });
     revalidatePath('/tanks');
     revalidatePath('/inspections');
-    return 'Inspection has been successfully created.';
+    return { message: 'Inspection has been successfully created.' };
   } catch (error) {
     throw new Error(`Transaction failed: ${(error as Error).message}`);
   } finally {

@@ -43,7 +43,7 @@ export const CreateHydrotestsPackageForm = ({
         return createHydrotest(null, newFormData);
       });
       await Promise.all(promises);
-      return 'Hydrotests have been successfully created!';
+      return { message: 'Hydrotests have been successfully created!' };
     } catch (e) {
       throw e instanceof Error ? e : new Error('Something went wrong!');
     }

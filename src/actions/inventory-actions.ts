@@ -30,7 +30,7 @@ export async function createInventory(state: any, formData: FormData) {
   const tankNumber = Number(getValue('tankNumber'));
   const tank = await getTankByInternalNumber(tankNumber);
   if (!tank) {
-    throw new Error(`Tank with internal number ${tankNumber} not found`);
+    return { error: `Tank with internal number ${tankNumber} not found` };
   }
   const session = client.startSession();
 
@@ -50,9 +50,9 @@ export async function createInventory(state: any, formData: FormData) {
         newInventory
       );
       if (!insertedId) {
-        throw new Error(
-          'Failed to create inventory record. Please try again later.'
-        );
+        return {
+          error: 'Failed to create inventory record. Please try again later.',
+        };
       }
 
       // Update the tank's data if its last inventory date is missing or older
@@ -69,7 +69,7 @@ export async function createInventory(state: any, formData: FormData) {
     });
     revalidatePath('/tanks');
     revalidatePath('/inventories');
-    return 'Inventory has been successfully created.';
+    return { message: 'Inventory has been successfully created.' };
   } catch (error) {
     throw new Error(`Transaction failed: ${(error as Error).message}`);
   } finally {

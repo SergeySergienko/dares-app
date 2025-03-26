@@ -36,9 +36,9 @@ export async function createHydrotest(state: any, formData: FormData) {
     throw new Error(`Tank with internal number ${tankNumber} not found`);
   }
   if (tank.status === 'In testing') {
-    throw new Error(
-      `Tank with internal number ${tankNumber} already has status "In testing"`
-    );
+    return {
+      error: `Tank with internal number ${tankNumber} already has status "In testing"`,
+    };
   }
 
   const session = client.startSession();
@@ -56,9 +56,9 @@ export async function createHydrotest(state: any, formData: FormData) {
 
       const { insertedId } = await hydrotestRepo.createHydrotest(newHydrotest);
       if (!insertedId) {
-        throw new Error(
-          'Failed to create hydrotest record. Please try again later.'
-        );
+        return {
+          error: 'Failed to create hydrotest record. Please try again later.',
+        };
       }
 
       await updateTank({
@@ -68,7 +68,7 @@ export async function createHydrotest(state: any, formData: FormData) {
     });
     revalidatePath('/tanks');
     revalidatePath('/hydrotests');
-    return 'Hydrotest has been successfully created.';
+    return { message: 'Hydrotest has been successfully created.' };
   } catch (error) {
     throw new Error(`Transaction failed: ${(error as Error).message}`);
   } finally {

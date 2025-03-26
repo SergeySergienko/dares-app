@@ -73,26 +73,26 @@ export async function createTank(state: any, formData: FormData) {
 
   const tankByNumber = await getTankByInternalNumber(newTank.internalNumber);
   if (tankByNumber) {
-    throw new Error(
-      `Failed to create tank record. Tank with internal number "${newTank.internalNumber}" already exists.`
-    );
+    return {
+      error: `Failed to create tank record. Tank with internal number "${newTank.internalNumber}" already exists.`,
+    };
   }
 
   const [tankBySerial] = await getTanks({
     serialNumber: newTank.serialNumber,
   });
   if (tankBySerial) {
-    throw new Error(
-      `Failed to create tank record. Tank with serial number "${newTank.serialNumber}" already exists.`
-    );
+    return {
+      error: `Failed to create tank record. Tank with serial number "${newTank.serialNumber}" already exists.`,
+    };
   }
 
   const { insertedId } = await tanksRepo.createTank(newTank);
   if (!insertedId) {
-    throw new Error('Failed to create tank record. Please try again later.');
+    return { error: 'Failed to create tank record. Please try again later.' };
   }
   revalidatePath('/tanks');
-  return 'New tank has been successfully created.';
+  return { message: 'New tank has been successfully created.' };
 }
 
 export async function updateTank(updateData: TankUpdateDTO) {

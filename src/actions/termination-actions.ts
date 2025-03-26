@@ -14,7 +14,7 @@ export async function createTermination(state: any, formData: FormData) {
   const backupResult = await backupTank(+tankNumber);
 
   if (!backupResult) {
-    throw new Error(`Backup failed for tank ${tankNumber}`);
+    return { error: `Backup failed for tank ${tankNumber}` };
   }
 
   const { _id, serialNumber } = backupResult;
@@ -39,14 +39,14 @@ export async function createTermination(state: any, formData: FormData) {
       );
 
       if (!insertedId) {
-        throw new Error('Failed to create termination record.');
+        return { error: 'Failed to create termination record.' };
       }
 
       // 3. Delete Tank from "tanks" collection and its "history"
       await deleteTank(_id.toString(), session);
     });
 
-    return 'Backup for the tank has been successfully created.';
+    return { message: 'Backup for the tank has been successfully created.' };
   } catch (error) {
     throw new Error(`Transaction failed: ${(error as Error).message}`);
   } finally {

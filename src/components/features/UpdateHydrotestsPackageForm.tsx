@@ -45,7 +45,7 @@ export const UpdateHydrotestsPackageForm = ({
         return updateHydrotest(null, newFormData);
       });
       await Promise.all(promises);
-      return 'Hydrotests have been successfully updated!';
+      return { message: 'Hydrotests have been successfully updated!' };
     } catch (e) {
       throw e instanceof Error ? e : new Error('Something went wrong!');
     }

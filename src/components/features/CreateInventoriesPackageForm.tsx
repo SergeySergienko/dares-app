@@ -44,7 +44,7 @@ export const CreateInventoriesPackageForm = ({
         return createInventory(null, newFormData);
       });
       await Promise.all(promises);
-      return 'Inventories have been successfully created!';
+      return { message: 'Inventories have been successfully created!' };
     } catch (e) {
       throw e instanceof Error ? e : new Error('Something went wrong!');
     }
