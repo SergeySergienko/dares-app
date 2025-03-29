@@ -11,7 +11,7 @@ export default async function HydrotestsPage() {
         columns={columns}
         data={hydrotests}
         title='List of Hydrotests'
-        initialSorting={{ id: 'date', desc: true }}
+        initialSorting={{ id: 'startDate', desc: true }}
         searchBy='tankNumber'
       />
     </div>

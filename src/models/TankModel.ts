@@ -40,7 +40,7 @@ export interface BackupModel {
   inspectionList: WithId<InspectionModel>[];
   inventoryList: WithId<InventoryModel>[];
   hydrotestList: WithId<HydrotestModel>[];
-  // maintenanceList: MaintenanceModel[];
+  // repairList: WithId<RepairModel>[];
   createdAt: Date;
 }
 

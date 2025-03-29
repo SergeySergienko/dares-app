@@ -17,6 +17,8 @@ import {
   Plus,
   FireExtinguisher,
   CircleOff,
+  Cog,
+  Orbit,
 } from 'lucide-react';
 
 import {
@@ -215,6 +217,70 @@ export function AppSidebar() {
                       >
                         <SquareCheckBig />
                         <span>Hydrotest Statement</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <span className='flex items-center space-x-2 text-primary'>
+                  <Cog />
+                  <span className='text-lg'>Repair</span>
+                </span>
+                <ChevronDown className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent className='ml-4 font-semibold text-primary'>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href='/repairs' onClick={handleCloseSidebar}>
+                        <List />
+                        <span>List</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </CollapsibleContent>
+          </SidebarGroup>
+        </Collapsible>
+        {/* ------------------------------------------------------------------------------------------------- */}
+        <Collapsible className='group/collapsible' defaultOpen={isMobile}>
+          <SidebarGroup>
+            <SidebarGroupLabel asChild>
+              <CollapsibleTrigger>
+                <span className='flex items-center space-x-2 text-primary'>
+                  <Orbit />
+                  <span className='text-lg'>Parts</span>
+                </span>
+                <ChevronDown className='ml-auto text-primary transition-transform group-data-[state=open]/collapsible:rotate-180' />
+              </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent className='ml-4 font-semibold text-primary'>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link href='/parts' onClick={handleCloseSidebar}>
+                        <List />
+                        <span>List</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem hidden>
+                    <SidebarMenuButton asChild>
+                      <Link href='/parts/create' onClick={handleCloseSidebar}>
+                        <Plus />
+                        <span>Create new part</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

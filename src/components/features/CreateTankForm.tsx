@@ -174,14 +174,6 @@ export const CreateTankForm = () => {
           required
         />
       </div>
-      {/* <div>
-        <Label htmlFor='lastInspectionDate'>Last Inspection Date</Label>
-        <Input type='date' id='lastInspectionDate' name='lastInspectionDate' />
-      </div>
-      <div>
-        <Label htmlFor='lastInventoryDate'>Last Inventory Date</Label>
-        <Input type='date' id='lastInventoryDate' name='lastInventoryDate' />
-      </div> */}
 
       <Button disabled={isPending} type='submit'>
         {isPending ? 'Loading...' : 'Submit'}

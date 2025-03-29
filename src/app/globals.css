@@ -107,6 +107,9 @@
     outline: none !important;
     box-shadow: none !important;
   }
+  input[type='checkbox']:checked {
+    accent-color: black;
+  }
 }
 
 .cl-footer,

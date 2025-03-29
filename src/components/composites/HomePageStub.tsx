@@ -8,7 +8,7 @@ export const HomePageStub = () => (
       <div className='text-2xl xs:text-3xl'>Tank Number</div>
       <div className='w-20 h-auto text-xl px-2 md:text-2xl font-bold rounded-none border-0 border-b-2 border-gray-600 focus:outline-none focus-visible:ring-0' />
     </div>
-    {['Inspection', 'Inventory'].map((action) => (
+    {['Inspection', 'Inventory', 'Repair'].map((action) => (
       <div key={action} className='w-80 space-y-2'>
         <div className='w-full px-2 flex justify-between items-center font-semibold text-2xl text-muted-foreground'>
           <div>{action}</div>

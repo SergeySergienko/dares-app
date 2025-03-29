@@ -31,11 +31,12 @@ export function DataTableSearchInput<TData>({
         placeholder='Tank' // TODO: implement flexible placeholder depending on searchBy value
         value={inputValue}
         onChange={(event) => onChange(event.target.value)}
-        className='h-8 w-16 xs:w-20'
+        className='h-8 w-16 xs:w-20 rounded-e-none'
       />
       <Button
         size='sm'
         onClick={() => table.getColumn(searchBy)?.setFilterValue(inputValue)}
+        className='rounded-s-none'
       >
         <Search />
         <span className='hidden md:block'>Search</span>

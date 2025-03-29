@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import scrapped from '/public/scrapped.jpg';
 import { getScrappedTankBySerialNumber } from '@/actions/tank-actions';
-import { Button } from '@/components/ui/button';
-import { DeleteTankDialog } from '@/components/composites/DeleteTankDialog';
-import { DatabaseBackup } from 'lucide-react';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 export default async function ScrappedTankCardPage({

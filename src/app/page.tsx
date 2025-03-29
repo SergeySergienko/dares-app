@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/accordion';
 import { HomePageStub } from '@/components/composites/HomePageStub';
 import { useSidebar } from '@/components/ui/sidebar';
-import { set } from 'node_modules/cypress/types/lodash';
 
 export default function HomePage() {
   const { setOpen, setOpenMobile } = useSidebar();
@@ -96,6 +95,27 @@ export default function HomePage() {
               variant='ghost'
               disabled={!tankNumber}
               onClick={() => router.push(`/inventories/create/${tankNumber}`)}
+              className='text-lg'
+            >
+              Create New
+            </Button>
+            <Button variant='ghost' className='text-lg' disabled>
+              View Last
+            </Button>
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value='repair'>
+          <AccordionTrigger
+            disabled={!tankNumber}
+            className='px-2 text-2xl hover:no-underline disabled:opacity-50'
+          >
+            Repair
+          </AccordionTrigger>
+          <AccordionContent className='flex justify-between'>
+            <Button
+              variant='ghost'
+              disabled={!tankNumber}
+              onClick={() => router.push(`/repairs/create/${tankNumber}`)}
               className='text-lg'
             >
               Create New
