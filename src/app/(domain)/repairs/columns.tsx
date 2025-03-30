@@ -4,6 +4,13 @@ import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-so
 import { RepairOutputDTO } from '@/models/RepairModel';
 import { ColumnDef } from '@tanstack/react-table';
 import Link from 'next/link';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card';
+import { Button } from '@/components/ui/button';
+import { Ellipsis } from 'lucide-react';
 
 export const columns: ColumnDef<RepairOutputDTO>[] = [
   {
@@ -38,7 +45,25 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
   {
     accessorKey: 'parts',
     header: () => 'Parts',
-    cell: () => '...',
+    cell: ({ row }) => {
+      return (
+        <HoverCard openDelay={200} closeDelay={100}>
+          <HoverCardTrigger asChild>
+            <Button variant='link' className='[&_svg]:hover:stroke-[4]'>
+              <Ellipsis />
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent align='end' className='max-w-fit'>
+            {Object.entries(row.original.parts).map(([alias, amount]) => (
+              <div key={alias} className='flex justify-center gap-5'>
+                <span className='w-3/4 text-end'>{alias}:</span>
+                <span>{amount}</span>
+              </div>
+            ))}
+          </HoverCardContent>
+        </HoverCard>
+      );
+    },
     // filterFn: (row, id, value) => value.includes(row.getValue(id)),
     enableSorting: false,
     enableColumnFilter: false,
