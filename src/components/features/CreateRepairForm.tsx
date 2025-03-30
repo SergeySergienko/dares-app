@@ -77,7 +77,7 @@ export const CreateRepairForm = ({
 
       <div className='flex'>
         <div className='bg-slate-50 px-2 w-full md:w-1/2 lg:w-1/3'>
-          <div className='text-xl font-semibold'>Parts</div>
+          <div className='text-xl font-medium'>Parts</div>
           {parts.map(({ id, itemNumber, title, alias }) => (
             <div key={id} className='flex items-center gap-4 h-11'>
               <span className='w-52 font-semibold space-x-4'>

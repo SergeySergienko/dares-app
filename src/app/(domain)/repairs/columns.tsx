@@ -49,14 +49,17 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
       return (
         <HoverCard openDelay={200} closeDelay={100}>
           <HoverCardTrigger asChild>
-            <Button variant='link' className='[&_svg]:hover:stroke-[4]'>
+            <Link
+              href={`/repairs/${row.original.id}`}
+              className='flex justify-center [&_svg]:stroke-[1] [&_svg]:hover:stroke-[3]'
+            >
               <Ellipsis />
-            </Button>
+            </Link>
           </HoverCardTrigger>
           <HoverCardContent align='end' className='max-w-fit'>
             {Object.entries(row.original.parts).map(([alias, amount]) => (
               <div key={alias} className='flex justify-center gap-5'>
-                <span className='w-3/4 text-end'>{alias}:</span>
+                <span className='w-5/6 text-end'>{alias}:</span>
                 <span>{amount}</span>
               </div>
             ))}

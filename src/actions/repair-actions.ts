@@ -17,6 +17,12 @@ export async function getRepairs(query: Partial<RepairModel> = {}) {
   return repairs.map(repairMapper);
 }
 
+export async function getRepair(id: string) {
+  const repair = await repairsRepo.getRepair(id);
+  if (!repair) return null;
+  return repairMapper(repair);
+}
+
 const extractFormData = async (formData: FormData) => {
   const data: { [x: string]: FormDataEntryValue } = {};
   for (const [key, value] of formData.entries()) {
