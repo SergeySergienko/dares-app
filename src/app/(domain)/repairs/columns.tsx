@@ -67,7 +67,6 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
         </HoverCard>
       );
     },
-    // filterFn: (row, id, value) => value.includes(row.getValue(id)),
     enableSorting: false,
     enableColumnFilter: false,
   },

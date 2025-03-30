@@ -129,11 +129,19 @@ export async function deleteTank(id: string, session?: ClientSession) {
   revalidatePath('/inspections');
   revalidatePath('/inventories');
   revalidatePath('/hydrotests');
+  revalidatePath('/repairs');
   return message;
 }
 
 const scrappedMapper = (tank: BackupModel): BackupOutputDTO => {
-  const { _id, inspectionList, inventoryList, hydrotestList, ...rest } = tank;
+  const {
+    _id,
+    inspectionList,
+    inventoryList,
+    hydrotestList,
+    repairList,
+    ...rest
+  } = tank;
   return { id: _id.toString(), ...rest };
 };
 

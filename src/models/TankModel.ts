@@ -2,6 +2,7 @@ import { ObjectId, WithId } from 'mongodb';
 import { InspectionModel } from './InspectionModel';
 import { InventoryModel } from './InventoryModel';
 import { HydrotestModel } from './HydrotestModel';
+import { RepairModel } from './RepairModel';
 
 export interface TankModel {
   internalNumber: number;
@@ -40,7 +41,7 @@ export interface BackupModel {
   inspectionList: WithId<InspectionModel>[];
   inventoryList: WithId<InventoryModel>[];
   hydrotestList: WithId<HydrotestModel>[];
-  // repairList: WithId<RepairModel>[];
+  repairList: WithId<RepairModel>[];
   createdAt: Date;
 }
 

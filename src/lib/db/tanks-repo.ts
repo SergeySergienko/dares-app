@@ -4,6 +4,7 @@ import { BackupModel, TankModel, TankUpdateDTO } from '@/models/TankModel';
 import { InspectionModel } from '@/models/InspectionModel';
 import { InventoryModel } from '@/models/InventoryModel';
 import { HydrotestModel } from '@/models/HydrotestModel';
+import { RepairModel } from '@/models/RepairModel';
 
 export const tanksRepo = {
   async getTanks({
@@ -116,6 +117,14 @@ export const tanksRepo = {
         },
       },
       {
+        $lookup: {
+          from: 'repair',
+          localField: '_id',
+          foreignField: 'tankId',
+          as: 'repairList',
+        },
+      },
+      {
         $addFields: {
           createdAt: new Date(),
         },
@@ -160,6 +169,10 @@ export const tanksRepo = {
 
       await db
         .collection<HydrotestModel>('hydrotest')
+        .deleteMany({ tankId: objectId }, { session: currentSession });
+
+      await db
+        .collection<RepairModel>('repair')
         .deleteMany({ tankId: objectId }, { session: currentSession });
 
       const result = await db

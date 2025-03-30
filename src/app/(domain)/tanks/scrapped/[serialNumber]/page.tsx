@@ -50,7 +50,7 @@ export default async function ScrappedTankCardPage({
           <span className='field-value'>{t.fillingType}</span>
         </div>
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6'>
         <div>
           <div className='font-bold'>Visual Inspections</div>
           <>
@@ -78,6 +78,14 @@ export default async function ScrappedTankCardPage({
               <div key={_id.toString()}>
                 {endDate?.toLocaleDateString('uk')} - {tankVerdict}
               </div>
+            ))}
+          </>
+        </div>
+        <div>
+          <div className='font-bold'>Repair</div>
+          <>
+            {t.repairList?.map(({ _id, date }) => (
+              <div key={_id.toString()}>{date.toLocaleDateString('uk')}</div>
             ))}
           </>
         </div>
