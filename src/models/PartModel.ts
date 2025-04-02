@@ -7,4 +7,12 @@ export interface PartModel {
   updatedAt?: Date;
 }
 
+export type PartQueryDTO = {
+  alias?: string;
+  startDate?: Date;
+  endDate?: Date;
+};
+
 export type PartOutputDTO = PartModel & { id: string };
+
+export type PartsUsageReportOutputDTO = PartOutputDTO & { total: number };

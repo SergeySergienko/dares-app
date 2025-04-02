@@ -72,5 +72,6 @@ export async function createRepair(state: any, formData: FormData) {
   }
 
   revalidatePath('/repairs');
+  revalidatePath('/reports/parts/for-repair');
   return { message: 'New repair has been successfully created.' };
 }

@@ -1,9 +1,9 @@
 'use server';
 
-import { partsRepo } from '@/lib/db/parts-repo';
-import { PartModel, PartOutputDTO } from '@/models/PartModel';
 import { WithId } from 'mongodb';
 import { revalidatePath } from 'next/cache';
+import { partsRepo } from '@/lib/db/parts-repo';
+import { PartModel, PartOutputDTO, PartQueryDTO } from '@/models/PartModel';
 
 const partMapper = (part: WithId<PartModel>): PartOutputDTO => {
   const { _id, ...rest } = part;
@@ -36,4 +36,17 @@ export async function createPart(state: any, formData: FormData) {
 
   revalidatePath('/parts');
   return { message: 'New part has been successfully created.' };
+}
+
+export async function partsUsageReport(query: PartQueryDTO) {
+  const report = await partsRepo.partsUsageReport(query);
+
+  const allParts = await getParts();
+
+  return allParts
+    .map((part) => ({
+      ...part,
+      total: report[part.alias] || 0,
+    }))
+    .filter((p) => p.total);
 }

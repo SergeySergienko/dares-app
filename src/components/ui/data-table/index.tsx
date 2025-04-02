@@ -30,6 +30,8 @@ import { DataTableSearchInput } from './data-table-search-input';
 import { DataTableResetButton } from './data-table-reset-button';
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableHandlePackage } from './data-table-handle-package';
+import { DateRange } from 'react-day-picker';
+import { DataTableSelectDates } from './data-table-select-dates';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -38,6 +40,7 @@ interface DataTableProps<TData, TValue> {
   initialSorting: ColumnSort;
   searchBy?: string;
   packageEntity?: 'inventories' | 'hydrotests';
+  handleDates?: (range: DateRange) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -47,6 +50,7 @@ export function DataTable<TData, TValue>({
   initialSorting,
   searchBy,
   packageEntity,
+  handleDates,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState([initialSorting]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -112,6 +116,7 @@ export function DataTable<TData, TValue>({
           )}
           <DataTableFilterToolbar table={table} />
           {isFiltered && <DataTableResetButton reset={reset} />}
+          {handleDates && <DataTableSelectDates handleDates={handleDates} />}
         </div>
         <DataTableViewOptions table={table} />
       </div>

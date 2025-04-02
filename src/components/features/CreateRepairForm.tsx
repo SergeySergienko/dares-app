@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { createRepair } from '@/actions/repair-actions';
 import { PartOutputDTO } from '@/models/PartModel';
 import Image from 'next/image';
-import parts_schema from '/public/parts_schema.png';
+import parts_schema from '/public/parts_schema.jpg';
 
 export const CreateRepairForm = ({
   tankNumber,

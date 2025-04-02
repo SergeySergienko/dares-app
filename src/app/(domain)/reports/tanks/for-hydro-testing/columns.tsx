@@ -11,7 +11,6 @@ export const columns: ColumnDef<TankOutputDTO>[] = [
     header: ({ column }) => (
       <DataTableSortingHeader column={column} title='I/N' />
     ),
-    filterFn: (row, id, value) => +value === row.getValue(id),
   },
   {
     accessorKey: 'serialNumber',
