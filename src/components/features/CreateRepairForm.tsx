@@ -98,9 +98,10 @@ export const CreateRepairForm = ({
             <Button
               type='button'
               variant='outline'
+              className='w-24'
               onClick={() => setIsKitChecked(!isKitChecked)}
             >
-              Select a Kit
+              {isKitChecked ? 'Unselect' : 'Select a Kit'}
             </Button>
           </div>
           {parts.map(({ id, itemNumber, title, alias }) => (
