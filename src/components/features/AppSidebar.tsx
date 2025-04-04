@@ -333,7 +333,7 @@ export function AppSidebar() {
                         onClick={handleCloseSidebar}
                       >
                         <FileText />
-                        <span>Parts for Repair</span>
+                        <span>Parts Usage History</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useActionState, useState } from 'react';
+import { ChangeEvent, useActionState, useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,14 @@ import { createRepair } from '@/actions/repair-actions';
 import { PartOutputDTO } from '@/models/PartModel';
 import Image from 'next/image';
 import parts_schema from '/public/parts_schema.jpg';
+
+const kitAliases = [
+  'copper_gasket',
+  'thick_teflon_ring',
+  'thin_teflon_ring',
+  'stem',
+  'plug_assembly',
+];
 
 export const CreateRepairForm = ({
   tankNumber,
@@ -24,6 +32,15 @@ export const CreateRepairForm = ({
   const [checkedParts, setCheckedParts] = useState<{ [x: string]: boolean }>(
     {}
   );
+  const [isKitChecked, setIsKitChecked] = useState(false);
+
+  useEffect(() => {
+    const newCheckedParts = { ...checkedParts };
+    kitAliases.forEach((alias) => {
+      newCheckedParts[alias] = isKitChecked;
+    });
+    setCheckedParts(newCheckedParts);
+  }, [isKitChecked]);
 
   const handleFormAction = createFormAction(
     createRepair,
@@ -38,10 +55,9 @@ export const CreateRepairForm = ({
   );
 
   const toggleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setCheckedParts((prev) => ({ ...prev, [value]: !prev[value] }));
+    const { value, checked } = e.target;
+    setCheckedParts((prev) => ({ ...prev, [value]: checked }));
   };
-
   const isChecked = Object.values(checkedParts).some(Boolean);
 
   return (
@@ -77,7 +93,16 @@ export const CreateRepairForm = ({
 
       <div className='flex'>
         <div className='bg-slate-50 px-2 w-full md:w-1/2 lg:w-1/3'>
-          <div className='text-xl font-medium'>Parts</div>
+          <div className='text-xl font-medium flex justify-between items-center'>
+            <span className='w-56'>Parts</span>
+            <Button
+              type='button'
+              variant='outline'
+              onClick={() => setIsKitChecked(!isKitChecked)}
+            >
+              Select a Kit
+            </Button>
+          </div>
           {parts.map(({ id, itemNumber, title, alias }) => (
             <div key={id} className='flex items-center gap-4 h-11'>
               <span className='w-52 font-semibold space-x-4'>
@@ -89,6 +114,7 @@ export const CreateRepairForm = ({
                 value={alias}
                 onChange={toggleCheck}
                 className='w-4'
+                checked={checkedParts[alias] || false}
               />
               <Input
                 type='number'
