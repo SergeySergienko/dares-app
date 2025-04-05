@@ -1,6 +1,6 @@
-import { UpdateHydrotestsPackageForm } from '@/components/features/UpdateHydrotestsPackageForm';
+import { CompleteHydrotestsPackageForm } from '@/components/features/CompleteHydrotestsPackageForm';
 
-export default async function CreateHydrotestsPage({
+export default async function CompleteHydrotestsPage({
   searchParams,
 }: {
   searchParams: Promise<{ tanks: string }>;
@@ -10,7 +10,7 @@ export default async function CreateHydrotestsPage({
   return (
     <div className='w-11/12 md:w-5/6 py-4'>
       <h1 className='title'>Hydrotests Package Complete Form</h1>
-      <UpdateHydrotestsPackageForm tanksString={tanksString} />
+      <CompleteHydrotestsPackageForm tanksString={tanksString} />
     </div>
   );
 }

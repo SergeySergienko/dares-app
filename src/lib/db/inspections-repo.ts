@@ -1,4 +1,4 @@
-import { Filter } from 'mongodb';
+import { Filter, ObjectId } from 'mongodb';
 import { connectDB } from './mongo-db';
 import { InspectionModel } from '@/models/InspectionModel';
 
@@ -12,6 +12,13 @@ export const inspectionsRepo = {
       .find(filter)
       .sort({ date: 'desc' })
       .toArray();
+  },
+
+  async getInspection(id: string) {
+    const db = await connectDB();
+    return await db
+      .collection<InspectionModel>('inspection')
+      .findOne({ _id: new ObjectId(id) });
   },
 
   async createInspection(inspection: InspectionModel) {

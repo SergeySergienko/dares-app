@@ -45,28 +45,26 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
   {
     accessorKey: 'parts',
     header: () => 'Parts',
-    cell: ({ row }) => {
-      return (
-        <HoverCard openDelay={200} closeDelay={100}>
-          <HoverCardTrigger asChild>
-            <Link
-              href={`/repairs/${row.original.id}`}
-              className='flex justify-center [&_svg]:stroke-[1] [&_svg]:hover:stroke-[3]'
-            >
-              <Ellipsis />
-            </Link>
-          </HoverCardTrigger>
-          <HoverCardContent align='end' className='max-w-fit'>
-            {Object.entries(row.original.parts).map(([alias, amount]) => (
-              <div key={alias} className='flex justify-center gap-5'>
-                <span className='w-5/6 text-end'>{alias}:</span>
-                <span>{amount}</span>
-              </div>
-            ))}
-          </HoverCardContent>
-        </HoverCard>
-      );
-    },
+    cell: ({ row }) => (
+      <HoverCard openDelay={200} closeDelay={100}>
+        <HoverCardTrigger asChild>
+          <Link
+            href={`/repairs/${row.original.id}`}
+            className='flex justify-center [&_svg]:stroke-[1] [&_svg]:hover:stroke-[3]'
+          >
+            <Ellipsis />
+          </Link>
+        </HoverCardTrigger>
+        <HoverCardContent align='end' className='max-w-fit'>
+          {Object.entries(row.original.parts).map(([alias, amount]) => (
+            <div key={alias} className='flex justify-center gap-5'>
+              <span className='w-5/6 text-end'>{alias}:</span>
+              <span>{amount}</span>
+            </div>
+          ))}
+        </HoverCardContent>
+      </HoverCard>
+    ),
     enableSorting: false,
     enableColumnFilter: false,
   },

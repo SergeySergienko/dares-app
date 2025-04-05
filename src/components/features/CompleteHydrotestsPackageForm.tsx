@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { createFormAction } from './form-utils';
 import { RadioField } from '../composites/RadioField';
 
-export const UpdateHydrotestsPackageForm = ({
+export const CompleteHydrotestsPackageForm = ({
   tanksString,
 }: {
   tanksString: string;
@@ -29,7 +29,7 @@ export const UpdateHydrotestsPackageForm = ({
     }
   }, [tanksString]);
 
-  const handleUpdatePackage = async (state: any, formData: FormData) => {
+  const handleCompletePackage = async (state: any, formData: FormData) => {
     try {
       const promises = tanksArray.map((tankNumber) => {
         // Create a NEW formData object for each call
@@ -52,7 +52,7 @@ export const UpdateHydrotestsPackageForm = ({
   };
 
   const handleFormAction = createFormAction(
-    handleUpdatePackage,
+    handleCompletePackage,
     '/hydrotests',
     toast,
     router.push

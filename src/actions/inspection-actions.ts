@@ -13,6 +13,7 @@ import {
 import { Grade, TankUpdateDTO } from '@/models/TankModel';
 import { client } from '@/lib/db/mongo-db';
 import { revalidatePath } from 'next/cache';
+import { OwnerModel } from '@/models/OwnerModel';
 
 const inspectionMapper = (
   inspection: WithId<InspectionModel>
@@ -26,12 +27,28 @@ export async function getInspections(query: Partial<InspectionModel> = {}) {
   return inspections.map(inspectionMapper);
 }
 
-export async function getInspectionByTankNumber(tankNumber: number) {
+export async function getInspection(id: string) {
+  const inspection = await inspectionsRepo.getInspection(id);
+  if (!inspection) return null;
+  return inspectionMapper(inspection);
+}
+
+export async function getLastInspectionByTankNumber(tankNumber: number) {
   const tank = await getTankByInternalNumber(tankNumber);
   const [lastInspection] = await getInspections({ tankNumber });
+  const owner: OwnerModel = {
+    name: 'Aqua sport',
+    phone: '+97208-633-4404',
+    address: {
+      postalCode: '88107',
+      city: 'Eilat',
+      street: 'Derech Mitsraim 117',
+    },
+  };
   const report = {
-    ...lastInspection,
+    lastInspection,
     tank,
+    owner,
   };
   return report;
 }
