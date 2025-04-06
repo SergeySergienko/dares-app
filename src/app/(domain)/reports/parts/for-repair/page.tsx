@@ -1,11 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { DateRange } from 'react-day-picker';
 import { partsUsageReport } from '@/actions/part-actions';
 import { DataTable } from '@/components/ui/data-table';
-import { columns } from './columns';
 import { PartsUsageReportOutputDTO } from '@/models/PartModel';
-import { DateRange } from 'react-day-picker';
+import { columns } from './columns';
+import Loading from './loading';
 
 export default function PartsForRepair() {
   const [parts, setParts] = useState<PartsUsageReportOutputDTO[]>([]);
@@ -13,14 +14,17 @@ export default function PartsForRepair() {
     from: undefined,
     to: undefined,
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     (async () => {
       const parts = await partsUsageReport({
         startDate: dates.from,
         endDate: dates.to,
       });
       setParts(parts);
+      setIsLoading(false);
     })();
   }, [dates.from, dates.to]);
 
@@ -30,13 +34,17 @@ export default function PartsForRepair() {
 
   return (
     <div className='w-full px-4 pb-4'>
-      <DataTable
-        columns={columns}
-        data={parts}
-        title='Parts for Repair'
-        initialSorting={{ id: 'itemNumber', desc: false }}
-        handleDates={handleDates}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <DataTable
+          columns={columns}
+          data={parts}
+          title='Parts for Repair'
+          initialSorting={{ id: 'itemNumber', desc: false }}
+          handleDates={handleDates}
+        />
+      )}
     </div>
   );
 }
