@@ -32,6 +32,7 @@ import { DataTablePagination } from './data-table-pagination';
 import { DataTableHandlePackage } from './data-table-handle-package';
 import { DateRange } from 'react-day-picker';
 import { DataTableSelectDates } from './data-table-select-dates';
+import { DataTableLoader } from './data-table-loader';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -41,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   searchBy?: string;
   packageEntity?: 'inventories' | 'hydrotests';
   handleDates?: (range: DateRange) => void;
+  isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -51,6 +53,7 @@ export function DataTable<TData, TValue>({
   searchBy,
   packageEntity,
   handleDates,
+  isLoading,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState([initialSorting]);
   const [columnVisibility, setColumnVisibility] = useState({});
@@ -144,7 +147,9 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {rows?.length ? (
+            {isLoading ? (
+              <DataTableLoader columns={columns} />
+            ) : rows?.length ? (
               rows.map((row) => (
                 <TableRow
                   key={row.id}

@@ -6,7 +6,6 @@ import { partsUsageReport } from '@/actions/part-actions';
 import { DataTable } from '@/components/ui/data-table';
 import { PartsUsageReportOutputDTO } from '@/models/PartModel';
 import { columns } from './columns';
-import Loading from './loading';
 
 export default function PartsForRepair() {
   const [parts, setParts] = useState<PartsUsageReportOutputDTO[]>([]);
@@ -34,17 +33,14 @@ export default function PartsForRepair() {
 
   return (
     <div className='w-full px-4 pb-4'>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <DataTable
-          columns={columns}
-          data={parts}
-          title='Parts for Repair'
-          initialSorting={{ id: 'itemNumber', desc: false }}
-          handleDates={handleDates}
-        />
-      )}
+      <DataTable
+        columns={columns}
+        data={parts}
+        title='Parts for Repair'
+        initialSorting={{ id: 'itemNumber', desc: false }}
+        handleDates={handleDates}
+        isLoading={isLoading}
+      />
     </div>
   );
 }

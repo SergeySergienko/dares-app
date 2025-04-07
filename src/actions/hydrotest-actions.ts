@@ -130,9 +130,7 @@ export async function updateHydrotest(state: any, formData: FormData) {
       const fieldsToUpdate: TankUpdateDTO = {
         id: tank.id,
         status:
-          HydrotestToUpdate.tankVerdict === 'Acceptable'
-            ? 'In use'
-            : 'Rejected',
+          HydrotestToUpdate.tankVerdict === 'Condemn' ? 'Rejected' : 'In use',
       };
       if (
         HydrotestToUpdate.endDate &&
