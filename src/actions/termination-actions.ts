@@ -1,7 +1,11 @@
 'use server';
 
 import { TerminationModel } from '@/models/TerminationModel';
-import { backupTank, deleteTank } from './tank-actions';
+import {
+  backupTank,
+  deleteTank,
+  getTankByInternalNumber,
+} from './tank-actions';
 import { client } from '@/lib/db/mongo-db';
 import { terminationsRepo } from '@/lib/db/terminations-repo';
 
@@ -11,6 +15,19 @@ export async function createTermination(state: any, formData: FormData) {
 
   // 1. Make a backup of the deleting Tank
   const tankNumber = formData.get('tankNumber')!;
+  const tank = await getTankByInternalNumber(Number(tankNumber));
+  if (!tank) {
+    return { error: `Tank with internal number ${tankNumber} not found.` };
+  }
+  const validStatus = ['Rejected', 'Not found'];
+  if (!validStatus.includes(tank.status)) {
+    return {
+      error: `Tank with internal number ${tankNumber} must have status ${validStatus.join(
+        ' or '
+      )}.`,
+    };
+  }
+
   const backupResult = await backupTank(+tankNumber);
 
   if (!backupResult) {

@@ -44,7 +44,14 @@ export const CompleteHydrotestsPackageForm = ({
         );
         return updateHydrotest(null, newFormData);
       });
-      await Promise.all(promises);
+      const results = await Promise.all(promises);
+      const errorMessages = results
+        .filter((result) => result.error)
+        .map((result) => result.error);
+
+      if (errorMessages.length > 0) {
+        return { error: errorMessages.join('\n') };
+      }
       return { message: 'Hydrotests have been successfully updated!' };
     } catch (e) {
       throw e instanceof Error ? e : new Error('Something went wrong!');

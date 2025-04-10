@@ -12,7 +12,7 @@ export interface InventoryModel {
   updatedAt?: Date;
 }
 
-export type Fit = Exclude<Status, 'Rejected'>;
+export type Fit = Exclude<Status, 'Rejected' | 'In testing'>;
 
 export type InventoryOutputDTO = Omit<InventoryModel, 'tankId'> & {
   id: string;

@@ -35,9 +35,10 @@ export async function createHydrotest(state: any, formData: FormData) {
   if (!tank) {
     throw new Error(`Tank with internal number ${tankNumber} not found`);
   }
-  if (tank.status === 'In testing') {
+  const newTankStatus = 'In testing';
+  if (tank.status !== 'In use') {
     return {
-      error: `Tank with internal number ${tankNumber} already has status "In testing"`,
+      error: `Transition from ${tank.status} to ${newTankStatus} is not allowed.`,
     };
   }
 
@@ -63,7 +64,7 @@ export async function createHydrotest(state: any, formData: FormData) {
 
       await updateTank({
         id: tank.id,
-        status: 'In testing',
+        status: newTankStatus,
       });
     });
     revalidatePath('/tanks');
@@ -85,17 +86,17 @@ export async function updateHydrotest(state: any, formData: FormData) {
     tankNumber
   );
   if (!pendingHydrotest) {
-    throw new Error(`Pending hydrotest for tank ${tankNumber} not found`);
+    return { error: `Pending hydrotest for tank ${tankNumber} not found.` };
   }
 
   const tank = await getTankByInternalNumber(tankNumber);
   if (!tank) {
-    throw new Error(`Tank with internal number ${tankNumber} not found`);
+    return { error: `Tank with internal number ${tankNumber} not found.` };
   }
   if (tank.status !== 'In testing') {
-    throw new Error(
-      `Tank with internal number ${tankNumber} must have status "In testing"`
-    );
+    return {
+      error: `Tank with internal number ${tankNumber} must have status "In testing".`,
+    };
   }
 
   const session = client.startSession();
@@ -121,9 +122,9 @@ export async function updateHydrotest(state: any, formData: FormData) {
         HydrotestToUpdate
       );
       if (!updatedHydrotest) {
-        throw new Error(
-          'Failed to update hydrotest record. Please try again later.'
-        );
+        return {
+          error: 'Failed to update hydrotest record. Please try again later.',
+        };
       }
 
       // Update the tank's data if its last hydrotest date is missing or older
@@ -145,7 +146,7 @@ export async function updateHydrotest(state: any, formData: FormData) {
     });
     revalidatePath('/tanks');
     revalidatePath('/hydrotests');
-    return 'Hydrotest has been successfully updated.';
+    return { message: 'Hydrotest has been successfully updated.' };
   } catch (error) {
     throw new Error(`Transaction failed: ${(error as Error).message}`);
   } finally {

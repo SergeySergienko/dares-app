@@ -58,19 +58,9 @@ export const CreateInventoryForm = ({ tankNumber }: { tankNumber: string }) => {
               optionId: 'inUse',
             },
             {
-              value: 'In testing',
-              label: 'In testing',
-              optionId: 'inTesting',
-            },
-            {
               value: 'Not found',
               label: 'Not found',
               optionId: 'notFound',
-            },
-            {
-              value: 'Lost',
-              label: 'Lost',
-              optionId: 'lost',
             },
           ]}
         />

@@ -70,8 +70,19 @@ export async function createInspection(state: any, formData: FormData) {
   const { date, tankId, tankVerdict, tankNumber, grade, inspector, ...rest } =
     data;
 
-  const normalizedData = normalizeInspectionData(rest);
+  const tank = await getTankByInternalNumber(Number(tankNumber));
+  if (!tank) {
+    return {
+      error: `Tank with internal number ${Number(tankNumber)} not found`,
+    };
+  }
+  if (tank.status !== 'In use') {
+    return {
+      error: `Tank with internal number ${tankNumber} must have status "In use".`,
+    };
+  }
 
+  const normalizedData = normalizeInspectionData(rest);
   const session = client.startSession();
 
   try {
@@ -97,12 +108,6 @@ export async function createInspection(state: any, formData: FormData) {
       }
 
       // Update the tank's data if the new inspection date is later
-      const tank = await getTankByInternalNumber(newInspection.tankNumber);
-      if (!tank) {
-        return {
-          error: `Tank with internal number ${newInspection.tankNumber} not found`,
-        };
-      }
       if (
         !tank.lastInspectionDate ||
         newInspection.date.getTime() > tank.lastInspectionDate.getTime()

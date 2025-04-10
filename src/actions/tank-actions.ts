@@ -62,7 +62,7 @@ export async function createTank(state: any, formData: FormData) {
     volume: Number(getValue('volume')),
     valve: undefined,
     color: getValue('color') as Color,
-    status: undefined,
+    status: 'Created',
     fillingType: getValue('fillingType') as FillingType,
     firstHydrotestDate: new Date(getValue('firstHydrotestDate')),
     lastHydrotestDate: new Date(getValue('lastHydrotestDate')),

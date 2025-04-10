@@ -16,7 +16,7 @@ export function DataTableHandlePackage<TData>({
 
   const handleSelectedTanks = useCallback(
     (
-      packageAction: 'create' | 'update',
+      packageAction: 'create' | 'complete',
       packageEntity: 'inventories' | 'hydrotests'
     ) => {
       const selectedTanks: number[] = [];
@@ -56,7 +56,7 @@ export function DataTableHandlePackage<TData>({
         </Button>
         <Button
           size='sm'
-          onClick={() => handleSelectedTanks('update', packageEntity)}
+          onClick={() => handleSelectedTanks('complete', packageEntity)}
         >
           <ArrowsUpFromLine className='rotate-180' />
           <span className='hidden md:block'>Complete</span>

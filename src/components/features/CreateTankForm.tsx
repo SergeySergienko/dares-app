@@ -36,21 +36,6 @@ const tankRadioFields: RadioFieldType[] = [
       },
     ],
   },
-  // {
-  //   name: 'valve',
-  //   title: 'Valve',
-  //   defaultValue: 'YOKE',
-  //   options: [
-  //     { value: 'YOKE', label: 'YOKE', optionId: 'yoke' },
-  //     { value: 'DIN', label: 'DIN', optionId: 'din' },
-  //     { value: 'Other', label: 'Other', optionId: 'other' },
-  //     {
-  //       value: 'Unknown',
-  //       label: 'Unknown',
-  //       optionId: 'unknown',
-  //     },
-  //   ],
-  // },
   {
     name: 'color',
     title: 'Color',
@@ -65,26 +50,6 @@ const tankRadioFields: RadioFieldType[] = [
       },
     ],
   },
-  // {
-  //   name: 'status',
-  //   title: 'Status',
-  //   defaultValue: 'In use',
-  //   options: [
-  //     { value: 'In use', label: 'In use', optionId: 'in_use' },
-  //     { value: 'In testing', label: 'In testing', optionId: 'in_testing' },
-  //     { value: 'Rejected', label: 'Rejected', optionId: 'rejected' },
-  //     {
-  //       value: 'Not found',
-  //       label: 'Not found',
-  //       optionId: 'not_found',
-  //     },
-  //     {
-  //       value: 'Lost',
-  //       label: 'Lost',
-  //       optionId: 'lost',
-  //     },
-  //   ],
-  // },
   {
     name: 'fillingType',
     title: 'FillingType',

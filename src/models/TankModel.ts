@@ -13,7 +13,7 @@ export interface TankModel {
   volume: number;
   valve?: Valve;
   color: Color;
-  status?: Status;
+  status: Status;
   fillingType: FillingType;
   firstHydrotestDate: Date;
   lastHydrotestDate: Date;
@@ -50,11 +50,11 @@ export type Material = 'Aluminium' | 'Steel' | 'FRP' | 'Carbon Composite';
 export type Valve = 'YOKE' | 'DIN' | 'Other' | 'Unknown';
 export type Color = 'Not painted' | 'Black/White' | 'Black/Yellow';
 export type Status =
+  | 'Created'
   | 'In use'
   | 'In testing'
   | 'Rejected'
-  | 'Not found'
-  | 'Lost';
+  | 'Not found';
 export type FillingType = 'Air' | 'Nitrox';
 export type Grade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 

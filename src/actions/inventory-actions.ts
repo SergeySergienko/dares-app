@@ -23,6 +23,12 @@ export async function getInventories(query: Partial<InventoryModel> = {}) {
   return inventories.map(inventoryMapper);
 }
 
+const validTransitions: Record<Fit, Fit[]> = {
+  Created: ['In use'],
+  'In use': ['Not found'],
+  'Not found': ['In use'],
+};
+
 export async function createInventory(state: any, formData: FormData) {
   const getValue = (key: keyof InventoryModel) =>
     formData.get(key)?.toString().trim() || '';
@@ -32,6 +38,20 @@ export async function createInventory(state: any, formData: FormData) {
   if (!tank) {
     return { error: `Tank with internal number ${tankNumber} not found` };
   }
+
+  // Check for valid transition
+  const newTankStatus = getValue('tankStatus') as Fit;
+  if (
+    !(
+      validTransitions[tank.status as Fit] &&
+      validTransitions[tank.status as Fit].includes(newTankStatus)
+    )
+  ) {
+    return {
+      error: `Transition from ${tank.status} to ${newTankStatus} is not allowed.`,
+    };
+  }
+
   const session = client.startSession();
 
   try {
