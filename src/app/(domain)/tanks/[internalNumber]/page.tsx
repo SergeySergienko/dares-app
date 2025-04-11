@@ -16,6 +16,8 @@ export default async function TankCardPage({
   const t = await getTankByInternalNumber(internalNumber);
   if (!t) notFound();
 
+  const readyToScrap = t.status === 'Not found' || t.status === 'Rejected';
+
   const hasStatus = !!t.status;
   const isTestTank = /test|fake|mock/i.test(t.serialNumber);
   const disabled = !isTestTank && hasStatus;
@@ -103,18 +105,18 @@ export default async function TankCardPage({
 
       <div className='flex flex-row justify-between mt-16'>
         <div className='flex gap-x-4'>
-          {internalNumber > 5 ? (
-            <Button disabled>
-              <DatabaseBackup />
-              Send to scrap
-            </Button>
-          ) : (
+          {readyToScrap ? (
             <Link href={`/terminations/create/${internalNumber}`}>
               <Button>
                 <DatabaseBackup />
                 Send to scrap
               </Button>
             </Link>
+          ) : (
+            <Button disabled>
+              <DatabaseBackup />
+              Send to scrap
+            </Button>
           )}
           {<DeleteTankDialog id={t.id} disabled={disabled} />}
         </div>

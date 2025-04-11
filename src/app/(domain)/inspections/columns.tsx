@@ -4,7 +4,6 @@ import { DataTableFacetedFilter } from '@/components/ui/data-table/data-table-fa
 import { DataTableSortingHeader } from '@/components/ui/data-table/data-table-sorting-header';
 import { InspectionOutputDTO } from '@/models/InspectionModel';
 import { ColumnDef } from '@tanstack/react-table';
-import { CircleArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export const columns: ColumnDef<InspectionOutputDTO>[] = [
@@ -47,14 +46,14 @@ export const columns: ColumnDef<InspectionOutputDTO>[] = [
     enableColumnFilter: false,
   },
   {
-    accessorKey: 'evaluationForm',
-    header: () => 'Evaluation form',
+    accessorKey: 'actions',
+    header: () => 'Actions',
     cell: ({ row }) => (
       <Link
         href={`/inspections/${row.original.id}`}
-        className='flex justify-center [&_svg]:stroke-[1] [&_svg]:hover:stroke-[2]'
+        className='flex justify-center underline hover:font-bold'
       >
-        <CircleArrowRight />
+        View
       </Link>
     ),
   },

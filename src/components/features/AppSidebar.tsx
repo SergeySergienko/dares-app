@@ -311,7 +311,7 @@ export function AppSidebar() {
                         onClick={handleCloseSidebar}
                       >
                         <FileText />
-                        <span>Tanks for Visual inspection</span>
+                        <span>Tanks - Visual inspection</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -322,7 +322,18 @@ export function AppSidebar() {
                         onClick={handleCloseSidebar}
                       >
                         <FileText />
-                        <span>Tanks for Hydro Testing</span>
+                        <span>Tanks - Hydro Testing</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href='/reports/tanks/not-found'
+                        onClick={handleCloseSidebar}
+                      >
+                        <FileText />
+                        <span>Tanks - Not Found</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -333,7 +344,7 @@ export function AppSidebar() {
                         onClick={handleCloseSidebar}
                       >
                         <FileText />
-                        <span>Parts Usage History</span>
+                        <span>Parts - Usage History</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>

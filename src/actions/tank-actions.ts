@@ -9,6 +9,7 @@ import {
   FillingType,
   Manufacturer,
   Material,
+  Status,
   TankModel,
   TankOutputDTO,
   TankUpdateDTO,
@@ -46,6 +47,11 @@ export async function getTanksByProcedureDate(
 
   const query = { [procedureMapper[procedure]]: date };
   const tanks = await tanksRepo.getTanks(query);
+  return tanks.map(tankMapper);
+}
+
+export async function getTanksByStatus(status: Status) {
+  const tanks = await tanksRepo.getTanks({ status });
   return tanks.map(tankMapper);
 }
 

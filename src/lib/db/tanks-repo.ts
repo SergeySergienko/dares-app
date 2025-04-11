@@ -10,6 +10,7 @@ export const tanksRepo = {
   async getTanks({
     internalNumber,
     serialNumber,
+    status,
     lastInspectionDate,
     lastHydrotestDate,
   }: Partial<TankModel>) {
@@ -20,6 +21,9 @@ export const tanksRepo = {
     }
     if (serialNumber) {
       filter.serialNumber = serialNumber;
+    }
+    if (status) {
+      filter.status = status;
     }
     if (lastInspectionDate) {
       filter.lastInspectionDate = {};
