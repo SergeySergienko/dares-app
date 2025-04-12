@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import formLogo from '/public/inspection_form_logo.jpg';
-import { getRepair } from '@/actions/repair-actions';
+import { deleteRepair, getRepair } from '@/actions/repair-actions';
 import { getParts } from '@/actions/part-actions';
 import { PartOutputDTO } from '@/models/PartModel';
 import Link from 'next/link';
+import { DeleteDialogButton } from '@/components/composites/DeleteDialogButton';
 
-export default async function TankCardPage({
+export default async function RepairCardPage({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -79,6 +80,24 @@ export default async function TankCardPage({
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className='flex flex-row justify-between mt-16'>
+        <div className='flex gap-x-4'>
+          <DeleteDialogButton
+            id={id}
+            action={deleteRepair}
+            redirectPath='/repairs'
+            dialogDescription={
+              <>
+                <span className='block text-destructive font-semibold'>
+                  This action cannot be undone. This will permanently delete
+                  this Repair.
+                </span>
+              </>
+            }
+          />
+        </div>
       </div>
     </div>
   );

@@ -9,8 +9,8 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card';
-import { Button } from '@/components/ui/button';
-import { Ellipsis } from 'lucide-react';
+import { DeleteDialogButton } from '@/components/composites/DeleteDialogButton';
+import { deleteRepair } from '@/actions/repair-actions';
 
 export const columns: ColumnDef<RepairOutputDTO>[] = [
   {
@@ -43,27 +43,45 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
     enableColumnFilter: false,
   },
   {
-    accessorKey: 'parts',
-    header: () => 'Parts',
+    accessorKey: 'actions',
+    header: () => 'Actions',
     cell: ({ row }) => (
-      <HoverCard openDelay={200} closeDelay={100}>
-        <HoverCardTrigger asChild>
-          <Link
-            href={`/repairs/${row.original.id}`}
-            className='flex justify-center [&_svg]:stroke-[1] [&_svg]:hover:stroke-[3]'
-          >
-            <Ellipsis />
-          </Link>
-        </HoverCardTrigger>
-        <HoverCardContent align='end' className='max-w-fit'>
-          {Object.entries(row.original.parts).map(([alias, amount]) => (
-            <div key={alias} className='flex justify-center gap-5'>
-              <span className='w-5/6 text-end'>{alias}:</span>
-              <span>{amount}</span>
-            </div>
-          ))}
-        </HoverCardContent>
-      </HoverCard>
+      <div className='flex justify-center items-center'>
+        <HoverCard openDelay={200} closeDelay={100}>
+          <HoverCardTrigger asChild>
+            <Link
+              href={`/repairs/${row.original.id}`}
+              className='flex justify-center underline hover:font-bold'
+            >
+              View
+            </Link>
+          </HoverCardTrigger>
+          <HoverCardContent align='end' className='max-w-fit'>
+            {Object.entries(row.original.parts).map(([alias, amount]) => (
+              <div key={alias} className='flex justify-center gap-5'>
+                <span className='w-5/6 text-end'>{alias}:</span>
+                <span>{amount}</span>
+              </div>
+            ))}
+          </HoverCardContent>
+        </HoverCard>
+        <DeleteDialogButton
+          id={row.original.id}
+          action={deleteRepair}
+          redirectPath='/repairs'
+          dialogDescription={
+            <>
+              <span className='block text-destructive font-semibold'>
+                This action cannot be undone. This will permanently delete this
+                Repair.
+              </span>
+            </>
+          }
+          variant='link'
+          triggerButtonContent='Delete'
+          triggerButtonClassName='text-destructive'
+        />
+      </div>
     ),
     enableSorting: false,
     enableColumnFilter: false,

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import formLogo from '/public/inspection_form_logo.jpg';
-import { getTankByInternalNumber } from '@/actions/tank-actions';
+import { deleteTank, getTankByInternalNumber } from '@/actions/tank-actions';
 import { Button } from '@/components/ui/button';
-import { DeleteTankDialog } from '@/components/composites/DeleteTankDialog';
+import { DeleteDialogButton } from '@/components/composites/DeleteDialogButton';
 import { DatabaseBackup } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -118,7 +118,21 @@ export default async function TankCardPage({
               Send to scrap
             </Button>
           )}
-          {<DeleteTankDialog id={t.id} disabled={disabled} />}
+          <DeleteDialogButton
+            id={t.id}
+            action={deleteTank}
+            redirectPath='/tanks'
+            dialogDescription={
+              <>
+                <span className='block text-destructive font-semibold'>
+                  There is no backup for the Tank!
+                </span>
+                This action cannot be undone. This will permanently delete this
+                Tank and its history from DB.
+              </>
+            }
+            disabled={disabled}
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,35 +13,59 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { deleteTank } from '@/actions/tank-actions';
 import { Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
-export const DeleteTankDialog = ({
-  id,
-  disabled,
-}: {
+interface DeleteDialogButtonProps {
   id: string;
-  disabled: boolean;
-}) => {
+  action: (id: string) => Promise<string>;
+  redirectPath: string;
+  dialogDescription: ReactNode;
+  disabled?: boolean;
+  variant?: 'default' | 'destructive' | 'outline' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
+  triggerButtonContent?: ReactNode;
+  triggerButtonClassName?: string;
+}
+
+export const DeleteDialogButton = ({
+  id,
+  action,
+  redirectPath,
+  dialogDescription,
+  disabled,
+  variant = 'destructive',
+  size = 'default',
+  triggerButtonContent = (
+    <>
+      <Trash2 />
+      Delete
+    </>
+  ),
+  triggerButtonClassName,
+}: DeleteDialogButtonProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const [container, setContainer] = useState<HTMLElement | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setContainer(document.getElementById('custom-container'));
   }, []);
 
   const handleClick = async () => {
+    setIsSubmitting(true);
     try {
-      const message = await deleteTank(id);
+      const message = await action(id);
       toast({
         title: 'SUCCESS!',
         description: message,
         duration: 5000,
         style: { color: 'white', backgroundColor: 'green' },
       });
+      router.push(redirectPath);
+      router.refresh();
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : 'Something went wrong';
@@ -52,16 +76,20 @@ export const DeleteTankDialog = ({
         duration: 5000,
       });
     } finally {
-      router.push('/tanks');
+      setIsSubmitting(false);
     }
   };
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='destructive' disabled={disabled}>
-          <Trash2 />
-          Delete
+        <Button
+          variant={variant}
+          size={size}
+          disabled={disabled || isSubmitting}
+          className={triggerButtonClassName}
+        >
+          {triggerButtonContent}
         </Button>
       </AlertDialogTrigger>
       {container && (
@@ -69,17 +97,17 @@ export const DeleteTankDialog = ({
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription className='text-primary'>
-              <span className='block text-destructive font-semibold'>
-                There is no backup for the Tank!
-              </span>
-              This action cannot be undone. This will permanently delete this
-              Tank and its history from DB.
+              {dialogDescription}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className='flex-row justify-between items-center'>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel disabled={isSubmitting}>
+              Cancel
+            </AlertDialogCancel>
             <AlertDialogAction asChild>
-              <Button onClick={handleClick}>Confirm</Button>
+              <Button onClick={handleClick} disabled={isSubmitting}>
+                {isSubmitting ? 'Deleting...' : 'Confirm'}
+              </Button>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

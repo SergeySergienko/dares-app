@@ -75,3 +75,12 @@ export async function createRepair(state: any, formData: FormData) {
   revalidatePath('/reports/parts/for-repair');
   return { message: 'New repair has been successfully created.' };
 }
+
+export async function deleteRepair(id: string) {
+  const { success, message } = await repairsRepo.deleteRepair(id);
+  if (!success) {
+    throw new Error(message);
+  }
+  revalidatePath('/repairs');
+  return message;
+}

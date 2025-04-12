@@ -16,7 +16,7 @@ export default function Error({
 
   return (
     <div>
-      <h2 className='text-red-500'>
+      <h2 className='text-destructive'>
         {error.message || 'Something went wrong'}
       </h2>
       <Button onClick={reset}>Try again</Button>
