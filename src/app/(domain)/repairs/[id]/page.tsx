@@ -6,6 +6,8 @@ import { getParts } from '@/actions/part-actions';
 import { PartOutputDTO } from '@/models/PartModel';
 import Link from 'next/link';
 import { DeleteDialogButton } from '@/components/composites/DeleteDialogButton';
+import { Button } from '@/components/ui/button';
+import { Pencil } from 'lucide-react';
 
 export default async function RepairCardPage({
   params,
@@ -84,6 +86,13 @@ export default async function RepairCardPage({
 
       <div className='flex flex-row justify-between mt-16'>
         <div className='flex gap-x-4'>
+          <Link href={`/repairs/update/${repair.id}`}>
+            <Button className='bg-blue-500 hover:bg-blue-600'>
+              <Pencil />
+              Edit
+            </Button>
+          </Link>
+
           <DeleteDialogButton
             id={id}
             action={deleteRepair}

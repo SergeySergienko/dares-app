@@ -65,6 +65,11 @@ export default function Loading() {
             ))}
           </tbody>
         </table>
+
+        <div className='flex flex-row gap-x-4 mt-16'>
+          <Skeleton className='h-10 w-32' />
+          <Skeleton className='h-10 w-32' />
+        </div>
       </div>
     </div>
   );

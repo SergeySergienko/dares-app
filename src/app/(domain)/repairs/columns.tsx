@@ -11,6 +11,8 @@ import {
 } from '@/components/ui/hover-card';
 import { DeleteDialogButton } from '@/components/composites/DeleteDialogButton';
 import { deleteRepair } from '@/actions/repair-actions';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export const columns: ColumnDef<RepairOutputDTO>[] = [
   {
@@ -46,14 +48,14 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
     accessorKey: 'actions',
     header: () => 'Actions',
     cell: ({ row }) => (
-      <div className='flex justify-center items-center'>
+      <div className='flex justify-center items-center gap-4 md:gap-8'>
         <HoverCard openDelay={200} closeDelay={100}>
           <HoverCardTrigger asChild>
-            <Link
-              href={`/repairs/${row.original.id}`}
-              className='flex justify-center underline hover:font-bold'
-            >
-              View
+            <Link href={`/repairs/${row.original.id}`}>
+              <Button size='sm' className='h-6 w-6 md:w-fit'>
+                <Eye className='md:hidden' />
+                <span className='hidden md:block'>View</span>
+              </Button>
             </Link>
           </HoverCardTrigger>
           <HoverCardContent align='end' className='max-w-fit'>
@@ -63,8 +65,22 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
                 <span>{amount}</span>
               </div>
             ))}
+            <div className='text-[12px] text-slate-400 mt-4'>
+              click to view Repair Card
+            </div>
           </HoverCardContent>
         </HoverCard>
+
+        <Link href={`/repairs/update/${row.original.id}`}>
+          <Button
+            size='sm'
+            className='h-6 w-6 md:w-fit bg-blue-500 hover:bg-blue-600'
+          >
+            <Pencil className='md:hidden' />
+            <span className='hidden md:block'>Edit</span>
+          </Button>
+        </Link>
+
         <DeleteDialogButton
           id={row.original.id}
           action={deleteRepair}
@@ -77,9 +93,15 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
               </span>
             </>
           }
-          variant='link'
-          triggerButtonContent='Delete'
-          triggerButtonClassName='text-destructive'
+          variant='destructive'
+          size='sm'
+          triggerButtonContent={
+            <>
+              <Trash2 className='md:hidden' />
+              <span className='hidden md:block'>Delete</span>
+            </>
+          }
+          triggerButtonClassName='h-6 w-6 md:w-fit hover:bg-red-600'
         />
       </div>
     ),

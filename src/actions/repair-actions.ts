@@ -40,6 +40,7 @@ const extractFormData = async (formData: FormData) => {
   }
 
   return {
+    id: data.id as string | undefined,
     tankNumber: Number(data.tankNumber),
     parts,
     date: new Date(data.date as string),
@@ -74,6 +75,26 @@ export async function createRepair(state: any, formData: FormData) {
   revalidatePath('/repairs');
   revalidatePath('/reports/parts/for-repair');
   return { message: 'New repair has been successfully created.' };
+}
+
+export async function updateRepair(state: any, formData: FormData) {
+  const { id, ...rest } = await extractFormData(formData);
+  if (!id) {
+    return {
+      error: 'Repair ID must be present.',
+    };
+  }
+
+  const updatedRepair = await repairsRepo.updateRepair({ ...rest, id });
+  if (!updatedRepair) {
+    return {
+      error: 'Failed to update repair record. Please try again later.',
+    };
+  }
+
+  revalidatePath('/repairs');
+  revalidatePath('/reports/parts/for-repair');
+  return { message: 'Repair has been successfully updated.' };
 }
 
 export async function deleteRepair(id: string) {

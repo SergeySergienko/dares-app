@@ -12,6 +12,13 @@ export interface RepairModel {
   updatedAt?: Date;
 }
 
+export type RepairUpdateDTO = Omit<
+  Partial<RepairModel>,
+  'createdAt' | 'updatedAt'
+> & {
+  id: string;
+};
+
 export type RepairOutputDTO = Omit<RepairModel, 'tankId'> & {
   id: string;
   tankId: string;

@@ -1,5 +1,5 @@
 import { Filter, ObjectId } from 'mongodb';
-import { RepairModel } from '@/models/RepairModel';
+import { RepairModel, RepairUpdateDTO } from '@/models/RepairModel';
 import { connectDB } from './mongo-db';
 
 export const repairsRepo = {
@@ -23,6 +23,31 @@ export const repairsRepo = {
   async createRepair(repair: RepairModel) {
     const db = await connectDB();
     return await db.collection<RepairModel>('repair').insertOne(repair);
+  },
+
+  async updateRepair(updateData: RepairUpdateDTO) {
+    const db = await connectDB();
+    const { id, ...fieldsToUpdate } = updateData;
+
+    const updateFields = Object.entries(fieldsToUpdate).reduce(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          (acc as any)[key] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+
+    const result = await db
+      .collection<RepairModel>('repair')
+      .findOneAndUpdate(
+        { _id: ObjectId.createFromHexString(id) },
+        { $set: { ...updateFields, updatedAt: new Date() } },
+        { returnDocument: 'after', includeResultMetadata: true }
+      );
+
+    return result.value;
   },
 
   async deleteRepair(id: string) {

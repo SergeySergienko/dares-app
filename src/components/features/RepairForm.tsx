@@ -7,43 +7,62 @@ import { Button } from '@/components/ui/button';
 import { createFormAction } from './form-utils';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { createRepair } from '@/actions/repair-actions';
+import { createRepair, updateRepair } from '@/actions/repair-actions';
 import { PartOutputDTO } from '@/models/PartModel';
 import Image from 'next/image';
 import parts_schema from '/public/parts_schema.jpg';
+import { RepairOutputDTO } from '@/models/RepairModel';
 
-const kitAliases = [
-  'copper_gasket',
-  'thick_teflon_ring',
-  'thin_teflon_ring',
-  'stem',
-  'plug_assembly',
-];
+// const kitAliases = [
+//   'copper_gasket',
+//   'thick_teflon_ring',
+//   'thin_teflon_ring',
+//   'stem',
+//   'plug_assembly',
+// ];
 
-export const CreateRepairForm = ({
+const getInitialCheckedState = (partsData: {
+  [key: string]: number;
+}): { [key: string]: boolean } => {
+  return Object.keys(partsData).reduce((acc, key) => {
+    acc[key] = true;
+    return acc;
+  }, {} as { [key: string]: boolean });
+};
+
+const defaultRepair: Partial<RepairOutputDTO> & {
+  parts?: { [key: string]: number };
+} = {
+  parts: {},
+};
+
+export const RepairForm = ({
   tankNumber,
   parts,
+  repair = defaultRepair,
 }: {
-  tankNumber: string;
+  tankNumber: number;
   parts: PartOutputDTO[];
+  repair?: Partial<RepairOutputDTO> & { parts?: { [key: string]: number } };
 }) => {
   const { toast } = useToast();
   const router = useRouter();
   const [checkedParts, setCheckedParts] = useState<{ [x: string]: boolean }>(
-    {}
+    () => getInitialCheckedState(repair.parts ?? {})
   );
-  const [isKitChecked, setIsKitChecked] = useState(false);
+  // const [isKitChecked, setIsKitChecked] = useState(false);
 
-  useEffect(() => {
-    const newCheckedParts = { ...checkedParts };
-    kitAliases.forEach((alias) => {
-      newCheckedParts[alias] = isKitChecked;
-    });
-    setCheckedParts(newCheckedParts);
-  }, [isKitChecked]);
+  // useEffect(() => {
+  //   const newCheckedParts = { ...checkedParts };
+  //   kitAliases.forEach((alias) => {
+  //     newCheckedParts[alias] = isKitChecked || checkedParts[alias];
+  //   });
+  //   setCheckedParts(newCheckedParts);
+  // }, [isKitChecked]);
+  const repairAction = repair.id ? updateRepair : createRepair;
 
   const handleFormAction = createFormAction(
-    createRepair,
+    repairAction,
     '/repairs',
     toast,
     router.push
@@ -75,9 +94,16 @@ export const CreateRepairForm = ({
             readOnly
           />
         </div>
+        <Input type='hidden' name='id' value={repair.id} />
         <div>
           <Label htmlFor='date'>Date</Label>
-          <Input type='date' id='date' name='date' required />
+          <Input
+            type='date'
+            id='date'
+            name='date'
+            defaultValue={repair.date?.toISOString().split('T')[0]}
+            required
+          />
         </div>
         <div>
           <Label htmlFor='executor'>Executor</Label>
@@ -85,7 +111,7 @@ export const CreateRepairForm = ({
             type='text'
             id='executor'
             name='executor'
-            defaultValue='Deripalov Andrii'
+            defaultValue={repair.executor || 'Deripalov Andrii'}
             required
           />
         </div>
@@ -95,17 +121,20 @@ export const CreateRepairForm = ({
         <div className='bg-slate-50 px-2 w-full md:w-1/2 lg:w-1/3'>
           <div className='text-xl font-medium flex justify-between items-center'>
             <span className='w-56'>Parts</span>
-            <Button
-              type='button'
-              variant='outline'
-              className='w-24'
-              onClick={() => setIsKitChecked(!isKitChecked)}
-            >
-              {isKitChecked ? 'Unselect' : 'Select a Kit'}
-            </Button>
+            {/* {!repair.id && (
+              <Button
+                type='button'
+                variant='outline'
+                size='sm'
+                className='w-24'
+                onClick={() => setIsKitChecked(!isKitChecked)}
+              >
+                {isKitChecked ? 'Unselect' : 'Select a Kit'}
+              </Button>
+            )} */}
           </div>
           {parts.map(({ id, itemNumber, title, alias }) => (
-            <div key={id} className='flex items-center gap-4 h-11'>
+            <div key={id} className='flex items-center gap-4 h-8'>
               <span className='w-52 font-semibold space-x-4'>
                 <span>{itemNumber}</span>
                 <Label>{title}</Label>
@@ -121,9 +150,9 @@ export const CreateRepairForm = ({
                 type='number'
                 id={alias}
                 name={`parts.${alias}`}
-                defaultValue={1}
+                defaultValue={repair.parts?.[alias] || 1}
                 min={1}
-                className='w-16'
+                className='w-[56px] h-6'
                 hidden={!checkedParts[alias]}
                 disabled={!checkedParts[alias]}
               />
@@ -141,7 +170,7 @@ export const CreateRepairForm = ({
       </div>
 
       <Button disabled={!isChecked || isPending} type='submit'>
-        {isPending ? 'Loading...' : 'Submit'}
+        {isPending ? 'Submitting...' : 'Submit'}
       </Button>
     </form>
   );
