@@ -98,10 +98,15 @@ export async function updateRepair(state: any, formData: FormData) {
 }
 
 export async function deleteRepair(id: string) {
-  const { success, message } = await repairsRepo.deleteRepair(id);
-  if (!success) {
-    throw new Error(message);
+  const result = await repairsRepo.deleteRepair(id);
+  if (result.deletedCount !== 1) {
+    return {
+      error: 'Failed to delete repair record. Please try again later.',
+    };
   }
   revalidatePath('/repairs');
-  return message;
+  revalidatePath('/reports/parts/for-repair');
+  return {
+    message: 'The repair has been successfully deleted.',
+  };
 }

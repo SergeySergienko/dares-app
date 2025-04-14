@@ -134,3 +134,58 @@ export async function createInspection(state: any, formData: FormData) {
     await session.endSession();
   }
 }
+
+export async function deleteInspection(id: string) {
+  const session = client.startSession();
+
+  const inspectionForDelete = await inspectionsRepo.getInspection(id);
+  if (!inspectionForDelete) {
+    return {
+      error: `Inspection with id ${id} not found`,
+    };
+  }
+
+  const tank = await getTankByInternalNumber(inspectionForDelete.tankNumber);
+  if (!tank) {
+    return {
+      error: `Tank with internal number ${Number(
+        inspectionForDelete.tankNumber
+      )} not found`,
+    };
+  }
+
+  try {
+    await session.withTransaction(async () => {
+      const result = await inspectionsRepo.deleteInspection(id);
+      if (result.deletedCount !== 1) {
+        return {
+          error: 'Failed to delete inspection record. Please try again later.',
+        };
+      }
+    });
+
+    // Update tank's data if removed inspection is last one for tank
+    if (
+      inspectionForDelete.date.getTime() === tank.lastInspectionDate?.getTime()
+    ) {
+      const [lastInspection] = await getInspections({
+        tankNumber: inspectionForDelete.tankNumber,
+      });
+
+      await updateTank({
+        id: tank.id,
+        lastInspectionDate: lastInspection.date,
+      });
+    }
+
+    revalidatePath('/tanks');
+    revalidatePath('/inspections');
+    return {
+      message: 'The inspections has been successfully deleted.',
+    };
+  } catch (error) {
+    throw new Error(`Transaction failed: ${(error as Error).message}`);
+  } finally {
+    await session.endSession();
+  }
+}

@@ -183,25 +183,15 @@ export const tanksRepo = {
         .collection<TankModel>('tanks')
         .deleteOne({ _id: objectId }, { session: currentSession });
 
-      if (result.deletedCount !== 1) {
-        throw new Error(
-          'Failed to delete tank record. Please try again later.'
-        );
-      }
-
       if (shouldStartSession) {
         await currentSession.commitTransaction();
       }
 
-      return {
-        success: true,
-        message: 'The tank has been successfully deleted.',
-      };
+      return result;
     } catch (error) {
       if (shouldStartSession) {
         await currentSession.abortTransaction();
       }
-      return { success: false, message: (error as Error).message };
     } finally {
       if (shouldStartSession) {
         await currentSession.endSession();

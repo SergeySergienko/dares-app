@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/hover-card';
 import { DeleteDialogButton } from '@/components/composites/DeleteDialogButton';
 import { deleteRepair } from '@/actions/repair-actions';
-import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { Info, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export const columns: ColumnDef<RepairOutputDTO>[] = [
@@ -53,7 +53,7 @@ export const columns: ColumnDef<RepairOutputDTO>[] = [
           <HoverCardTrigger asChild>
             <Link href={`/repairs/${row.original.id}`}>
               <Button size='sm' className='h-6 w-6 md:w-fit'>
-                <Eye className='md:hidden' />
+                <Info className='md:hidden' />
                 <span className='hidden md:block'>View</span>
               </Button>
             </Link>

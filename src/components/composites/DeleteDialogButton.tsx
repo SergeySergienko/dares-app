@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 
 interface DeleteDialogButtonProps {
   id: string;
-  action: (id: string) => Promise<string>;
+  action: (id: string) => Promise<{ error?: string; message?: string }>;
   redirectPath: string;
   dialogDescription: ReactNode;
   disabled?: boolean;
@@ -48,16 +48,21 @@ export const DeleteDialogButton = ({
   const router = useRouter();
   const { toast } = useToast();
   const [container, setContainer] = useState<HTMLElement | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     setContainer(document.getElementById('custom-container'));
   }, []);
 
   const handleClick = async () => {
-    setIsSubmitting(true);
-    try {
-      const message = await action(id);
+    const { error, message } = await action(id);
+    if (error) {
+      toast({
+        title: 'Oops...',
+        description: error,
+        variant: 'destructive',
+        duration: 5000,
+      });
+    } else if (message) {
       toast({
         title: 'SUCCESS!',
         description: message,
@@ -65,18 +70,6 @@ export const DeleteDialogButton = ({
         style: { color: 'white', backgroundColor: 'green' },
       });
       router.push(redirectPath);
-      router.refresh();
-    } catch (error: unknown) {
-      const errorMessage =
-        error instanceof Error ? error.message : 'Something went wrong';
-      toast({
-        title: 'Oops...',
-        description: errorMessage,
-        variant: 'destructive',
-        duration: 5000,
-      });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -86,7 +79,7 @@ export const DeleteDialogButton = ({
         <Button
           variant={variant}
           size={size}
-          disabled={disabled || isSubmitting}
+          disabled={disabled}
           className={triggerButtonClassName}
         >
           {triggerButtonContent}
@@ -101,13 +94,9 @@ export const DeleteDialogButton = ({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className='flex-row justify-between items-center'>
-            <AlertDialogCancel disabled={isSubmitting}>
-              Cancel
-            </AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction asChild>
-              <Button onClick={handleClick} disabled={isSubmitting}>
-                {isSubmitting ? 'Deleting...' : 'Confirm'}
-              </Button>
+              <Button onClick={handleClick}>Confirm</Button>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

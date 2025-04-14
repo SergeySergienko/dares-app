@@ -52,19 +52,8 @@ export const repairsRepo = {
 
   async deleteRepair(id: string) {
     const db = await connectDB();
-    const result = await db
+    return await db
       .collection<RepairModel>('repair')
       .deleteOne({ _id: new ObjectId(id) });
-
-    if (result.deletedCount !== 1) {
-      return {
-        success: false,
-        message: 'Failed to delete repair record. Please try again later.',
-      };
-    }
-    return {
-      success: true,
-      message: 'The repair has been successfully deleted.',
-    };
   },
 };

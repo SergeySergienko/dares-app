@@ -126,9 +126,11 @@ export async function backupTank(
 }
 
 export async function deleteTank(id: string, session?: ClientSession) {
-  const { success, message } = await tanksRepo.deleteTank(id, session);
-  if (!success) {
-    throw new Error(message);
+  const result = await tanksRepo.deleteTank(id, session);
+  if (result?.deletedCount !== 1) {
+    return {
+      error: 'Failed to delete tank record. Please try again later.',
+    };
   }
   revalidatePath('/tanks');
   revalidatePath('/tanks/scrapped');
@@ -136,7 +138,7 @@ export async function deleteTank(id: string, session?: ClientSession) {
   revalidatePath('/inventories');
   revalidatePath('/hydrotests');
   revalidatePath('/repairs');
-  return message;
+  return { message: 'Tank has been successfully deleted.' };
 }
 
 const scrappedMapper = (tank: BackupModel): BackupOutputDTO => {

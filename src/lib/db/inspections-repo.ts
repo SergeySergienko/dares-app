@@ -27,4 +27,11 @@ export const inspectionsRepo = {
       .collection<InspectionModel>('inspection')
       .insertOne(inspection);
   },
+
+  async deleteInspection(id: string) {
+    const db = await connectDB();
+    return await db
+      .collection<InspectionModel>('inspection')
+      .deleteOne({ _id: new ObjectId(id) });
+  },
 };
