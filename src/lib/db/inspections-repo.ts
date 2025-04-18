@@ -1,6 +1,6 @@
 import { Filter, ObjectId } from 'mongodb';
 import { connectDB } from './mongo-db';
-import { InspectionModel } from '@/models/InspectionModel';
+import { InspectionModel, InspectionUpdateDTO } from '@/models/InspectionModel';
 
 export const inspectionsRepo = {
   async getInspections(query: Partial<InspectionModel>) {
@@ -26,6 +26,31 @@ export const inspectionsRepo = {
     return await db
       .collection<InspectionModel>('inspection')
       .insertOne(inspection);
+  },
+
+  async updateInspection(updateData: InspectionUpdateDTO) {
+    const db = await connectDB();
+    const { id, ...fieldsToUpdate } = updateData;
+
+    const updateFields = Object.entries(fieldsToUpdate).reduce(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          (acc as any)[key] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+
+    const result = await db
+      .collection<InspectionModel>('inspection')
+      .findOneAndUpdate(
+        { _id: ObjectId.createFromHexString(id) },
+        { $set: { ...updateFields, updatedAt: new Date() } },
+        { returnDocument: 'after', includeResultMetadata: true }
+      );
+
+    return result.value;
   },
 
   async deleteInspection(id: string) {

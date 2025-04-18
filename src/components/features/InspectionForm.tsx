@@ -1,7 +1,10 @@
 'use client';
 
 import { useActionState, useState } from 'react';
-import { createInspection } from '@/actions/inspection-actions';
+import {
+  createInspection,
+  updateInspection,
+} from '@/actions/inspection-actions';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -11,21 +14,22 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { RadioField } from '@/components/composites/RadioField';
+import { RadioField, RadioFieldType } from '@/components/composites/RadioField';
 import { TextareaField } from '@/components/composites/TextareaField';
 import { TankOutputDTO } from '@/models/TankModel';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { createFormAction } from './form-utils';
+import { InspectionOutputDTO } from '@/models/InspectionModel';
 
-export type RadioFieldType = {
-  name: string;
-  title: string;
-  defaultValue?: string;
-  options: { value: string; label: string; optionId: string }[];
-};
-
-const externalRadioFields: RadioFieldType[] = [
+type externalFieldsTypes =
+  | 'heatDamage'
+  | 'repainting'
+  | 'odor'
+  | 'bow'
+  | 'bulges'
+  | 'hammerToneTest';
+const externalRadioFields: RadioFieldType<externalFieldsTypes>[] = [
   {
     name: 'heatDamage',
     title: 'Evidence of heat damage',
@@ -75,7 +79,11 @@ const externalRadioFields: RadioFieldType[] = [
     ],
   },
 ];
-const valveRadioFields: RadioFieldType[] = [
+type valveFieldsTypes =
+  | 'burstDiskReplaced'
+  | 'oRingReplaced'
+  | 'dipTubeReplaced';
+const valveRadioFields: RadioFieldType<valveFieldsTypes>[] = [
   {
     name: 'burstDiskReplaced',
     title: 'Burst disk replaced',
@@ -103,12 +111,20 @@ const valveRadioFields: RadioFieldType[] = [
   },
 ];
 
-export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
+export const InspectionForm = ({
+  tank,
+  inspection,
+}: {
+  tank: TankOutputDTO;
+  inspection?: InspectionOutputDTO;
+}) => {
   const { toast } = useToast();
   const router = useRouter();
 
+  const inspectionAction = inspection ? updateInspection : createInspection;
+
   const handleFormAction = createFormAction(
-    createInspection,
+    inspectionAction,
     '/inspections',
     toast,
     router.push
@@ -149,7 +165,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             type='date'
             id='date'
             name='date'
-            // defaultValue={new Date().toISOString().split('T')[0]}
+            defaultValue={inspection?.date.toISOString().split('T')[0]}
             required
           />
         </div>
@@ -159,7 +175,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
         <RadioField
           name='tankVerdict'
           title='Cylinder condition'
-          defaultValue='Acceptable'
+          defaultValue={inspection?.tankVerdict || 'Acceptable'}
           options={[
             {
               value: 'Acceptable',
@@ -182,7 +198,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
         <RadioField
           name='stickerAffixed'
           title='Visual inspections sticker affixed'
-          defaultValue='false'
+          defaultValue={inspection?.stickerAffixed ? 'true' : 'false'}
           options={[
             {
               value: 'true',
@@ -202,7 +218,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
         <RadioField
           name='valve.type'
           title='Valve type'
-          defaultValue={tank.valve}
+          defaultValue={inspection?.valve?.type}
           options={[
             {
               value: 'YOKE',
@@ -224,13 +240,20 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
 
         <div className='md:w-5/6'>
           <Label htmlFor='grade'>Grade</Label>
-          <Input type='number' id='grade' name='grade' min='1' max='10' />
+          <Input
+            type='number'
+            id='grade'
+            name='grade'
+            defaultValue={inspection?.grade}
+            min='1'
+            max='10'
+          />
         </div>
 
         <RadioField
           name='inspector.name'
           title="Inspector's name"
-          defaultValue='Deripalov Andrii'
+          defaultValue={inspection?.inspector.name || 'Deripalov Andrii'}
           options={[
             {
               value: 'Deripalov Andrii',
@@ -247,6 +270,7 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
       </div>
       <Input type='hidden' name='inspector.pciNumber' value={pciNumber} />
       <Input type='hidden' name='tankId' value={tank.id} />
+      <Input type='hidden' name='id' value={inspection?.id} />
 
       <Accordion type='single' collapsible>
         <AccordionItem value='Condemn'>
@@ -262,7 +286,13 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
                     key={name}
                     name={`external.${name}`}
                     title={title}
-                    defaultValue={defaultValue}
+                    defaultValue={
+                      inspection
+                        ? inspection?.external?.[name]
+                          ? 'true'
+                          : 'false'
+                        : defaultValue
+                    }
                     options={options}
                   />
                 )
@@ -272,16 +302,18 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
               <TextareaField
                 id='external.description'
                 title='Description of external surface'
+                defaultValue={inspection?.external?.description}
               />
               <TextareaField
                 id='external.damageLocation'
                 title='Gouges, Pits, Marks more than 0.015" (location)'
+                defaultValue={inspection?.external?.damageLocation}
               />
             </div>
             <RadioField
               name='external.verdict'
               title='Comparison to PSI Standarts/Manufacturers'
-              defaultValue='Acceptable'
+              defaultValue={inspection?.external?.verdict || 'Acceptable'}
               options={[
                 {
                   value: 'Acceptable',
@@ -304,11 +336,12 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             <TextareaField
               id='internal.description'
               title='Description (dept and location of pits or cracks)'
+              defaultValue={inspection?.internal?.description}
             />
             <RadioField
               name='internal.verdict'
               title='Comparison to PSI Standarts/Manufacturers'
-              defaultValue='Acceptable'
+              defaultValue={inspection?.internal?.verdict || 'Acceptable'}
               options={[
                 {
                   value: 'Acceptable',
@@ -331,11 +364,12 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
             <TextareaField
               id='threading.description'
               title='Description (cracks assessment, 0-ring gland surface, number of threads damage)'
+              defaultValue={inspection?.threading?.description}
             />
             <RadioField
               name='threading.verdict'
               title='Comparison to PSI Standarts/Manufacturers'
-              defaultValue='Acceptable'
+              defaultValue={inspection?.threading?.verdict || 'Acceptable'}
               options={[
                 {
                   value: 'Acceptable',
@@ -362,13 +396,23 @@ export const CreateInspectionForm = ({ tank }: { tank: TankOutputDTO }) => {
                     key={name}
                     name={`valve.${name}`}
                     title={title}
-                    defaultValue={defaultValue}
+                    defaultValue={
+                      inspection
+                        ? inspection?.valve?.[name]
+                          ? 'true'
+                          : 'false'
+                        : defaultValue
+                    }
                     options={options}
                   />
                 )
               )}
             </div>
-            <TextareaField id='valve.description' title='Description' />
+            <TextareaField
+              id='valve.description'
+              title='Description'
+              defaultValue={inspection?.valve?.description}
+            />
           </AccordionContent>
         </AccordionItem>
       </Accordion>

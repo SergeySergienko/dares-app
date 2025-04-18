@@ -133,13 +133,15 @@ export const InspectionReport = ({
           </div>
         </div>
         <div className='field'>
-          <span>Description of external surface:</span>
+          <span className='field-title'>Description of external surface:</span>
           <span className='field-value'>
             {i.external?.description || 'No damage found'}
           </span>
         </div>
         <div className='field'>
-          <span>Gouges, Pits, Marks more than 0.015&#34; (location):</span>
+          <span className='field-title'>
+            Gouges, Pits, Marks more than 0.015&#34; (location):
+          </span>
           <span className='field-value'>
             {i.external?.damageLocation || 'No damage found'}
           </span>
@@ -154,7 +156,9 @@ export const InspectionReport = ({
       <h2 className='title-2'>INTERNAL SURFACE</h2>
       <div>
         <div className='field'>
-          <span>Description (dept and location of pits or cracks):</span>
+          <span className='field-title'>
+            Description (dept and location of pits or cracks):
+          </span>
           <span className='field-value'>
             {i.internal?.description || 'No damage found'}
           </span>
@@ -169,7 +173,7 @@ export const InspectionReport = ({
       <h2 className='title-2'>THREADING</h2>
       <div>
         <div className='field'>
-          <span>
+          <span className='field-title'>
             Description (cracks assessment, 0-ring gland surface, number of
             threads damage):
           </span>
@@ -188,7 +192,7 @@ export const InspectionReport = ({
       <div>
         <div className='field'>
           <span>Type:</span>
-          <span className='field-value'>{t.valve}</span>
+          <span className='field-value'>{i.valve?.type}</span>
         </div>
         <div className='grid grid-cols-2 xs:grid-cols-3 gap-x-6'>
           <div className='field'>

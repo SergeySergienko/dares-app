@@ -30,16 +30,12 @@ const getInitialCheckedState = (partsData: {
   }, {} as { [key: string]: boolean });
 };
 
-const defaultRepair: Partial<RepairOutputDTO> & {
-  parts?: { [key: string]: number };
-} = {
-  parts: {},
-};
-
 export const RepairForm = ({
   tankNumber,
   parts,
-  repair = defaultRepair,
+  repair = {
+    parts: {},
+  },
 }: {
   tankNumber: number;
   parts: PartOutputDTO[];

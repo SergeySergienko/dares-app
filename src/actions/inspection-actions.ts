@@ -53,13 +53,10 @@ export async function getLastInspectionByTankNumber(tankNumber: number) {
   return report;
 }
 
-export async function createInspection(state: any, formData: FormData) {
+const extractFormData = async (formData: FormData) => {
   const data: { [x: string]: FormDataEntryValue } = {};
   for (const [key, value] of formData.entries()) {
-    if (key.startsWith('$')) {
-      continue;
-    }
-
+    if (key.startsWith('$')) continue;
     if (key.includes('.')) {
       deepSet(data, key, value);
     } else {
@@ -67,8 +64,39 @@ export async function createInspection(state: any, formData: FormData) {
     }
   }
 
-  const { date, tankId, tankVerdict, tankNumber, grade, inspector, ...rest } =
-    data;
+  const {
+    id,
+    date,
+    tankId,
+    tankVerdict,
+    tankNumber,
+    grade,
+    inspector,
+    ...rest
+  } = data;
+
+  return {
+    id: id as string | undefined,
+    tankNumber: Number(tankNumber),
+    tankId: ObjectId.createFromHexString(tankId as string),
+    date: new Date(date as string),
+    tankVerdict: tankVerdict as Verdict,
+    inspector: inspector as unknown as Inspector,
+    grade: grade as unknown as Grade,
+    normalizedData: normalizeInspectionData(rest),
+  };
+};
+
+export async function createInspection(state: any, formData: FormData) {
+  const {
+    date,
+    tankId,
+    tankVerdict,
+    tankNumber,
+    grade,
+    inspector,
+    normalizedData,
+  } = await extractFormData(formData);
 
   const tank = await getTankByInternalNumber(Number(tankNumber));
   if (!tank) {
@@ -82,19 +110,18 @@ export async function createInspection(state: any, formData: FormData) {
     };
   }
 
-  const normalizedData = normalizeInspectionData(rest);
   const session = client.startSession();
 
   try {
     await session.withTransaction(async () => {
       const newInspection: InspectionModel = {
         ...normalizedData,
-        date: new Date(date as string),
-        tankId: ObjectId.createFromHexString(tankId as string),
-        tankNumber: Number(tankNumber),
-        tankVerdict: tankVerdict as Verdict,
-        inspector: inspector as unknown as Inspector,
-        grade: grade as unknown as Grade,
+        date,
+        tankId,
+        tankNumber,
+        tankVerdict,
+        inspector,
+        grade,
         createdAt: new Date(),
       };
 
@@ -133,6 +160,56 @@ export async function createInspection(state: any, formData: FormData) {
   } finally {
     await session.endSession();
   }
+}
+
+export async function updateInspection(state: any, formData: FormData) {
+  const { id, tankId, tankNumber, normalizedData, ...rest } =
+    await extractFormData(formData);
+  if (!id) {
+    return {
+      error: 'Inspection ID must be present.',
+    };
+  }
+
+  const tank = await getTankByInternalNumber(Number(tankNumber));
+  if (!tank) {
+    return {
+      error: `Tank with internal number ${Number(tankNumber)} not found`,
+    };
+  }
+
+  const updatedInspection = await inspectionsRepo.updateInspection({
+    ...rest,
+    ...normalizedData,
+    id,
+  });
+  if (!updatedInspection) {
+    return {
+      error: 'Failed to update inspection record. Please try again later.',
+    };
+  }
+
+  // Update the tank's data if the new updated inspection date is later
+  if (
+    !tank.lastInspectionDate ||
+    updatedInspection.date.getTime() > tank.lastInspectionDate.getTime()
+  ) {
+    const fieldsToUpdate: TankUpdateDTO = {
+      id: tank.id,
+      grade: updatedInspection.grade,
+      lastInspectionDate: updatedInspection.date,
+      valve: updatedInspection.valve?.type,
+    };
+    if (updatedInspection.tankVerdict === 'Condemn') {
+      fieldsToUpdate.status = 'Rejected';
+    }
+
+    await updateTank(fieldsToUpdate);
+  }
+
+  revalidatePath('/tanks');
+  revalidatePath('/inspections');
+  return { message: 'Inspection has been successfully updated.' };
 }
 
 export async function deleteInspection(id: string) {

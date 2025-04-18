@@ -43,6 +43,13 @@ export interface InspectionModel {
 export type Verdict = 'Acceptable' | 'Marginal' | 'Condemn';
 export type Inspector = { name: string; pciNumber: string };
 
+export type InspectionUpdateDTO = Omit<
+  Partial<InspectionModel>,
+  'createdAt' | 'updatedAt'
+> & {
+  id: string;
+};
+
 export type InspectionOutputDTO = Omit<InspectionModel, 'tankId'> & {
   id: string;
   tankId: string;

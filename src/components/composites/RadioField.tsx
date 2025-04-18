@@ -1,13 +1,19 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { RadioFieldType } from '../features/CreateInspectionForm';
 
-export const RadioField = ({
+export type RadioFieldType<T> = {
+  name: T;
+  title: string;
+  defaultValue?: string;
+  options: { value: string; label: string; optionId: string }[];
+};
+
+export const RadioField = <T extends string>({
   name,
   title,
   defaultValue,
   options,
-}: RadioFieldType) => {
+}: RadioFieldType<T>) => {
   return (
     <div>
       <Label htmlFor={name}>{title}</Label>

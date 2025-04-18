@@ -3,15 +3,16 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { RadioFieldType } from './CreateInspectionForm';
-import { RadioField } from '../composites/RadioField';
+import { RadioField, RadioFieldType } from '../composites/RadioField';
 import { useActionState } from 'react';
 import { createTank } from '@/actions/tank-actions';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { createFormAction } from './form-utils';
 
-const tankRadioFields: RadioFieldType[] = [
+type tankFieldsTypes = 'manufacturer' | 'material' | 'color' | 'fillingType';
+
+const tankRadioFields: RadioFieldType<tankFieldsTypes>[] = [
   {
     name: 'manufacturer',
     title: 'Manufacturer',

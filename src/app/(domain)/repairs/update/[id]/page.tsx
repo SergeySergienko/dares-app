@@ -8,7 +8,7 @@ export default async function UpdateRepairPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const id = (await params).id;
+  const { id } = await params;
   const repair = await getRepair(id);
   if (!repair) notFound();
   const parts = await getParts();

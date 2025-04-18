@@ -61,16 +61,15 @@ export const columns: ColumnDef<InspectionOutputDTO>[] = [
           </Button>
         </Link>
 
-        {/* <Link href={`/inspections/update/${row.original.id}`}> */}
-        <Button
-          size='sm'
-          disabled
-          className='h-6 w-6 md:w-fit bg-blue-500 hover:bg-blue-600'
-        >
-          <Pencil className='md:hidden' />
-          <span className='hidden md:block'>Edit</span>
-        </Button>
-        {/* </Link> */}
+        <Link href={`/inspections/update/${row.original.id}`}>
+          <Button
+            size='sm'
+            className='h-6 w-6 md:w-fit bg-blue-500 hover:bg-blue-600'
+          >
+            <Pencil className='md:hidden' />
+            <span className='hidden md:block'>Edit</span>
+          </Button>
+        </Link>
 
         <DeleteDialogButton
           id={row.original.id}
